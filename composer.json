@@ -2,7 +2,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:mrkrstphr/core.git"
+            "url": "git@github.com:martha-ci/core.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:martha-ci/scm.git"
         }
     ],
     "require-dev": {
@@ -11,6 +15,7 @@
     "require": {
         "php": ">=5.4",
         "zendframework/zendframework": "2.*",
-        "martha-ci/core": "dev-master"
+        "martha-ci/core": "dev-master",
+        "martha-ci/scm": "dev-master"
     }
 }
