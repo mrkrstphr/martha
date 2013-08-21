@@ -7,6 +7,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:martha-ci/scm.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:martha-ci/command.git"
         }
     ],
     "require-dev": {
@@ -14,7 +18,8 @@
     },
     "require": {
         "php": ">=5.4",
-        "zendframework/zendframework": "2.*",
+        "symfony/yaml": "2.3.*",
+        "martha-ci/command": "dev-master",
         "martha-ci/core": "dev-master",
         "martha-ci/scm": "dev-master"
     }
