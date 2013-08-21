@@ -1,0 +1,6 @@
+<?php
+
+return [
+    'data-directory' => realpath(__DIR__ . '/../data/jobs'),
+    'build-directory' => realpath(__DIR__ . '/../data/build')
+];
