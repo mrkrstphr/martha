@@ -13,6 +13,16 @@ return [
                     ],
                 ],
             ],
+            'build-hook' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/hook/build',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Build',
+                        'action' => 'hook'
+                    ]
+                ]
+            ]
         ],
     ],
     'service_manager' => [
@@ -36,7 +46,8 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'Martha\Controller\Dashboard' => 'Martha\Controller\DashboardController'
+            'Martha\Controller\Dashboard' => 'Martha\Controller\DashboardController',
+            'Martha\Controller\Build' => 'Martha\Controller\BuildController'
         ],
     ],
     'view_manager' => [
@@ -53,5 +64,6 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
+        'strategies' => ['ViewJsonStrategy']
     ]
 ];
