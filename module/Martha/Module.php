@@ -26,22 +26,8 @@ class Module
         $this->application = $e->getApplication();
 
         $eventManager = $this->application->getEventManager();
-
-        $sharedEvents = $eventManager->getSharedManager();
-        $sharedEvents->attach('Zend\View\View', ViewEvent::EVENT_RENDERER, [$this, 'onRender']);
-
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-    }
-
-    /**
-     * Ensure that the view always has a list of projects.
-     *
-     * @param ViewEvent $event
-     */
-    public function onRender(ViewEvent $event)
-    {
-        $event->getModel()->projects = [];
     }
 
     /**
@@ -50,6 +36,16 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    /**
+     * Get the service configuration.
+     *
+     * @return array
+     */
+    public function getServiceConfig()
+    {
+        return include __DIR__ . '/config/service.config.php';
     }
 
     /**

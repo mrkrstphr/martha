@@ -22,6 +22,36 @@ return [
                         'action' => 'hook'
                     ]
                 ]
+            ],
+            'project' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/projects',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Project',
+                        'action' => 'index'
+                    ]
+                ],
+                'child_routes' => [
+                    'create' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/create',
+                            'defaults' => [
+                                'action' => 'create'
+                            ]
+                        ]
+                    ],
+                    'view' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/projects/view/[:project]',
+                            'defaults' => [
+                                'action' => 'view'
+                            ]
+                        ],
+                    ]
+                ]
             ]
         ],
     ],
@@ -44,12 +74,7 @@ return [
             ],
         ],
     ],
-    'controllers' => [
-        'invokables' => [
-            'Martha\Controller\Dashboard' => 'Martha\Controller\DashboardController',
-            'Martha\Controller\Build' => 'Martha\Controller\BuildController'
-        ],
-    ],
+    'controllers' => require __DIR__ . '/controller.config.php',
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions' => true,
