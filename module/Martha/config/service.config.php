@@ -22,6 +22,7 @@ return [
         'ProjectRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
             $entityManager = $sm->get('EntityManager');
             return new Martha\Core\Persistence\Repository\ProjectRepository($entityManager);
-        }
+        },
+        'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory'
     ]
 ];

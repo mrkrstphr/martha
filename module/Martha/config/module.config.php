@@ -46,7 +46,7 @@ return [
                     'view' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/view/[:project]',
+                            'route' => '/view/[:id]',
                             'defaults' => [
                                 'action' => 'view'
                             ]

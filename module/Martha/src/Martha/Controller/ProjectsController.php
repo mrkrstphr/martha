@@ -17,6 +17,8 @@ class ProjectsController extends AbstractActionController
     protected $projectRepository;
 
     /**
+     * Set us up the controller!
+     *
      * @param ProjectRepositoryInterface $projectRepo
      */
     public function __construct(ProjectRepositoryInterface $projectRepo)
@@ -25,11 +27,17 @@ class ProjectsController extends AbstractActionController
     }
 
     /**
+     * Get all projects for display.
+     *
      * @return array
      */
     public function indexAction()
     {
-        return [];
+        $projects = $this->projectRepository->getBy([], ['name' => 'ASC']);
+
+        return [
+            'projects' => $projects
+        ];
     }
 
     /**
