@@ -23,18 +23,18 @@ return [
                     ]
                 ]
             ],
-            'project' => [
+            'projects' => [
                 'type' => 'Literal',
                 'options' => [
                     'route' => '/projects',
                     'defaults' => [
-                        'controller' => 'Martha\Controller\Project',
+                        'controller' => 'Martha\Controller\Projects',
                         'action' => 'index'
                     ]
                 ],
                 'child_routes' => [
                     'create' => [
-                        'type' => 'Literal',
+                        'type' => 'Segment',
                         'options' => [
                             'route' => '/create',
                             'defaults' => [
@@ -45,7 +45,7 @@ return [
                     'view' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/projects/view/[:project]',
+                            'route' => '/view/[:project]',
                             'defaults' => [
                                 'action' => 'view'
                             ]

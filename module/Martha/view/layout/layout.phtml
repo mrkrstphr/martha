@@ -34,14 +34,14 @@
                             <?php $projects = current($this->viewModel()->getCurrent()->getChildren())->projects; ?>
                             <?php foreach ($projects as $project): ?>
                             <li>
-                                <a href="<?= $this->url('project/view', ['project' => $project->getId()]) ?>">
+                                <a href="<?= $this->url('projects/view', ['project' => $project->getId()]) ?>">
                                     <?= $project->getName() ?></a>
                             </li>
                             <?php endforeach; ?>
                             <?php if (!empty($projects)): ?>
                             <li class="divider"></li>
                             <?php endif; ?>
-                            <li><a href="<?= $this->url('project/create') ?>">Create New Project</a></li>
+                            <li><a href="<?= $this->url('projects/create') ?>">Create New Project</a></li>
                         </ul>
                     </li>
                 </ul>
