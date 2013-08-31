@@ -4,7 +4,7 @@ return [
     'router' => [
         'routes' => [
             'dashboard' => [
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'Literal',
                 'options' => [
                     'route' => '/',
                     'defaults' => [
@@ -32,6 +32,7 @@ return [
                         'action' => 'index'
                     ]
                 ],
+                'may_terminate' => true,
                 'child_routes' => [
                     'create' => [
                         'type' => 'Segment',
@@ -90,5 +91,27 @@ return [
             __DIR__ . '/../view',
         ],
         'strategies' => ['ViewJsonStrategy']
+    ],
+    'navigation' => [
+        'default' => [
+            [
+                'label' => 'Dashboard',
+                'route' => 'dashboard',
+            ],
+            [
+                'label' => 'Projects',
+                'route' => 'projects',
+                'pages' => [
+                    [
+                        'label' => 'View All',
+                        'route' => 'projects'
+                    ],
+                    [
+                        'label' => 'Create New',
+                        'route' => 'projects/create'
+                    ]
+                ]
+            ]
+        ]
     ]
 ];
