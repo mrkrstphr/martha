@@ -28,6 +28,23 @@ class Module
         $eventManager = $this->application->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $eventManager->attach('render', array($this, 'onRender'));
+    }
+
+    /**
+     * @param MvcEvent $e
+     */
+    public function onRender(MvcEvent $e)
+    {
+        $model = current($e->getViewModel()->getChildren());
+
+        // If a page title was given to the view, prepend it to the helper:
+        if ($model->getVariable('pageTitle')) {
+            $viewHelperManager = $e->getApplication()->getServiceManager()->get('viewHelperManager');
+            $headTitleHelper   = $viewHelperManager->get('headTitle');
+            $headTitleHelper->prepend($model->getVariable('pageTitle'));
+        }
     }
 
     /**

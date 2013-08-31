@@ -4,6 +4,7 @@ namespace Martha\Controller;
 
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
 /**
  * Class ProjectsController
@@ -36,6 +37,7 @@ class ProjectsController extends AbstractActionController
         $projects = $this->projectRepository->getBy([], ['name' => 'ASC']);
 
         return [
+            'pageTitle' => 'Projects',
             'projects' => $projects
         ];
     }
@@ -45,7 +47,9 @@ class ProjectsController extends AbstractActionController
      */
     public function createAction()
     {
-        return [];
+        return [
+            'pageTitle' => 'Create Project'
+        ];
     }
 
     /**
@@ -66,6 +70,7 @@ class ProjectsController extends AbstractActionController
 
         return [
             'project' => $project,
+            'pageTitle' => $project->getName(),
             'health' => 0.70, // todo fixme
             'builds' => []
         ];
