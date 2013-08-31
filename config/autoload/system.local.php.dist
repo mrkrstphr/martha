@@ -1,6 +1,34 @@
 <?php
 
 return [
-    'data-directory' => realpath(__DIR__ . '/../data/jobs'),
-    'build-directory' => realpath(__DIR__ . '/../data/build')
+    'martha' => [
+        'data-directory' => realpath(__DIR__ . '/../../data/jobs'),
+        'build-directory' => realpath(__DIR__ . '/../../data/build'),
+        'doctrine' => [
+
+            // Provide connection information to your database here:
+            'params' => [
+                //// Sample sqlite
+                //'driver' => 'pdo_sqlite',
+                //'path' => realpath(__DIR__ . '/../../data/martha.db')
+
+                // Sample local MySQL:
+                //'driver' => 'pdo_mysql',
+                //'dbname' => 'martha',
+                //'user' => 'martha_user',
+                //'password' => ''
+
+                // Sample remote MySQL:
+                //'driver' => 'pdo_mysql',
+                //'host' => 'mydbserver.com',
+                //'dbname' => 'martha',
+                //'user' => 'martha_user',
+                //'password' => ''
+            ],
+
+            'mappings' => [
+                realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Persistence/Mapping')
+            ]
+        ]
+    ]
 ];
