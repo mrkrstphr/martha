@@ -49,10 +49,25 @@ class ProjectsController extends AbstractActionController
     }
 
     /**
+     * View the project.
+     *
      * @return array
      */
     public function viewAction()
     {
-        return [];
+        $id = $this->params('id');
+
+        $project = $this->projectRepository->getById($id);
+
+        if (!$project) {
+            $this->getResponse()->setStatusCode(404);
+            return [];
+        }
+
+        return [
+            'project' => $project,
+            'health' => 0.70, // todo fixme
+            'builds' => []
+        ];
     }
 }
