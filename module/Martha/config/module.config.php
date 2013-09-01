@@ -53,6 +53,16 @@ return [
                         ],
                     ]
                 ]
+            ],
+            'build' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/build/view/[:id]',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Build',
+                        'action' => 'view'
+                    ]
+                ]
             ]
         ],
     ],

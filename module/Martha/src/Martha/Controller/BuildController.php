@@ -37,4 +37,15 @@ class BuildController extends AbstractActionController
 
         return new JsonModel();
     }
+
+    public function viewAction()
+    {
+        $id = $this->params('id');
+
+
+
+        return [
+            'pageTitle' => 'Build #' . $id
+        ];
+    }
 }
