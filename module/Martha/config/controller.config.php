@@ -1,12 +1,11 @@
 <?php
 
 return [
-    'invokables' => [
-        'Martha\Controller\Build' => 'Martha\Controller\BuildController'
-    ],
     'factories' => [
         'Martha\Controller\Build' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\BuildController(
+                $cm->getServiceLocator()->get('ProjectRepository'),
+                $cm->getServiceLocator()->get('BuildRepository')
             );
         },
         'Martha\Controller\Dashboard' => function (Zend\Mvc\Controller\ControllerManager $cm) {

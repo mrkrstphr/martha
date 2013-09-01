@@ -2,6 +2,9 @@
 
 namespace Martha\Controller;
 
+use Martha\Core\Domain\Entity\Build;
+use Martha\Core\Domain\Repository\BuildRepositoryInterface;
+use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Martha\Core\Job\Runner;
 use Martha\Core\Job\Trigger\GitHubWebHook\Factory as GithubWebHookFactory;
@@ -14,14 +17,36 @@ use Zend\View\Model\JsonModel;
 class BuildController extends AbstractActionController
 {
     /**
+     * @var ProjectRepositoryInterface
+     */
+    protected $projectRepository;
+
+    /**
+     * @var BuildRepositoryInterface
+     */
+    protected $buildRepository;
+
+    /**
+     * Set us up the controller!
+     *
+     * @param ProjectRepositoryInterface $projectRepo
+     * @param BuildRepositoryInterface $buildRepo
+     */
+    public function __construct(ProjectRepositoryInterface $projectRepo, BuildRepositoryInterface $buildRepo)
+    {
+        $this->projectRepository = $projectRepo;
+        $this->buildRepository = $buildRepo;
+    }
+
+    /**
      * @throws \Exception
-     * @return array
+     * @return JsonModel
      */
     public function hookAction()
     {
+        // mock the web hook:
         $notify = file_get_contents(__DIR__ . '/sample-hook.js');
         $notify = str_replace(['var commit = ', '};'], ['', '}'], $notify);
-
         $notify = json_decode($notify, true);
 
         $config = $this->getServiceLocator()->get('Config');
@@ -32,7 +57,23 @@ class BuildController extends AbstractActionController
         }
 
         $hook = GithubWebHookFactory::createHook($notify);
-        $runner = new Runner($hook, $config);
+
+        $project = $this->projectRepository->getBy(['name' => $hook->getFullProjectName()]);
+
+        if (!$project) {
+            return new JsonModel(['status' => 'failed', 'description' => 'Project not found']);
+        }
+
+        $project = current($project);
+
+        $build = new Build();
+        $build->setProject($project);
+        $build->setStatus(Build::STATUS_BUILDING);
+        $build->setCreated(new \DateTime());
+
+        $this->buildRepository->persist($build)->flush();
+
+        $runner = new Runner($hook, $build, $config);
         $runner->run();
 
         return new JsonModel();

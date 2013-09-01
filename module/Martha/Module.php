@@ -40,7 +40,7 @@ class Module
         $model = current($e->getViewModel()->getChildren());
 
         // If a page title was given to the view, prepend it to the helper:
-        if ($model->getVariable('pageTitle')) {
+        if ($model && $model->getVariable('pageTitle')) {
             $viewHelperManager = $e->getApplication()->getServiceManager()->get('viewHelperManager');
             $headTitleHelper   = $viewHelperManager->get('headTitle');
             $headTitleHelper->prepend($model->getVariable('pageTitle'));
