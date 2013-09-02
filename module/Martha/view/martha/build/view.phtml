@@ -1,4 +1,7 @@
-<h2 class="page-title">Build #1241 <span class="label label-danger">Failure</span></h2>
+<h2 class="page-title">
+    Build #<?= $this->build->getID() ?>
+    <span class="label label-danger"><?= ucwords($this->build->getStatus()) ?></span>
+</h2>
 
 <ul id="build-tabs" class="nav nav-tabs">
     <li class="active"><a href="#artifacts" data-toggle="tab">Artifacts</a></li>
@@ -17,80 +20,6 @@
         <div class="alert alert-warning">TODO FIXME</div>
     </div>
     <div class="tab-pane" id="raw-output">
-    <pre><strong>$ git clone --depth=50 --branch=parser-2.0 git://github.com/mrkrstphr/php-gedcom.git mrkrstphr/php-gedcom</strong>
-Cloning into 'mrkrstphr/php-gedcom'...
-remote: Counting objects: 4006, done.
-remote: Compressing objects: 100% (1159/1159), done.
-remote: Total 4006 (delta 2567), reused 3980 (delta 2547)
-Receiving objects: 100% (4006/4006), 615.47 KiB | 0 bytes/s, done.
-Resolving deltas: 100% (2567/2567), done.
-
-<strong>$ cd mrkrstphr/php-gedcom</strong>
-git.2
-
-<strong>$ git checkout -qf 31edd830f332f955f0864985f95da90876275a20</strong>
-
-<strong>$ phpenv global 5.4</strong>
-
-<strong>$ php --version</strong>
-PHP 5.4.16 (cli) (built: Jun 28 2013 11:14:20)
-Copyright (c) 1997-2013 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies
-    with Xdebug v2.2.1, Copyright (c) 2002-2012, by Derick Rethans
-
-<strong>$ composer --version</strong>
-Warning: This development build of composer is over 30 days old. It is recommended to update it by running "/home/travis/.phpenv/versions/5.4.16/bin/composer.phar self-update" to get the latest version.
-Composer version 7755564962718189d5d7d9fdee595283c8f032b7
-before_script.1
-
-<strong>$ curl -s https://getcomposer.org/installer | php</strong>
-#!/usr/bin/env php
-All settings correct for using Composer
-Downloading...
-Composer successfully installed to: /home/travis/build/mrkrstphr/php-gedcom/composer.phar
-Use it: php composer.phar
-before_script.2
-
-<strong>$ php composer.phar install --prefer-source --dev</strong>
-Loading composer repositories with package information
-Installing dependencies (including require-dev)
-  - Installing zeptech/annotations (1.1.0)
-    Cloning 9cd042daa9ace184d04b49f0605edf73f19a9c71
-  - Installing mikey179/vfsstream (v1.2.0)
-    Cloning 063fb10633f10c5ccbcac26227e94f46d9336f90
-  - Installing symfony/yaml (v2.3.3)
-    Cloning 3837ccd0830ef44ed5c5844403bf6f69f7998758
-  - Installing phpunit/php-text-template (1.1.4)
-    Cloning 1.1.4
-  - Installing phpunit/phpunit-mock-objects (1.2.3)
-    Cloning 5794e3c5c5ba0fb037b11d8151add2a07fa82875
-  - Installing phpunit/php-timer (1.0.5)
-    Cloning 19689d4354b295ee3d8c54b4f42c3efb69cbc17c
-  - Installing phpunit/php-token-stream (1.2.0)
-    Cloning 1.2.0
-  - Installing phpunit/php-file-iterator (1.3.3)
-    Cloning 1.3.3
-  - Installing phpunit/php-code-coverage (1.2.12)
-    Cloning 0e9958c459d675fb497d8dc5001c91d335734e48
-  - Installing phpunit/phpunit (3.7.24)
-    Cloning af7b77ccb5c64458bdfca95665d29558d1df7d08
-  - Installing squizlabs/php_codesniffer (1.4.6)
-    Cloning a99caa52ed173ee83d6721ba012614f38c1dcbb6
-phpunit/phpunit suggests installing phpunit/php-invoker (>=1.1.0,<1.2.0)
-Writing lock file
-Generating autoload files
-
-<strong>$ vendor/bin/phpunit -c tests/phpunit.xml tests/</strong>
-PHPUnit 3.7.24 by Sebastian Bergmann.
-Configuration read from /home/travis/build/mrkrstphr/php-gedcom/tests/phpunit.xml
-................................
-Time: 3.33 seconds, Memory: 16.75Mb
-The command "vendor/bin/phpunit -c tests/phpunit.xml tests/" exited with 0.
-
-<strong>$ vendor/bin/phpcs --standard=PSR2 -n src/ tests/</strong>
-Time: 7 seconds, Memory: 12.75Mb
-The command "vendor/bin/phpcs --standard=PSR2 -n src/ tests/" exited with 0.
-
-Done. Your build exited with 0.</pre>
+    <pre><?= $this->output ?></pre>
     </div>
 </div>

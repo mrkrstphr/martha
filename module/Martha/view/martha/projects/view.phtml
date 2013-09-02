@@ -40,79 +40,17 @@
         </tr>
     </thead>
     <tbody>
+        <?php foreach ($this->builds as $build): ?>
         <tr class="">
-            <td><a href="<?= $this->url('build', ['id' => 14]) ?>">14</a></td>
-            <td><span class="label label-success">Success</span></td>
+            <td>
+                <a href="<?= $this->url('build', ['id' => $build->getId()]) ?>"><?= $build->getId() ?></a>
+            </td>
+            <td><span class="label label-success"><?= ucwords($build->getStatus()) ?></span></td>
             <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
+            <td>[todo fixme]</td>
+            <td>[todo fixme]</td>
+            <td>[todo fixme]</td>
         </tr>
-        <tr class="">
-            <td>14</td>
-            <td><span class="label label-danger">Success</span></td>
-            <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
-        </tr>
-        <tr class="">
-            <td>14</td>
-            <td><span class="label label-success">Success</span></td>
-            <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
-        </tr>
-        <tr class="">
-            <td>14</td>
-            <td><span class="label label-danger">Success</span></td>
-            <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
-        </tr>
-        <tr class="">
-            <td>14</td>
-            <td><span class="label label-success">Success</span></td>
-            <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
-        </tr>
-        <tr class="">
-            <td>14</td>
-            <td><span class="label label-success">Success</span></td>
-            <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
-        </tr>
-        <tr class="">
-            <td>14</td>
-            <td><span class="label label-success">Success</span></td>
-            <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
-        </tr>
-        <tr class="">
-            <td>14</td>
-            <td><span class="label label-danger">Success</span></td>
-            <td>28 minutes</td>
-            <td>GitHub Hook</td>
-            <td>master</td>
-            <td></td>
-        </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>
-
-<ul class="pagination pagination-sm">
-    <li class="disabled"><a href="#">&laquo;</a></li>
-    <li class="active"><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">&raquo;</a></li>
-</ul>

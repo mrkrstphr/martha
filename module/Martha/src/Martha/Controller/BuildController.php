@@ -79,14 +79,43 @@ class BuildController extends AbstractActionController
         return new JsonModel();
     }
 
+    /**
+     * @return array
+     */
     public function viewAction()
     {
         $id = $this->params('id');
 
+        $build = $this->buildRepository->getById($id);
+
+        $config = $this->getConfig();
+
+        $outputDir = $config['data-directory'] . '/' . $build->getProject()->getName() . '/' . $id;
+
+        $output = file_exists($outputDir . '/console.html') ?
+            file_get_contents($outputDir . '/console.html') : 'None Available';
 
 
         return [
-            'pageTitle' => 'Build #' . $id
+            'pageTitle' => 'Build #' . $id,
+            'output' => $output,
+            'build' => $build
         ];
+    }
+
+    /**
+     * @throws \Exception
+     * @return array
+     */
+    protected function getConfig()
+    {
+        $config = $this->getServiceLocator()->get('Config');
+        $config = isset($config['martha']) ? $config['martha'] : false;
+
+        if (!$config) {
+            throw new \Exception('Please create your system.local.php configuration file');
+        }
+
+        return $config;
     }
 }

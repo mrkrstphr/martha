@@ -2,7 +2,9 @@ h2.page-title {margin-top: 0}
 pre {background-color: #191919; color: #fff;}
 ul.nav-tabs {margin-bottom: 8px}
 
-
+span.success {color: #93d44f}
+span.error {color: #ff6565}
+span.info {color: #eab93d}
 
 
 ul#build-tabs {margin-top: 24px}
