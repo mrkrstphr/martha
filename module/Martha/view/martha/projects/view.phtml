@@ -45,7 +45,9 @@
             <td>
                 <a href="<?= $this->url('build', ['id' => $build->getId()]) ?>"><?= $build->getId() ?></a>
             </td>
-            <td><span class="label label-success"><?= ucwords($build->getStatus()) ?></span></td>
+            <td>
+                <?= $this->buildStatus($build->getStatus()) ?>
+            </td>
             <td>28 minutes</td>
             <td>[todo fixme]</td>
             <td>[todo fixme]</td>

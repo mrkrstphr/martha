@@ -68,6 +68,18 @@ class Module
     /**
      * @return array
      */
+    public function getViewHelperConfig()
+    {
+        return array(
+            'invokables' => array(
+                'buildStatus' => 'Martha\View\Helper\BuildStatus',
+            )
+        );
+    }
+
+    /**
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array(

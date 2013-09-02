@@ -1,6 +1,6 @@
 <h2 class="page-title">
     Build #<?= $this->build->getID() ?>
-    <span class="label label-danger"><?= ucwords($this->build->getStatus()) ?></span>
+    <?= $this->buildStatus($this->build->getStatus()) ?>
 </h2>
 
 <ul id="build-tabs" class="nav nav-tabs">
