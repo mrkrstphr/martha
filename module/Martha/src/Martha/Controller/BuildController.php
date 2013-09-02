@@ -74,7 +74,10 @@ class BuildController extends AbstractActionController
         $this->buildRepository->persist($build)->flush();
 
         $runner = new Runner($hook, $build, $config);
-        $runner->run();
+        $wasSuccessful = $runner->run();
+
+        $build->setStatus($wasSuccessful ? Build::STATUS_SUCCESS : Build::STATUS_FAILURE);
+        $this->buildRepository->flush();
 
         return new JsonModel();
     }
