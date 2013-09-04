@@ -66,15 +66,13 @@ class Module
     }
 
     /**
+     * Get the configured View Helpers.
+     *
      * @return array
      */
     public function getViewHelperConfig()
     {
-        return array(
-            'invokables' => array(
-                'buildStatus' => 'Martha\View\Helper\BuildStatus',
-            )
-        );
+        return include __DIR__ . '/config/view-helper.config.php';
     }
 
     /**
