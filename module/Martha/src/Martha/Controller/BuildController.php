@@ -49,12 +49,7 @@ class BuildController extends AbstractActionController
         $notify = str_replace(['var commit = ', '};'], ['', '}'], $notify);
         $notify = json_decode($notify, true);
 
-        $config = $this->getServiceLocator()->get('Config');
-        $config = isset($config['martha']) ? $config['martha'] : false;
-
-        if (!$config) {
-            throw new \Exception('Please create your system.local.php configuration file');
-        }
+        $config = $this->getConfig();
 
         $hook = GithubWebHookFactory::createHook($notify);
 
@@ -68,6 +63,9 @@ class BuildController extends AbstractActionController
 
         $build = new Build();
         $build->setProject($project);
+        $build->setBranch($hook->getBranch());
+        $build->setFork($hook->getFork());
+        $build->setRevisionNumber($hook->getRevisionNumber());
         $build->setStatus(Build::STATUS_BUILDING);
         $build->setCreated(new \DateTime());
 
