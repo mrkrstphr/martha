@@ -1,0 +1,25 @@
+<h2 class="page-title">
+    Build #<?= $this->build->getID() ?>
+    <?= $this->buildStatus($this->build->getStatus()) ?>
+</h2>
+
+<ul id="build-tabs" class="nav nav-tabs">
+    <li class="active"><a href="#artifacts" data-toggle="tab">Artifacts</a></li>
+    <li><a href="#raw-output" data-toggle="tab">Raw Output</a></li>
+</ul>
+<div class="tab-content">
+    <?php $this->inlineScript()->captureStart(); ?>
+    $(document).ready(function() {
+        $('#build-tabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    });
+    <?php $this->inlineScript()->captureEnd(); ?>
+    <div class="tab-pane active" id="artifacts">
+        <div class="alert alert-warning">TODO FIXME</div>
+    </div>
+    <div class="tab-pane" id="raw-output">
+    <pre><?= $this->output ?></pre>
+    </div>
+</div>

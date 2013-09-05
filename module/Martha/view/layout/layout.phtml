@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?= $this->headTitle($this->translate('Martha Continuous Integration Server'))
+        ->setSeparator(' - ')
+        ->setAutoEscape(false) ?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/martha.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Martha CI</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <?= $this->navigation('Navigation')->menu()->setPartial(['layout/navigation.phtml', 'Application'])->render(); ?>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <?= $this->content ?>
+    </div>
+    <footer>
+        <div class="container">
+            <hr>
+            Powered by <a href="https://github.com/martha-ci">Martha CI</a>.
+        </div>
+    </footer>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <?php echo $this->inlineScript() ?>
+</body>
+</html>

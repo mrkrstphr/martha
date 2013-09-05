@@ -1,0 +1,62 @@
+<h2><?= $this->translate('Whoops! We\'re not really sure what just happened.') ?></h2>
+
+<p>
+    Apologize profusely.
+</p>
+
+<?php if (isset($this->display_exceptions) && $this->display_exceptions): ?>
+    <h3><?= $this->message ?></h3>
+
+    <?php if (isset($this->exception) && $this->exception instanceof Exception): ?>
+        <hr/>
+        <h2><?= $this->translate('Additional information') ?>:</h2>
+        <h3><?= get_class($this->exception); ?></h3>
+        <dl>
+            <dt><?= $this->translate('File') ?>:</dt>
+            <dd>
+                <pre class="prettyprint linenums"><?= $this->exception->getFile() ?>:<?= $this->exception->getLine() ?></pre>
+            </dd>
+            <dt><?= $this->translate('Message') ?>:</dt>
+            <dd>
+                <pre class="prettyprint linenums"><?= $this->exception->getMessage() ?></pre>
+            </dd>
+            <dt><?= $this->translate('Stack trace') ?>:</dt>
+            <dd>
+                <pre class="prettyprint linenums"><?= $this->exception->getTraceAsString() ?></pre>
+            </dd>
+        </dl>
+        <?php
+        $e = $this->exception->getPrevious();
+        if ($e) :
+            ?>
+            <hr/>
+            <h2><?= $this->translate('Previous exceptions') ?>:</h2>
+            <ul class="unstyled">
+                <?php while($e) : ?>
+                    <li>
+                        <h3><?= get_class($e); ?></h3>
+                        <dl>
+                            <dt><?= $this->translate('File') ?>:</dt>
+                            <dd>
+                                <pre class="prettyprint linenums"><?= $e->getFile() ?>:<?= $e->getLine() ?></pre>
+                            </dd>
+                            <dt><?= $this->translate('Message') ?>:</dt>
+                            <dd>
+                                <pre class="prettyprint linenums"><?= $e->getMessage() ?></pre>
+                            </dd>
+                            <dt><?= $this->translate('Stack trace') ?>:</dt>
+                            <dd>
+                                <pre class="prettyprint linenums"><?= $e->getTraceAsString() ?></pre>
+                            </dd>
+                        </dl>
+                    </li>
+                    <?php
+                    $e = $e->getPrevious();
+                endwhile;
+                ?>
+            </ul>
+        <?php endif; ?>
+    <?php else: ?>
+        <h3><?= $this->translate('No Exception available') ?></h3>
+    <?php endif ?>
+<?php endif ?>

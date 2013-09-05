@@ -1,0 +1,61 @@
+
+<h2 class="pull-left page-title"><?= $this->project->getName() ?></h2>
+
+<span class="pull-right">
+    <a class="btn btn-primary href="#">Build Now</a>
+</span>
+
+<div class="clearfix"></div>
+
+<?php if ($this->project->getDescription()): ?>
+    <p class="lead">
+        <?= $this->escapeHtml($this->project->getDescription()) ?>
+    </p>
+<?php endif; ?>
+
+<?php if ($this->health <= 0.5): ?>
+    <div class="alert alert-dismissable alert-danger">
+        <strong>Things have certainly fallen off the rails...</strong> <br />
+        <?= $this->project->getName() ?> has had at least 50% of the last 20 builds fail. To say things aren't going well
+        might be an understatement.
+    </div>
+<?php elseif ($this->health <= 0.75): ?>
+    <div class="alert alert-dismissable alert-warning">
+        <strong>This project isn't looking so hot...</strong> <br />
+        <?= $this->project->getName() ?> has had at least 25% of the last 20 builds fail. This could spell doom.
+    </div>
+<?php endif; ?>
+
+<h3>Recent Builds</h3>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Status</th>
+            <th>Age</th>
+            <th>Method</th>
+            <th>Branch</th>
+            <th>Fork</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->builds as $build): ?>
+        <tr>
+            <td>
+                <a href="<?= $this->url('build', ['id' => $build->getId()]) ?>"><?= $build->getId() ?></a>
+            </td>
+            <td>
+                <?= $this->buildStatus($build->getStatus()) ?>
+            </td>
+            <td>
+                <span title="<?= $build->getCreated()->format('j M Y h:i A') ?>">
+                    <?= $this->age($build->getCreated()) ?></span>
+            </td>
+            <td><?= $build->getMethod() ?></td>
+            <td><?= $build->getBranch() ?></td>
+            <td><?= $build->getFork() ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
