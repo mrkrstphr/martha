@@ -13,13 +13,13 @@ return [
                     ],
                 ],
             ],
-            'build-hook' => [
+            'web-hook' => [
                 'type' => 'Literal',
                 'options' => [
-                    'route' => '/hook/build',
+                    'route' => '/build/web-hook',
                     'defaults' => [
                         'controller' => 'Martha\Controller\Build',
-                        'action' => 'hook'
+                        'action' => 'web-hook'
                     ]
                 ]
             ],

@@ -5,8 +5,8 @@ namespace Martha\Controller;
 use Martha\Core\Domain\Entity\Build;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
+use Martha\Core\Job\Queue;
 use Zend\Mvc\Controller\AbstractActionController;
-use Martha\Core\Job\Runner;
 use Martha\Core\Job\Trigger\GitHubWebHook\Factory as GithubWebHookFactory;
 use Zend\View\Model\JsonModel;
 
@@ -39,19 +39,20 @@ class BuildController extends AbstractActionController
     }
 
     /**
+     * Accepts a GitHub Web Hook to trigger a build for a given repository.
+     *
      * @throws \Exception
      * @return JsonModel
      */
-    public function hookAction()
+    public function webHookAction()
     {
-        // mock the web hook:
-        $notify = file_get_contents(__DIR__ . '/sample-hook.js');
-        $notify = str_replace(['var commit = ', '};'], ['', '}'], $notify);
-        $notify = json_decode($notify, true);
+        $payload = $this->params('payload');
 
-        $config = $this->getConfig();
+        if (!$payload || !($payload = json_decode($payload, true))) {
+            return new JsonModel(['status' => 'failed', 'description' => 'Invalid payload']);
+        }
 
-        $hook = GithubWebHookFactory::createHook($notify);
+        $hook = GithubWebHookFactory::createHook($payload);
 
         $project = $this->projectRepository->getBy(['name' => $hook->getFullProjectName()]);
 
@@ -62,20 +63,21 @@ class BuildController extends AbstractActionController
         $project = current($project);
 
         $build = new Build();
+        $build->setMethod('GitHub Web Hook');
         $build->setProject($project);
         $build->setBranch($hook->getBranch());
         $build->setFork($hook->getFork());
         $build->setRevisionNumber($hook->getRevisionNumber());
-        $build->setStatus(Build::STATUS_BUILDING);
+        $build->setForkUri($hook->getRepository()->getPath());
+        $build->setStatus(Build::STATUS_PENDING);
         $build->setCreated(new \DateTime());
 
         $this->buildRepository->persist($build)->flush();
 
-        $runner = new Runner($hook, $build, $config);
-        $wasSuccessful = $runner->run();
+        // Force the Build Queue to be checked now, instead of waiting for a scheduled run:
 
-        $build->setStatus($wasSuccessful ? Build::STATUS_SUCCESS : Build::STATUS_FAILURE);
-        $this->buildRepository->flush();
+        $queue = new Queue($this->buildRepository, $this->getConfig());
+        $queue->run();
 
         return new JsonModel();
     }
