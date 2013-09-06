@@ -2,6 +2,8 @@
 
 return [
     'modules' => [
+        'DoctrineModule',
+        'DoctrineORMModule',
         'Martha'
     ],
     'module_listener_options' => [
