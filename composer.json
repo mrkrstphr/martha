@@ -21,6 +21,8 @@
         "symfony/yaml": "2.3.*",
         "zendframework/zendframework": "2.2.*",
         "doctrine/orm": "2.*",
+        "doctrine/doctrine-module": "0.8.0-beta1",
+        "doctrine/doctrine-orm-module": "0.8.0-beta3",
         "martha-ci/command": "dev-master",
         "martha-ci/core": "dev-master",
         "martha-ci/scm": "dev-master"
