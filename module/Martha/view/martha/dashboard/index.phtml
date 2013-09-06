@@ -1,2 +1,23 @@
 
-Dashboard goes here...
+<div class="projects-dashboard">
+
+    <div class="row">
+        <h2 class="dashboard-title">Projects Dashboard</h2>
+
+        <h3 class="section-title">Project Status</h3>
+    </div>
+
+    <?php for ($projectCount = 0; $projectCount < 12; $projectCount++): ?>
+        <div class="col-md-3">
+            <div class="dashboard-widget <?= $projectCount % 3 == 0 ? 'failed' : ($projectCount % 2 == 0 ? 'success' : 'building') ?>">
+                <a href="">
+                    Project #<?= $projectCount + 1 ?></a>
+            </div>
+        </div>
+    <?php endfor; ?>
+
+    <div class="row">
+        <h3 class="section-title">Recent Builds</h3>
+    </div>
+</div>
+
