@@ -29,4 +29,23 @@ class AbstractMarthaController extends AbstractActionController
     {
         $this->view->projects = $this->projectRepository->getAll();
     }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    public function getConfig($key = null)
+    {
+        $config = $this->serviceLocator->get('Config');
+
+        if ($key) {
+            if (!isset($config[$key])) {
+                return false;
+            }
+
+            $config = $config[$key];
+        }
+
+        return $config;
+    }
 }

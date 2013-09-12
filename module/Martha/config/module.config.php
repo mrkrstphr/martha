@@ -41,6 +41,27 @@ return [
                             'defaults' => [
                                 'action' => 'create'
                             ]
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            'scm' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/github',
+                                    'defaults' => [
+                                        'action' => 'create-git-hub-project'
+                                    ]
+                                ]
+                            ],
+                            'github' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/scm',
+                                    'defaults' => [
+                                        'action' => 'create-scm-project'
+                                    ]
+                                ]
+                            ],
                         ]
                     ],
                     'view' => [

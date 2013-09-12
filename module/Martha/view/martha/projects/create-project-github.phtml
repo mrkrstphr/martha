@@ -1,0 +1,19 @@
+
+<h3 class="section-title">Create GitHub Project</h3>
+
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+
+<?= $this->form()->openTag($form) ?>
+<div class="row">
+    <?= $this->formLabel($form->get('project_id')) ?>
+    <?= $this->formSelect($form->get('project_id')->setAttribute('class', 'span12')) ?>
+    <?= $this->formElementErrors($form->get('project_id')->setAttribute('class', 'span12')) ?>
+
+    <div>
+        <?= $this->formButton($form->get('create')->setAttribute('class', 'btn btn-primary')) ?>
+    </div>
+</div>
+<?= $this->form()->closeTag() ?>

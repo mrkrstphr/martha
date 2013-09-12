@@ -1,2 +1,26 @@
 
-CREATE PROJECT
+<h2 class="page-title">Create Project</h2>
+
+<p>
+    Select the type of project you want to create.
+</p>
+
+<form action="" method="get">
+    <label for="project_type">* Project Type:</label>
+    <select id="project_type" name="project_type">
+        <option value=""></option>
+        <?php foreach ($this->options as $uri => $name): ?>
+        <option value="<?= $uri ?>"><?= $name ?></option>
+        <?php endforeach; ?>
+    </select>
+</form>
+
+<?php $this->inlineScript()->captureStart(); ?>
+$(document).ready(function() {
+    $('#project_type').on('change', function() {
+        if ($(this).val()) {
+            window.location.href = $(this).val();
+        }
+    });
+});
+<?php $this->inlineScript()->captureEnd(); ?>
