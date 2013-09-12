@@ -4,6 +4,7 @@ namespace Martha\Controller;
 
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
+use Martha\Core\System;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -13,6 +14,11 @@ use Zend\View\Model\ViewModel;
  */
 class ProjectsController extends AbstractActionController
 {
+    /**
+     * @var \Martha\Core\System
+     */
+    protected $system;
+
     /**
      * @var \Martha\Core\Domain\Repository\ProjectRepositoryInterface
      */
@@ -26,13 +32,15 @@ class ProjectsController extends AbstractActionController
     /**
      * Set us up the controller!
      *
-     * @param ProjectRepositoryInterface $projectRepo
-     * @param BuildRepositoryInterface $buildRepo
+     * @param System $system
+     * @param ProjectRepositoryInterface $project
+     * @param BuildRepositoryInterface $build
      */
-    public function __construct(ProjectRepositoryInterface $projectRepo, BuildRepositoryInterface $buildRepo)
+    public function __construct(System $system, ProjectRepositoryInterface $project, BuildRepositoryInterface $build)
     {
-        $this->projectRepository = $projectRepo;
-        $this->buildRepository = $buildRepo;
+        $this->system = $system;
+        $this->projectRepository = $project;
+        $this->buildRepository = $build;
     }
 
     /**

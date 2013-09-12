@@ -15,6 +15,7 @@ return [
         },
         'Martha\Controller\Projects' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\ProjectsController(
+                $cm->getServiceLocator()->get('System'),
                 $cm->getServiceLocator()->get('ProjectRepository'),
                 $cm->getServiceLocator()->get('BuildRepository')
             );
