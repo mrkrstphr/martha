@@ -12,6 +12,6 @@ class Plugin extends AbstractPlugin
 {
     public function init()
     {
-
+        $this->getPluginManager()->registerRemoteProjectProvider('Martha\Plugin\GitHub\RemoteProjectProvider');
     }
 }
