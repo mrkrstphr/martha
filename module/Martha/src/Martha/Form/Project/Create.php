@@ -9,10 +9,10 @@ use Zend\Form\Element\Textarea;
 use Zend\Form\Form;
 
 /**
- * Class CreateGenericScmProject
+ * Class Create
  * @package Martha\Form\Project
  */
-class CreateGenericScmProject extends Form
+class Create extends Form
 {
     /**
      * Set us up the form!
@@ -23,6 +23,15 @@ class CreateGenericScmProject extends Form
     public function __construct($name = null, $options = [])
     {
         parent::__construct($name, $options);
+
+        $type = (new Select('project_type'))
+            ->setLabel('* Project Type')
+            ->setValueOptions(
+                [
+                    '' => '',
+                    'generic' => 'Generic SCM Project'
+                ]
+            );
 
         $name = (new Text('name'))
             ->setLabel('* Name:');
@@ -42,14 +51,22 @@ class CreateGenericScmProject extends Form
         $uri = (new Text('uri'))
             ->setLabel('Source URI:');
 
+        $projectId = (new Select('project_id'))
+            ->setLabel('* Project: ');
+
         $submit = (new Button('create'))
             ->setLabel('Create')
             ->setAttribute('type', 'submit');
+
+        $this->add($type);
 
         $this->add($name);
         $this->add($description);
         $this->add($scm);
         $this->add($uri);
+
+        $this->add($projectId);
+
         $this->add($submit);
     }
 }

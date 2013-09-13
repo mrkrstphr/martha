@@ -5,8 +5,7 @@ namespace Martha\Controller;
 use Zend\View\Model\ViewModel;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
-use Martha\Form\Project\CreateGenericScmProject;
-use Martha\Form\Project\CreateGitHubProject;
+use Martha\Form\Project\Create;
 use Martha\Core\System;
 
 /**
@@ -60,32 +59,24 @@ class ProjectsController extends AbstractMarthaController
     }
 
     /**
+     * Create a new CI project.
+     *
      * @return array
      */
     public function createAction()
     {
-        $config = $this->getConfig('martha');
+        $form = new Create();
+        $providers = $this->system->getPluginManager()->getRemoteProjectProviders();
+        $options = $form->get('project_type')->getValueOptions();
 
-        $options = [$this->url()->fromRoute('projects/create/scm') => 'Generic SCM Project'];
-
-        if (isset($config['github_access_token']) && !empty($config['github_access_token'])) {
-            $options[$this->url()->fromRoute('projects/create/github')] = 'GitHub Project';
+        foreach ($providers as $provider) {
+            $options[$provider->getProviderName()] = $provider->getProviderName();
         }
+
+        $form->get('project_type')->setValueOptions($options);
 
         return [
             'pageTitle' => 'Create Project',
-            'options' => $options
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function createScmProjectAction()
-    {
-        $form = new CreateGenericScmProject();
-
-        return [
             'form' => $form
         ];
     }

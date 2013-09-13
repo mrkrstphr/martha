@@ -1,25 +1,98 @@
 
 <h2 class="page-title">Create Project</h2>
 
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttributes(
+    [
+        'method' => 'POST',
+        'action' => '',
+        'class' => 'form-horizontal',
+        'role' => 'form'
+    ]
+);
+?>
+
 <p>
     Select the type of project you want to create.
 </p>
 
-<form action="" method="get">
-    <label for="project_type">* Project Type:</label>
-    <select id="project_type" name="project_type">
-        <option value=""></option>
-        <?php foreach ($this->options as $uri => $name): ?>
-        <option value="<?= $uri ?>"><?= $name ?></option>
-        <?php endforeach; ?>
-    </select>
-</form>
+<?= $this->form()->openTag($form) ?>
+    <div class="form-group">
+        <?= $this->bootstrapFormLabel($form->get('project_type')) ?>
+        <div class="col-lg-10">
+            <?= $this->bootstrapFormSelect($form->get('project_type')->setAttribute('class', 'span12')) ?>
+            <?= $this->formElementErrors($form->get('project_type')->setAttribute('class', 'span12')) ?>
+        </div>
+    </div>
+
+    <div id="project-types">
+        <div class="project-type hideme" id="generic">
+            <h3 class="page-title">Create SCM Project</h3>
+
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('name')) ?>
+                <div class="col-lg-10">
+                    <?= $this->bootstrapFormInput($form->get('name')) ?>
+                    <?= $this->formElementErrors($form->get('name')) ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('description')) ?>
+                <div class="col-lg-10">
+                    <?= $this->formTextarea($form->get('description')->setAttribute('class', 'form-control')) ?>
+                    <?= $this->formElementErrors($form->get('description')) ?>
+                </div>
+            </div><div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('scm')) ?>
+                <div class="col-lg-10">
+                    <?= $this->formSelect($form->get('scm')->setAttribute('class', 'form-control')) ?>
+                    <?= $this->formElementErrors($form->get('scm')) ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('uri')) ?>
+                <div class="col-lg-10">
+                    <?= $this->bootstrapFormInput($form->get('uri')) ?>
+                    <?= $this->formElementErrors($form->get('uri')) ?>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <?= $this->formButton($form->get('create')->setAttribute('class', 'btn btn-primary')) ?>
+            </div>
+        </div>
+        <div class="project-type hideme" id="remote">
+            <h3 class="section-title">Create <span class="remote-name"></span> Project</h3>
+
+            <?= $this->form()->openTag($form) ?>
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('project_id')) ?>
+                <div class="col-lg-10">
+                    <?= $this->bootstrapFormSelect($form->get('project_id')->setAttribute('class', 'span12')) ?>
+                    <?= $this->formElementErrors($form->get('project_id')->setAttribute('class', 'span12')) ?>
+                </div>
+            </div>
+            <div class="text-center">
+                <?= $this->formButton($form->get('create')->setAttribute('class', 'btn btn-primary')) ?>
+            </div>
+        </div>
+    </div>
+<?= $this->form()->closeTag() ?>
 
 <?php $this->inlineScript()->captureStart(); ?>
 $(document).ready(function() {
-    $('#project_type').on('change', function() {
-        if ($(this).val()) {
-            window.location.href = $(this).val();
+    $('select[name="project_type"]').on('change', function() {
+        $('div#project-types div.project-type').hide();
+
+        if ($(this).val() == 'generic') {
+            $('div#generic').slideDown();
+        } else if ($(this).val()) {
+            $('span.remote-name').html($(this).val());
+            $('div#remote').slideDown();
         }
     });
 });

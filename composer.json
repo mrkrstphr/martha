@@ -11,6 +11,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:martha-ci/command.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:martha-ci/plugin-github.git"
         }
     ],
     "require-dev": {
@@ -25,6 +29,7 @@
         "doctrine/doctrine-orm-module": "0.8.0-beta3",
         "martha-ci/command": "dev-master",
         "martha-ci/core": "dev-master",
-        "martha-ci/scm": "dev-master"
+        "martha-ci/scm": "dev-master",
+        "martha/plugin-github": "dev-master"
     }
 }
