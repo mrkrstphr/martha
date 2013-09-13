@@ -5,7 +5,7 @@ namespace Martha;
 use Zend\Mvc\Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\View\ViewEvent;
+use Martha\Core\System;
 
 /**
  * Class Module
@@ -30,6 +30,10 @@ class Module
         $moduleRouteListener->attach($eventManager);
 
         $eventManager->attach('render', array($this, 'onRender'));
+
+        $config = $this->application->getServiceManager()->get('Config');
+
+        System::initialize($config['martha']);
     }
 
     /**

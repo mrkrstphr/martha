@@ -1,12 +1,12 @@
 <?php
 
-namespace Martha\Core\Plugin\GitHub;
+namespace Martha\Plugin\GitHub;
 
 use Martha\Core\Plugin\AbstractPlugin;
 
 /**
  * Class Plugin
- * @package Martha\Core\Plugin\GitHub
+ * @package Martha\Plugin\GitHub
  */
 class Plugin extends AbstractPlugin
 {
