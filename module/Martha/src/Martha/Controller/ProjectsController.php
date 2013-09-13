@@ -2,14 +2,12 @@
 
 namespace Martha\Controller;
 
-use Martha\Core\Api\Client\GitHub;
+use Zend\View\Model\ViewModel;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
-use Martha\Core\Domain\Factory\ProjectFactory;
 use Martha\Form\Project\CreateGenericScmProject;
 use Martha\Form\Project\CreateGitHubProject;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Martha\Core\System;
 
 /**
  * Class ProjectsController
@@ -17,6 +15,11 @@ use Zend\View\Model\ViewModel;
  */
 class ProjectsController extends AbstractMarthaController
 {
+    /**
+     * @var \Martha\Core\System
+     */
+    protected $system;
+
     /**
      * @var \Martha\Core\Domain\Repository\ProjectRepositoryInterface
      */
@@ -30,13 +33,15 @@ class ProjectsController extends AbstractMarthaController
     /**
      * Set us up the controller!
      *
-     * @param ProjectRepositoryInterface $projectRepo
-     * @param BuildRepositoryInterface $buildRepo
+     * @param System $system
+     * @param ProjectRepositoryInterface $project
+     * @param BuildRepositoryInterface $build
      */
-    public function __construct(ProjectRepositoryInterface $projectRepo, BuildRepositoryInterface $buildRepo)
+    public function __construct(System $system, ProjectRepositoryInterface $project, BuildRepositoryInterface $build)
     {
-        $this->projectRepository = $projectRepo;
-        $this->buildRepository = $buildRepo;
+        $this->system = $system;
+        $this->projectRepository = $project;
+        $this->buildRepository = $build;
     }
 
     /**
