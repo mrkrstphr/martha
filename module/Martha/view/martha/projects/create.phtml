@@ -22,8 +22,8 @@ $form->setAttributes(
     <div class="form-group">
         <?= $this->bootstrapFormLabel($form->get('project_type')) ?>
         <div class="col-lg-10">
-            <?= $this->bootstrapFormSelect($form->get('project_type')->setAttribute('class', 'span12')) ?>
-            <?= $this->formElementErrors($form->get('project_type')->setAttribute('class', 'span12')) ?>
+            <?= $this->bootstrapFormSelect($form->get('project_type')) ?>
+            <?= $this->formElementErrors($form->get('project_type')) ?>
         </div>
     </div>
 
@@ -48,7 +48,7 @@ $form->setAttributes(
             </div><div class="form-group">
                 <?= $this->bootstrapFormLabel($form->get('scm')) ?>
                 <div class="col-lg-10">
-                    <?= $this->formSelect($form->get('scm')->setAttribute('class', 'form-control')) ?>
+                    <?= $this->bootstrapFormSelect($form->get('scm')->setAttribute('class', 'form-control')) ?>
                     <?= $this->formElementErrors($form->get('scm')) ?>
                 </div>
             </div>
@@ -59,10 +59,6 @@ $form->setAttributes(
                     <?= $this->bootstrapFormInput($form->get('uri')) ?>
                     <?= $this->formElementErrors($form->get('uri')) ?>
                 </div>
-            </div>
-
-            <div class="text-center">
-                <?= $this->formButton($form->get('create')->setAttribute('class', 'btn btn-primary')) ?>
             </div>
         </div>
         <div class="project-type hideme" id="remote">
@@ -76,9 +72,9 @@ $form->setAttributes(
                     <?= $this->formElementErrors($form->get('project_id')->setAttribute('class', 'span12')) ?>
                 </div>
             </div>
-            <div class="text-center">
-                <?= $this->formButton($form->get('create')->setAttribute('class', 'btn btn-primary')) ?>
-            </div>
+        </div>
+        <div class="form-group text-center">
+            <?= $this->formButton($form->get('create')->setAttribute('class', 'btn btn-primary')) ?>
         </div>
     </div>
 <?= $this->form()->closeTag() ?>

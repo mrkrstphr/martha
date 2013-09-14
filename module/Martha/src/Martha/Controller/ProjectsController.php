@@ -3,9 +3,10 @@
 namespace Martha\Controller;
 
 use Zend\View\Model\ViewModel;
+use Martha\Core\Domain\Entity\Project;
+use Martha\Core\Domain\Factory\ProjectFactory;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
-use Martha\Form\Project\Create;
 use Martha\Core\System;
 
 /**
@@ -65,7 +66,7 @@ class ProjectsController extends AbstractMarthaController
      */
     public function createAction()
     {
-        $form = new Create();
+        $form = $this->getServiceLocator()->get('ProjectForm')->bind(new Project());
         $providers = $this->system->getPluginManager()->getRemoteProjectProviders();
         $options = $form->get('project_type')->getValueOptions();
 
@@ -74,6 +75,27 @@ class ProjectsController extends AbstractMarthaController
         }
 
         $form->get('project_type')->setValueOptions($options);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->request->getPost());
+
+            if ($form->isValid()) {
+                $project = $form->getData();
+                $projectType = $this->params()->fromPost('project_type');
+
+                if ($projectType != 'generic') {
+                    $projectId = $this->params()->fromPost('project_id');
+                    $provider = $this->system->getPluginManager()->getRemoteProjectProvider($projectType);
+                    $projectData = $provider->getProjectInformation($projectId);
+
+                    // todo finish me
+                }
+
+                $this->projectRepository->persist($project)->flush();
+
+                $this->redirect()->toRoute('projects/view', ['id' => $project->getId()]);
+            }
+        }
 
         return [
             'pageTitle' => 'Create Project',

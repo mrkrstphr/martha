@@ -7,12 +7,13 @@ use Zend\Form\Element\Select;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Textarea;
 use Zend\Form\Form;
+use Zend\InputFilter\InputFilterProviderInterface;
 
 /**
  * Class Create
  * @package Martha\Form\Project
  */
-class Create extends Form
+class Create extends Form implements InputFilterProviderInterface
 {
     /**
      * Set us up the form!
@@ -68,5 +69,32 @@ class Create extends Form
         $this->add($projectId);
 
         $this->add($submit);
+    }
+
+    public function getInputFilterSpecification()
+    {
+        return [
+            'project_type' => [
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StringTrim'],
+                    ['name' => 'Zend\Filter\Null']
+                ]
+            ],
+            'scm' => [
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StringTrim'],
+                    ['name' => 'Zend\Filter\Null']
+                ]
+            ],
+            'project_id' => [
+                'required' => false,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StringTrim'],
+                    ['name' => 'Zend\Filter\Null']
+                ]
+            ]
+        ];
     }
 }
