@@ -81,15 +81,35 @@ $form->setAttributes(
 
 <?php $this->inlineScript()->captureStart(); ?>
 $(document).ready(function() {
-    $('select[name="project_type"]').on('change', function() {
+    var $projectType = $('select[name="project_type"]');
+    var $projectId = $('select[name="project_id"]');
+    $projectType.on('change', function() {
         $('div#project-types div.project-type').hide();
 
-        if ($(this).val() == 'generic') {
+        if ($projectType.val() == 'generic') {
             $('div#generic').slideDown();
-        } else if ($(this).val()) {
-            $('span.remote-name').html($(this).val());
-            $('div#remote').slideDown();
+        } else if ($projectType.val()) {
+            $('span.remote-name').html($projectType.val());
+
+
+            $.get('/projects/get-remote/' + $projectType.val(), function (data) {
+                $projectId.html('<option value=""></option>');
+
+                $.each(data.projects, function(index, project) {
+                    $projectId.append('<option value="' + project + '">' + project + '</option>');
+                });
+
+                $('div#remote').slideDown();
+            });
         }
+    });
+
+    if ($projectType.val() != '') {
+        $projectType.change();
+    }
+
+    $projectId.on('change', function() {
+
     });
 });
 <?php $this->inlineScript()->captureEnd(); ?>

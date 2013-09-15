@@ -7,6 +7,7 @@ use Zend\Form\Element\Select;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Textarea;
 use Zend\Form\Form;
+use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterProviderInterface;
 
 /**
@@ -41,7 +42,7 @@ class Create extends Form implements InputFilterProviderInterface
             ->setLabel('Description:');
 
         $scm = (new Select('scm'))
-            ->setLabel('Scm:')
+            ->setLabel('* Scm:')
             ->setValueOptions(
                 [
                     '' => '',
@@ -50,7 +51,7 @@ class Create extends Form implements InputFilterProviderInterface
             );
 
         $uri = (new Text('uri'))
-            ->setLabel('Source URI:');
+            ->setLabel('* Source URL:');
 
         $projectId = (new Select('project_id'))
             ->setLabel('* Project: ')
@@ -87,20 +88,46 @@ class Create extends Form implements InputFilterProviderInterface
                     ['name' => 'Zend\Filter\Null']
                 ]
             ],
-            'scm' => [
-                'required' => false,
+            'name' => [
+                'required' => true,
                 'filters' => [
                     ['name' => 'Zend\Filter\StringTrim'],
                     ['name' => 'Zend\Filter\Null']
                 ]
             ],
-            'project_id' => [
-                'required' => false,
+            'scm' => [
+                'required' => true,
                 'filters' => [
                     ['name' => 'Zend\Filter\StringTrim'],
                     ['name' => 'Zend\Filter\Null']
                 ]
-            ]
+            ],
+            'uri' => [
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StringTrim'],
+                    ['name' => 'Zend\Filter\Null']
+                ]
+            ],
+//            'project_id' => [
+//                'required' => false,
+//                'allow_empty' => false,
+//                'continue_if_empty' => true,
+//                'validators' => [
+//                    [
+//                        'name' => 'Zend\Validator\Callback',
+//                        'options' => [
+//                            'messages' => [
+//                                \Zend\Validator\Callback::INVALID_VALUE => 'Value is required and can\'t be emptyvfart',
+//                            ],
+//                            'callback' => function ($value, $context = []) {
+//                                var_dump($context);
+//                                return false;
+//                            }
+//                        ]
+//                    ]
+//                ]
+//            ]
         ];
     }
 }

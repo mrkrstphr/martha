@@ -30,5 +30,6 @@ return [
         'github_access_token' => '',
         'data-directory' => realpath(__DIR__ . '/../../data/jobs'),
         'build-directory' => realpath(__DIR__ . '/../../data/build'),
+        'plugins' => []
     ]
 ];

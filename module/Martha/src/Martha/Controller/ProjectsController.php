@@ -2,9 +2,8 @@
 
 namespace Martha\Controller;
 
-use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Martha\Core\Domain\Entity\Project;
-use Martha\Core\Domain\Factory\ProjectFactory;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
 use Martha\Core\System;
@@ -98,6 +97,11 @@ class ProjectsController extends AbstractMarthaController
 
             if ($form->isValid()) {
                 $project = $form->getData();
+
+                if ($projectType != 'generic') {
+                    $provider->onProjectCreated($projectId);
+                }
+
                 $this->projectRepository->persist($project)->flush();
 
                 $this->redirect()->toRoute('projects/view', ['id' => $project->getId()]);
@@ -111,42 +115,21 @@ class ProjectsController extends AbstractMarthaController
     }
 
     /**
-     * @param array $config
-     * @return ViewModel
+     * Get a list of remote projects to create.
+     *
+     * @return JsonModel
      */
-    protected function createGitHubProject(array $config)
+    public function getRemoteAction()
     {
-        $gitHub = new GitHub($config['github_access_token']);
-        $projects = $gitHub->getProjects();
+        $provider = $this->params()->fromRoute('provider');
 
-        $form = (new CreateGitHubProject())
-            ->setProjects($projects);
+        $provider = $this->system->getPluginManager()->getRemoteProjectProvider($provider);
 
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->request->getPost());
-
-            if ($form->isValid($this->params())) {
-                $data = $form->getData();
-
-                $projectFactory = new ProjectFactory();
-                $project = $projectFactory->createFromGitHub($gitHub, $data['project_id']);
-
-                $this->projectRepository->persist($project)->flush();
-
-                $this->redirect('view-project', ['id' => $project->getId()]);
-            }
-        }
-
-        $gitHub = new ViewModel(
+        return new JsonModel(
             [
-                'form' => $form,
-                'projects' => $projects
+                'projects' => $provider->getAvailableProjects()
             ]
         );
-
-        $gitHub->setTemplate('martha/projects/create-project-github.phtml');
-
-        return $gitHub;
     }
 
     /**
