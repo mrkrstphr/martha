@@ -77,20 +77,27 @@ class ProjectsController extends AbstractMarthaController
         $form->get('project_type')->setValueOptions($options);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->request->getPost());
+            $projectType = $this->params()->fromPost('project_type');
 
-            if ($form->isValid()) {
-                $project = $form->getData();
-                $projectType = $this->params()->fromPost('project_type');
+            if ($projectType != 'generic') {
+                // If a remote project was selected, grab the provider, then get information about the selected
+                // project and merge it with the request
+                $projectId = $this->params()->fromPost('project_id');
 
-                if ($projectType != 'generic') {
-                    $projectId = $this->params()->fromPost('project_id');
+                if ($projectId) {
                     $provider = $this->system->getPluginManager()->getRemoteProjectProvider($projectType);
                     $projectData = $provider->getProjectInformation($projectId);
 
-                    // todo finish me
+                    $form->setData(array_merge($this->request->getPost()->toArray(), $projectData));
+                } else {
+                    $form->setData($this->request->getPost());
                 }
+            } else {
+                $form->setData($this->request->getPost());
+            }
 
+            if ($form->isValid()) {
+                $project = $form->getData();
                 $this->projectRepository->persist($project)->flush();
 
                 $this->redirect()->toRoute('projects/view', ['id' => $project->getId()]);

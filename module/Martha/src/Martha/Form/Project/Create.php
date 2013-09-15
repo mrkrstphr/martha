@@ -53,7 +53,13 @@ class Create extends Form implements InputFilterProviderInterface
             ->setLabel('Source URI:');
 
         $projectId = (new Select('project_id'))
-            ->setLabel('* Project: ');
+            ->setLabel('* Project: ')
+            ->setValueOptions(
+                [
+                    '' => '',
+                    'martha-ci/core' => 'martha-ci/core'
+                ]
+            );
 
         $submit = (new Button('create'))
             ->setLabel('Create')
@@ -82,7 +88,7 @@ class Create extends Form implements InputFilterProviderInterface
                 ]
             ],
             'scm' => [
-                'required' => true,
+                'required' => false,
                 'filters' => [
                     ['name' => 'Zend\Filter\StringTrim'],
                     ['name' => 'Zend\Filter\Null']
