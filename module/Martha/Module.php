@@ -34,7 +34,10 @@ class Module
 
         $config = $this->application->getServiceManager()->get('Config');
 
-        System::initialize($config['martha']);
+        System::initialize(
+            $this->application->getServiceManager()->get('Doctrine\ORM\EntityManager'),
+            $config['martha']
+        );
 
         $system = System::getInstance();
         $routes = $system->getPluginManager()->getHttpRoutes();

@@ -2,9 +2,13 @@
 
 return [
     'factories' => [
-        'BuildRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+        'RepositoryFactory' => function (Zend\ServiceManager\ServiceManager $sm) {
             $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-            return new Martha\Core\Persistence\Repository\BuildRepository($entityManager);
+            return new Martha\Core\Persistence\Repository\Factory($entityManager);
+        },
+        'BuildRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createBuildRepository();
         },
         'ProjectForm' => function (Zend\ServiceManager\ServiceManager $sm) {
             $entityManager = $sm->get('Doctrine\ORM\EntityManager');
@@ -13,13 +17,12 @@ return [
             return $form;
         },
         'ProjectRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-            return new Martha\Core\Persistence\Repository\ProjectRepository($entityManager);
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createProjectRepository();
         },
         'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
         'System' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $config = $sm->get('Config');
-            return Martha\Core\System::getInstance($config['martha']);
+            return Martha\Core\System::getInstance();
         }
     ]
 ];
