@@ -2,6 +2,8 @@
 
 namespace Martha\Controller;
 
+use Martha\Core\Domain\Entity\Build;
+use Martha\Core\Job\Queue;
 use Zend\View\Model\JsonModel;
 use Martha\Core\Domain\Entity\Project;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
@@ -112,6 +114,36 @@ class ProjectsController extends AbstractMarthaController
             'pageTitle' => 'Create Project',
             'form' => $form
         ];
+    }
+
+    /**
+     * Build the specified project's most recent commit.
+     *
+     * @return mixed
+     */
+    public function buildAction()
+    {
+        $id = $this->params()->fromRoute('id');
+
+        $project = $this->projectRepository->getById($id);
+
+        if (!$project) {
+            $this->getResponse()->setStatusCode(404);
+            return null;
+        }
+
+        $build = new Build();
+        $build->setProject($project)
+            ->setCreated(new \DateTime())
+            ->setMethod('manual')
+            ->setStatus(Build::STATUS_PENDING);
+
+        $this->buildRepository->persist($build)->flush();
+
+        $queue = new Queue($this->buildRepository, $this->getConfig());
+        $queue->run();
+
+        $this->redirect()->toRoute('projects/view', ['id' => $id]);
     }
 
     /**
