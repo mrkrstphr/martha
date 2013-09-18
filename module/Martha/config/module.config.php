@@ -43,6 +43,15 @@ return [
                             ]
                         ],
                     ],
+                    'build' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/build/[:id]',
+                            'defaults' => [
+                                'action' => 'build'
+                            ]
+                        ]
+                    ],
                     'get-remote' => [
                         'type' => 'Segment',
                         'options' => [

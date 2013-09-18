@@ -2,7 +2,7 @@
 <h2 class="pull-left page-title"><?= $this->project->getName() ?></h2>
 
 <span class="pull-right">
-    <a class="btn btn-primary href="#">Build Now</a>
+    <a class="btn btn-primary" href="<?= $this->url('projects/build', ['id' => $this->project->getId()]) ?>">Build Now</a>
 </span>
 
 <div class="clearfix"></div>
