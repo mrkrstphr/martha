@@ -5,6 +5,7 @@
     "keywords": [],
     "homepage": "http://github.com/martha-ci",
     "license": "MIT",
+    "minimum-stability": "dev",
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },

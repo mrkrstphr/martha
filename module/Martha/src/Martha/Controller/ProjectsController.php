@@ -2,17 +2,23 @@
 
 namespace Martha\Controller;
 
+use Zend\View\Model\JsonModel;
+use Martha\Core\Domain\Entity\Project;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Martha\Core\System;
 
 /**
  * Class ProjectsController
  * @package Martha\Controller
  */
-class ProjectsController extends AbstractActionController
+class ProjectsController extends AbstractMarthaController
 {
+    /**
+     * @var \Martha\Core\System
+     */
+    protected $system;
+
     /**
      * @var \Martha\Core\Domain\Repository\ProjectRepositoryInterface
      */
@@ -26,13 +32,15 @@ class ProjectsController extends AbstractActionController
     /**
      * Set us up the controller!
      *
-     * @param ProjectRepositoryInterface $projectRepo
-     * @param BuildRepositoryInterface $buildRepo
+     * @param System $system
+     * @param ProjectRepositoryInterface $project
+     * @param BuildRepositoryInterface $build
      */
-    public function __construct(ProjectRepositoryInterface $projectRepo, BuildRepositoryInterface $buildRepo)
+    public function __construct(System $system, ProjectRepositoryInterface $project, BuildRepositoryInterface $build)
     {
-        $this->projectRepository = $projectRepo;
-        $this->buildRepository = $buildRepo;
+        $this->system = $system;
+        $this->projectRepository = $project;
+        $this->buildRepository = $build;
     }
 
     /**
@@ -51,13 +59,77 @@ class ProjectsController extends AbstractActionController
     }
 
     /**
+     * Create a new CI project.
+     *
      * @return array
      */
     public function createAction()
     {
+        $form = $this->getServiceLocator()->get('ProjectForm')->bind(new Project());
+        $providers = $this->system->getPluginManager()->getRemoteProjectProviders();
+        $options = $form->get('project_type')->getValueOptions();
+
+        foreach ($providers as $provider) {
+            $options[$provider->getProviderName()] = $provider->getProviderName();
+        }
+
+        $form->get('project_type')->setValueOptions($options);
+
+        if ($this->getRequest()->isPost()) {
+            $projectType = $this->params()->fromPost('project_type');
+
+            if ($projectType != 'generic') {
+                // If a remote project was selected, grab the provider, then get information about the selected
+                // project and merge it with the request
+                $projectId = $this->params()->fromPost('project_id');
+
+                if ($projectId) {
+                    $provider = $this->system->getPluginManager()->getRemoteProjectProvider($projectType);
+                    $projectData = $provider->getProjectInformation($projectId);
+
+                    $form->setData(array_merge($this->request->getPost()->toArray(), $projectData));
+                } else {
+                    $form->setData($this->request->getPost());
+                }
+            } else {
+                $form->setData($this->request->getPost());
+            }
+
+            if ($form->isValid()) {
+                $project = $form->getData();
+
+                if ($projectType != 'generic') {
+                    $provider->onProjectCreated($projectId);
+                }
+
+                $this->projectRepository->persist($project)->flush();
+
+                $this->redirect()->toRoute('projects/view', ['id' => $project->getId()]);
+            }
+        }
+
         return [
-            'pageTitle' => 'Create Project'
+            'pageTitle' => 'Create Project',
+            'form' => $form
         ];
+    }
+
+    /**
+     * Get a list of remote projects to create.
+     *
+     * @return JsonModel
+     */
+    public function getRemoteAction()
+    {
+        $provider = $this->params()->fromRoute('provider');
+
+        $provider = $this->system->getPluginManager()->getRemoteProjectProvider($provider);
+
+        return new JsonModel(
+            [
+                'projects' => $provider->getAvailableProjects()
+            ]
+        );
     }
 
     /**

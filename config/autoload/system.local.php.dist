@@ -26,9 +26,10 @@ return [
         ]
     ],
     'martha' => [
-        // If you wish to use Martha for projects hosted on GitHub, you'll need an application access token:
-        'github_access_token' => '',
+        'site_url' => 'http://yoursite.com',
         'data-directory' => realpath(__DIR__ . '/../../data/jobs'),
         'build-directory' => realpath(__DIR__ . '/../../data/build'),
+        'plugin-path' => ['./vendor/*/*/*/Martha/Plugin/*/'],
+        'plugins' => []
     ]
 ];

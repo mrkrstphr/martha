@@ -1,2 +1,115 @@
 
-CREATE PROJECT
+<h2 class="page-title">Create Project</h2>
+
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttributes(
+    [
+        'method' => 'POST',
+        'action' => '',
+        'class' => 'form-horizontal',
+        'role' => 'form'
+    ]
+);
+?>
+
+<p>
+    Select the type of project you want to create.
+</p>
+
+<?= $this->form()->openTag($form) ?>
+    <div class="form-group">
+        <?= $this->bootstrapFormLabel($form->get('project_type')) ?>
+        <div class="col-lg-10">
+            <?= $this->bootstrapFormSelect($form->get('project_type')) ?>
+            <?= $this->formElementErrors($form->get('project_type')) ?>
+        </div>
+    </div>
+
+    <div id="project-types">
+        <div class="project-type hideme" id="generic">
+            <h3 class="page-title">Create SCM Project</h3>
+
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('name')) ?>
+                <div class="col-lg-10">
+                    <?= $this->bootstrapFormInput($form->get('name')) ?>
+                    <?= $this->formElementErrors($form->get('name')) ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('description')) ?>
+                <div class="col-lg-10">
+                    <?= $this->formTextarea($form->get('description')->setAttribute('class', 'form-control')) ?>
+                    <?= $this->formElementErrors($form->get('description')) ?>
+                </div>
+            </div><div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('scm')) ?>
+                <div class="col-lg-10">
+                    <?= $this->bootstrapFormSelect($form->get('scm')->setAttribute('class', 'form-control')) ?>
+                    <?= $this->formElementErrors($form->get('scm')) ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('uri')) ?>
+                <div class="col-lg-10">
+                    <?= $this->bootstrapFormInput($form->get('uri')) ?>
+                    <?= $this->formElementErrors($form->get('uri')) ?>
+                </div>
+            </div>
+        </div>
+        <div class="project-type hideme" id="remote">
+            <h3 class="section-title">Create <span class="remote-name"></span> Project</h3>
+
+            <?= $this->form()->openTag($form) ?>
+            <div class="form-group">
+                <?= $this->bootstrapFormLabel($form->get('project_id')) ?>
+                <div class="col-lg-10">
+                    <?= $this->bootstrapFormSelect($form->get('project_id')->setAttribute('class', 'span12')) ?>
+                    <?= $this->formElementErrors($form->get('project_id')->setAttribute('class', 'span12')) ?>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <?= $this->formButton($form->get('create')->setAttribute('class', 'btn btn-primary')) ?>
+        </div>
+    </div>
+<?= $this->form()->closeTag() ?>
+
+<?php $this->inlineScript()->captureStart(); ?>
+$(document).ready(function() {
+    var $projectType = $('select[name="project_type"]');
+    var $projectId = $('select[name="project_id"]');
+    $projectType.on('change', function() {
+        $('div#project-types div.project-type').hide();
+
+        if ($projectType.val() == 'generic') {
+            $('div#generic').slideDown();
+        } else if ($projectType.val()) {
+            $('span.remote-name').html($projectType.val());
+
+
+            $.get('/projects/get-remote/' + $projectType.val(), function (data) {
+                $projectId.html('<option value=""></option>');
+
+                $.each(data.projects, function(index, project) {
+                    $projectId.append('<option value="' + project + '">' + project + '</option>');
+                });
+
+                $('div#remote').slideDown();
+            });
+        }
+    });
+
+    if ($projectType.val() != '') {
+        $projectType.change();
+    }
+
+    $projectId.on('change', function() {
+
+    });
+});
+<?php $this->inlineScript()->captureEnd(); ?>

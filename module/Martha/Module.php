@@ -5,7 +5,7 @@ namespace Martha;
 use Zend\Mvc\Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\View\ViewEvent;
+use Martha\Core\System;
 
 /**
  * Class Module
@@ -19,6 +19,7 @@ class Module
     protected $application;
 
     /**
+     * @todo clean this crap up. too much code in here
      * @param MvcEvent $e
      */
     public function onBootstrap(MvcEvent $e)
@@ -30,6 +31,30 @@ class Module
         $moduleRouteListener->attach($eventManager);
 
         $eventManager->attach('render', array($this, 'onRender'));
+
+        $config = $this->application->getServiceManager()->get('Config');
+
+        System::initialize($config['martha']);
+
+        $system = System::getInstance();
+        $routes = $system->getPluginManager()->getHttpRoutes();
+        $router = $this->application->getServiceManager()->get('Router');
+
+        foreach ($routes as $route) {
+            $router->addRoute(
+                $route['name'],
+                [
+                    'type' => 'Literal',
+                    'options' => [
+                        'route' => $route['route'],
+                        'defaults' => [
+                            'controller' => 'Martha\Controller\Plugin',
+                            'action' => 'custom-route'
+                        ]
+                    ]
+                ]
+            );
+        }
     }
 
     /**

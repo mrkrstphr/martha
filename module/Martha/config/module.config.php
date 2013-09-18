@@ -41,6 +41,15 @@ return [
                             'defaults' => [
                                 'action' => 'create'
                             ]
+                        ],
+                    ],
+                    'get-remote' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/get-remote/[:provider]',
+                            'defaults' => [
+                                'action' => 'get-remote'
+                            ]
                         ]
                     ],
                     'view' => [
