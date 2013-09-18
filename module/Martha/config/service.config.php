@@ -2,32 +2,27 @@
 
 return [
     'factories' => [
-        'BuildRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $entityManager = $sm->get('EntityManager');
-            return new Martha\Core\Persistence\Repository\BuildRepository($entityManager);
+        'RepositoryFactory' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $entityManager = $sm->get('Doctrine\ORM\EntityManager');
+            return new Martha\Core\Persistence\Repository\Factory($entityManager);
         },
-        'EntityManager' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $config = $sm->get('Config');
-
-            if (!isset($config['martha']['doctrine'])) {
-                throw new \Exception(
-                    'Doctrine database connection information is not configured. See ' .
-                    '[config/autoload/system.local.php.dist] for a sample configuration.'
-                );
-            }
-
-            $configManager = new Martha\Core\Persistence\ConfigurationFactory();
-            $configManager->loadConfiguration($config['martha']['doctrine']);
-
-            $entityFactory = new Martha\Core\Persistence\EntityManagerFactory($configManager);
-            $entity = $entityFactory->getSingleton();
-
-            return $entity;
+        'BuildRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createBuildRepository();
+        },
+        'ProjectForm' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $entityManager = $sm->get('Doctrine\ORM\EntityManager');
+            $form = (new Martha\Form\Project\Create())
+                ->setHydrator(new DoctrineModule\Stdlib\Hydrator\DoctrineObject($entityManager));
+            return $form;
         },
         'ProjectRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $entityManager = $sm->get('EntityManager');
-            return new Martha\Core\Persistence\Repository\ProjectRepository($entityManager);
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createProjectRepository();
         },
-        'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory'
+        'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+        'System' => function (Zend\ServiceManager\ServiceManager $sm) {
+            return Martha\Core\System::getInstance();
+        }
     ]
 ];

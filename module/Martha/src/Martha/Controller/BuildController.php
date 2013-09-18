@@ -5,8 +5,8 @@ namespace Martha\Controller;
 use Martha\Core\Domain\Entity\Build;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
+use Martha\Core\Job\Queue;
 use Zend\Mvc\Controller\AbstractActionController;
-use Martha\Core\Job\Runner;
 use Martha\Core\Job\Trigger\GitHubWebHook\Factory as GithubWebHookFactory;
 use Zend\View\Model\JsonModel;
 
@@ -36,48 +36,6 @@ class BuildController extends AbstractActionController
     {
         $this->projectRepository = $projectRepo;
         $this->buildRepository = $buildRepo;
-    }
-
-    /**
-     * @throws \Exception
-     * @return JsonModel
-     */
-    public function hookAction()
-    {
-        // mock the web hook:
-        $notify = file_get_contents(__DIR__ . '/sample-hook.js');
-        $notify = str_replace(['var commit = ', '};'], ['', '}'], $notify);
-        $notify = json_decode($notify, true);
-
-        $config = $this->getConfig();
-
-        $hook = GithubWebHookFactory::createHook($notify);
-
-        $project = $this->projectRepository->getBy(['name' => $hook->getFullProjectName()]);
-
-        if (!$project) {
-            return new JsonModel(['status' => 'failed', 'description' => 'Project not found']);
-        }
-
-        $project = current($project);
-
-        $build = new Build();
-        $build->setProject($project);
-        $build->setBranch($hook->getBranch());
-        $build->setFork($hook->getFork());
-        $build->setRevisionNumber($hook->getRevisionNumber());
-        $build->setStatus(Build::STATUS_BUILDING);
-        $build->setCreated(new \DateTime());
-
-        $this->buildRepository->persist($build)->flush();
-
-        $runner = new Runner($hook, $build, $config);
-        $wasSuccessful = $runner->run();
-
-        $build->setStatus($wasSuccessful ? Build::STATUS_SUCCESS : Build::STATUS_FAILURE);
-        $this->buildRepository->flush();
-
-        return new JsonModel();
     }
 
     /**

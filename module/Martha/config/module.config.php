@@ -13,13 +13,13 @@ return [
                     ],
                 ],
             ],
-            'build-hook' => [
+            'web-hook' => [
                 'type' => 'Literal',
                 'options' => [
-                    'route' => '/hook/build',
+                    'route' => '/build/web-hook',
                     'defaults' => [
                         'controller' => 'Martha\Controller\Build',
-                        'action' => 'hook'
+                        'action' => 'web-hook'
                     ]
                 ]
             ],
@@ -40,6 +40,24 @@ return [
                             'route' => '/create',
                             'defaults' => [
                                 'action' => 'create'
+                            ]
+                        ],
+                    ],
+                    'build' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/build/[:id]',
+                            'defaults' => [
+                                'action' => 'build'
+                            ]
+                        ]
+                    ],
+                    'get-remote' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/get-remote/[:provider]',
+                            'defaults' => [
+                                'action' => 'get-remote'
                             ]
                         ]
                     ],

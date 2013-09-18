@@ -11,14 +11,14 @@ if (!file_exists($settingPath)) {
 
 $settings = require $settingPath;
 
-if (!isset($settings['martha']['doctrine']['params'])) {
+if (!isset($settings['doctrine']['connection']['orm_default'])) {
     throw new Exception('Please setup your database connection information in config/autoload/system.local.php');
 }
 
 $isDevMode = false;
 
-$config = Setup::createYAMLMetadataConfiguration($settings['martha']['doctrine']['mappings'], $isDevMode);
-$em = EntityManager::create($settings['martha']['doctrine']['params'], $config);
+$config = Setup::createYAMLMetadataConfiguration($settings['doctrine']['driver']['martha_driver']['paths'], $isDevMode);
+$em = EntityManager::create($settings['doctrine']['connection']['orm_default'], $config);
 
 $helperSet = new \Symfony\Component\Console\Helper\HelperSet(
     array(
@@ -26,3 +26,5 @@ $helperSet = new \Symfony\Component\Console\Helper\HelperSet(
         'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em)
     )
 );
+
+return $helperSet;

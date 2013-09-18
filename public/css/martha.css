@@ -25,3 +25,6 @@ div.dashboard-widget.failed {background-color: #ff6565}
 div.dashboard-widget.success {background-color: #93d44f}
 div.dashboard-widget.building {background-color: #77a2fc
 }
+
+.hideme {display: none}
+
