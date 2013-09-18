@@ -55,6 +55,7 @@ class Create extends Form implements InputFilterProviderInterface
 
         $projectId = (new Select('project_id'))
             ->setLabel('* Project: ')
+            ->setDisableInArrayValidator(true)
             ->setValueOptions(
                 [
                     '' => '',
@@ -109,8 +110,9 @@ class Create extends Form implements InputFilterProviderInterface
                     ['name' => 'Zend\Filter\Null']
                 ]
             ],
-//            'project_id' => [
-//                'required' => false,
+            'project_id' => [
+                'required' => false,
+                'disable_inarray_validator' => true
 //                'allow_empty' => false,
 //                'continue_if_empty' => true,
 //                'validators' => [
@@ -127,7 +129,7 @@ class Create extends Form implements InputFilterProviderInterface
 //                        ]
 //                    ]
 //                ]
-//            ]
+            ]
         ];
     }
 }
