@@ -39,50 +39,6 @@ class BuildController extends AbstractActionController
     }
 
     /**
-     * Accepts a GitHub Web Hook to trigger a build for a given repository.
-     *
-     * @throws \Exception
-     * @return JsonModel
-     */
-    public function webHookAction()
-    {
-        $payload = $this->params('payload');
-
-        if (!$payload || !($payload = json_decode($payload, true))) {
-            return new JsonModel(['status' => 'failed', 'description' => 'Invalid payload']);
-        }
-
-        $hook = GithubWebHookFactory::createHook($payload);
-
-        $project = $this->projectRepository->getBy(['name' => $hook->getFullProjectName()]);
-
-        if (!$project) {
-            return new JsonModel(['status' => 'failed', 'description' => 'Project not found']);
-        }
-
-        $project = current($project);
-
-        $build = new Build();
-        $build->setMethod('GitHub Web Hook');
-        $build->setProject($project);
-        $build->setBranch($hook->getBranch());
-        $build->setFork($hook->getFork());
-        $build->setRevisionNumber($hook->getRevisionNumber());
-        $build->setForkUri($hook->getRepository()->getPath());
-        $build->setStatus(Build::STATUS_PENDING);
-        $build->setCreated(new \DateTime());
-
-        $this->buildRepository->persist($build)->flush();
-
-        // Force the Build Queue to be checked now, instead of waiting for a scheduled run:
-
-        $queue = new Queue($this->buildRepository, $this->getConfig());
-        $queue->run();
-
-        return new JsonModel();
-    }
-
-    /**
      * @return array
      */
     public function viewAction()

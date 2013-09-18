@@ -13,6 +13,11 @@ return [
                 $cm->getServiceLocator()->get('ProjectRepository')
             );
         },
+        'Martha\Controller\Plugin' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+            return new Martha\Controller\PluginController(
+                $cm->getServiceLocator()->get('System')
+            );
+        },
         'Martha\Controller\Projects' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\ProjectsController(
                 $cm->getServiceLocator()->get('System'),

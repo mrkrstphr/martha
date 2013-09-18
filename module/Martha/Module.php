@@ -19,6 +19,7 @@ class Module
     protected $application;
 
     /**
+     * @todo clean this crap up. too much code in here
      * @param MvcEvent $e
      */
     public function onBootstrap(MvcEvent $e)
@@ -34,6 +35,26 @@ class Module
         $config = $this->application->getServiceManager()->get('Config');
 
         System::initialize($config['martha']);
+
+        $system = System::getInstance();
+        $routes = $system->getPluginManager()->getHttpRoutes();
+        $router = $this->application->getServiceManager()->get('Router');
+
+        foreach ($routes as $route) {
+            $router->addRoute(
+                $route['name'],
+                [
+                    'type' => 'Literal',
+                    'options' => [
+                        'route' => $route['route'],
+                        'defaults' => [
+                            'controller' => 'Martha\Controller\Plugin',
+                            'action' => 'custom-route'
+                        ]
+                    ]
+                ]
+            );
+        }
     }
 
     /**
