@@ -1,23 +1,50 @@
 
 <div class="projects-dashboard">
-
     <div class="row">
-        <h2 class="dashboard-title">Projects Dashboard</h2>
-
-        <h3 class="section-title">Project Status</h3>
-    </div>
-
-    <?php for ($projectCount = 0; $projectCount < 12; $projectCount++): ?>
-        <div class="col-md-3">
-            <div class="dashboard-widget <?= $projectCount % 3 == 0 ? 'failed' : ($projectCount % 2 == 0 ? 'success' : 'building') ?>">
-                <a href="">
-                    Project #<?= $projectCount + 1 ?></a>
-            </div>
-        </div>
-    <?php endfor; ?>
-
-    <div class="row">
-        <h3 class="section-title">Recent Builds</h3>
+        <h2>Recent Builds</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Project
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Age
+                    </th>
+                    <th>
+                        Method
+                    </th>
+                </tr>
+            </thead>
+            <?php foreach ($this->builds as $build): ?>
+            <tr>
+                <td>
+                    <a href="<?= $this->url('build', ['id' => $build->getId()]) ?>">
+                        <?= $build->getId() ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('projects/view', ['id' => $build->getProject()->getId()]) ?>">
+                        <?= $build->getProject()->getName() ?></a>
+                </td>
+                <td>
+                    <?= $this->buildStatus($build->getStatus()) ?>
+                </td>
+                <td>
+                    <span title="<?= $build->getCreated()->format('j M Y h:i A') ?>">
+                        <?= $this->age($build->getCreated()) ?></span>
+                </td>
+                <td>
+                    <?= $build->getMethod() ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
     </div>
 </div>
 
