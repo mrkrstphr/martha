@@ -2,21 +2,29 @@
 
 namespace Martha\Controller;
 
+use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
-use Zend\View\Model\ViewModel;
+use Zend\Mvc\Controller\AbstractActionController;
 
 /**
  * Class DashboardController
  * @package Martha\Controller
  */
-class DashboardController extends AbstractMarthaController
+class DashboardController extends AbstractActionController
 {
     /**
-     * @param ProjectRepositoryInterface $projectRepository
+     * @var ProjectRepositoryInterface
      */
-    public function __construct(ProjectRepositoryInterface $projectRepository)
+    protected $projectRepository;
+
+    /**
+     * @param ProjectRepositoryInterface $project
+     * @param BuildRepositoryInterface $build
+     */
+    public function __construct(ProjectRepositoryInterface $project, BuildRepositoryInterface $build)
     {
-        $this->projectRepository = $projectRepository;
+        $this->projectRepository = $project;
+        $this->buildRepository = $build;
     }
 
     /**
@@ -24,9 +32,10 @@ class DashboardController extends AbstractMarthaController
      */
     public function indexAction()
     {
-        $this->view = new ViewModel();
-        $this->getProjects();
+        $builds = $this->buildRepository->getBy([], ['created' => 'ASC'], 10);
 
-        return $this->view;
+        return [
+            'builds' => $builds
+        ];
     }
 }

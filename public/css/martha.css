@@ -9,4 +9,22 @@ span.info {color: #eab93d}
 
 ul#build-tabs {margin-top: 24px}
 
+div.projects-dashboard div.col-md-3 {
+    padding: 4px;
+}
+div.projects-dashboard div.dashboard-widget {
+    border: 1px solid #f0f0f0;
+    font-weight: bold;
+    padding: 6px;
+    text-align: center;
+}
+
+div.dashboard-widget a, a:visited {color: #333}
+
+div.dashboard-widget.failed {background-color: #ff6565}
+div.dashboard-widget.success {background-color: #93d44f}
+div.dashboard-widget.building {background-color: #77a2fc
+}
+
 .hideme {display: none}
+

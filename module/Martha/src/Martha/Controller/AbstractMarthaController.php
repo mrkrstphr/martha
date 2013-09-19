@@ -18,11 +18,6 @@ class AbstractMarthaController extends AbstractActionController
     protected $view;
 
     /**
-     * @var ProjectRepositoryInterface
-     */
-    protected $projectRepository;
-
-    /**
      *
      */
     protected function getProjects()

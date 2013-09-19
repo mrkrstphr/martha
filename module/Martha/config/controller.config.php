@@ -10,7 +10,8 @@ return [
         },
         'Martha\Controller\Dashboard' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\DashboardController(
-                $cm->getServiceLocator()->get('ProjectRepository')
+                $cm->getServiceLocator()->get('ProjectRepository'),
+                $cm->getServiceLocator()->get('BuildRepository')
             );
         },
         'Martha\Controller\Plugin' => function (Zend\Mvc\Controller\ControllerManager $cm) {
