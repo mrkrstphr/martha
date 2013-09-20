@@ -1,6 +1,7 @@
 <?php
 
 use \Martha\Core\Job\Runner;
+use \Martha\Core\System;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -16,5 +17,10 @@ $app = Zend\Mvc\Application::init(require __DIR__ . '/../config/application.conf
 
 $buildRepository = $app->getServiceManager()->get('BuildRepository');
 
-$runner = new Runner($buildRepository, $config['martha']);
+$system = System::initialize(
+    $app->getServiceManager()->get('Doctrine\ORM\EntityManager'),
+    $config['martha']
+);
+
+$runner = new Runner($system, $buildRepository, $config['martha']);
 $runner->run($buildId);
