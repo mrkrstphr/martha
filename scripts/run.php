@@ -3,7 +3,13 @@
 use \Martha\Core\Job\Runner;
 use \Martha\Core\System;
 
-require __DIR__ . '/../vendor/autoload.php';
+/**
+ * This makes our life easier when dealing with paths. Everything is relative
+ * to the application root now.
+ */
+chdir(dirname(__DIR__));
+
+require 'vendor/autoload.php';
 
 if ($_SERVER['argc'] != 2) {
     die("Usage: php run.php buildId\n");
