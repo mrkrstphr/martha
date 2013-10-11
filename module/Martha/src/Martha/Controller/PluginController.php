@@ -2,6 +2,7 @@
 
 namespace Martha\Controller;
 
+use Martha\Core\Http\Request;
 use Martha\Core\System;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -48,7 +49,12 @@ class PluginController extends AbstractActionController
         }
 
         if (is_callable($route['callback'])) {
-            $data = $route['callback']($this->params()->fromQuery());
+            $request = (new Request())
+                ->setBody($this->getRequest()->getContent())
+                ->setGet($this->params()->fromQuery())
+                ->setPost($this->params()->fromPost());
+
+            $data = $route['callback']($request);
         } else {
             $this->getResponse()->setStatusCode(404);
             return null;
