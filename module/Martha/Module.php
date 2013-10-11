@@ -7,7 +7,6 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\Literal;
 use Martha\Core\System;
-use Zend\Server\Reflection\ReflectionClass;
 
 /**
  * Class Module
