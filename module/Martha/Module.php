@@ -5,7 +5,9 @@ namespace Martha;
 use Zend\Mvc\Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Router\Http\Literal;
 use Martha\Core\System;
+use Zend\Server\Reflection\ReflectionClass;
 
 /**
  * Class Module
@@ -43,20 +45,23 @@ class Module
         $routes = $system->getPluginManager()->getHttpRoutes();
         $router = $this->application->getServiceManager()->get('Router');
 
-        foreach ($routes as $route) {
-            $router->addRoute(
-                $route['name'],
-                [
-                    'type' => 'Literal',
-                    'options' => [
+        // ZF2 routing sucks when an app is both CLI and HTTP
+        $reflector = new \ReflectionClass($router);
+
+        if ($reflector->getNamespaceName() != 'Zend\Mvc\Router\Console') {
+            foreach ($routes as $route) {
+                $newRoute = Literal::factory(
+                    [
                         'route' => $route['route'],
                         'defaults' => [
                             'controller' => 'Martha\Controller\Plugin',
                             'action' => 'custom-route'
                         ]
                     ]
-                ]
-            );
+                );
+
+                $router->addRoute($route['name'], $newRoute);
+            }
         }
     }
 
