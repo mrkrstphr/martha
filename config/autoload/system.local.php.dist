@@ -30,6 +30,18 @@ return [
         'data-directory' => realpath(__DIR__ . '/../../data/jobs'),
         'build-directory' => realpath(__DIR__ . '/../../data/build'),
         'plugin-path' => ['./vendor/*/*/*/Martha/Plugin/*/'],
+        'authentication' => [
+            // valid methods: database, ldap, github
+            'method' => 'database',
+            //'method' => ['database', 'github'],
+            'allow_registration' => false,
+
+            // required
+            'github_client_id' => '',
+            'github_client_secret' => '',
+            'github_allowed_organizations' => '',
+            //'github_allowed_organizations' => ['','']
+        ],
         'plugins' => []
     ]
 ];

@@ -81,6 +81,16 @@ return [
                         'action' => 'view'
                     ]
                 ]
+            ],
+            'login' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/login[/[:action]]',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Login',
+                        'action' => 'index'
+                    ]
+                ]
             ]
         ],
     ],
