@@ -88,7 +88,7 @@ class Module
         $response = $e->getResponse();
         $login = new AuthenticationService();
 
-        if (!$login->hasIdentity() && !in_array($routeMatch->getMatchedRouteName(), ['login', 'logout'])) {
+        if (!$login->hasIdentity() && !in_array($routeMatch->getMatchedRouteName(), ['login', 'logout', 'register'])) {
             $router = $e->getRouter();
             $response->setStatusCode(302);
             $response->getHeaders()->addHeaderLine('Location', $router->assemble([], ['name' => 'login']));

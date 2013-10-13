@@ -82,6 +82,16 @@ return [
                     ]
                 ]
             ],
+            'register' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/register[/[:action]]',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Registration',
+                        'action' => 'index'
+                    ]
+                ]
+            ],
             'login' => [
                 'type' => 'Segment',
                 'options' => [
