@@ -64,4 +64,15 @@ class LoginController extends AbstractActionController
             $this->redirect()->toUrl('/login');
         }
     }
+
+    /**
+     * Provides the ability to destroy an authenticated session.
+     */
+    public function logoutAction()
+    {
+        $auth = new AuthenticationService();
+        $auth->clearIdentity();
+
+        $this->redirect()->toUrl('/');
+    }
 }

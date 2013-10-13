@@ -91,6 +91,16 @@ return [
                         'action' => 'index'
                     ]
                 ]
+            ],
+            'logout' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/logout',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Login',
+                        'action' => 'logout'
+                    ]
+                ]
             ]
         ],
     ],
