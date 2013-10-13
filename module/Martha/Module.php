@@ -110,6 +110,11 @@ class Module
             $headTitleHelper   = $viewHelperManager->get('headTitle');
             $headTitleHelper->prepend($model->getVariable('pageTitle'));
         }
+
+        $login = new AuthenticationService();
+        if ($login->hasIdentity()) {
+            $model->setVariable('identity', $login->getIdentity());
+        }
     }
 
     /**
