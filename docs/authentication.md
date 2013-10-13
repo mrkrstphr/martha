@@ -34,6 +34,8 @@ return [
 ];
 ```
 
+#### Authentication Modes
+
 When `mode` = `strict`, Martha will require a visitor to login to see anything. When `mode` = `lenient`, a visitor
 can view project and build information, but cannot create, edit, or remove any projects or builds, or edit information
 about users. Under `lenient`, visitors are read-only. Under `strict`, visitors are not allowed; only authenticated
@@ -70,6 +72,8 @@ return [
 
 With `github` enabled, an *Authenticate with GitHub* button will appear on the login page.
 
+#### Limiting Users
+
 If you only want members of a certain organization (or organizations) to be able to login, you can specify them in
 the `config/autoload/martha.php` configuration file:
 
@@ -93,6 +97,8 @@ return [
     // ...
 ];
 ```
+
+#### Coupling with Database Authentication
 
 GitHub authentication and database authentication can both be enabled at the same time. The user will be displayed
 a login form, as well as a button to authenticate with GitHub. Upon authentication, a row is stored in the database
