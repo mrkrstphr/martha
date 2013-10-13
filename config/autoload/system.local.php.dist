@@ -34,9 +34,11 @@ return [
             // valid methods: database, ldap, github
             'method' => 'database',
             //'method' => ['database', 'github'],
+            // valid modes: strict, lenient
+            'mode' => 'strict',
             'allow_registration' => false,
 
-            // required
+            // required for GitHub authentication
             'github_client_id' => '',
             'github_client_secret' => '',
             'github_allowed_organizations' => '',

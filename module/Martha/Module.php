@@ -2,12 +2,13 @@
 
 namespace Martha;
 
+use Martha\Core\System;
 use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\Literal;
-use Martha\Core\System;
+use Zend\Stdlib\ResponseInterface;
 
 /**
  * Class Module
@@ -74,39 +75,25 @@ class Module
      */
     public function onRoute(MvcEvent $e)
     {
+        $config = $e->getApplication()->getServiceManager()->get('Config');
+        $config = $config['martha'];
+
+        if (!isset($config['authentication']) ||
+            (isset($config['authentication']['mode']) && $config['authentication']['mode'] == 'lenient')
+        ) {
+            return null;
+        }
+
         $routeMatch = $e->getRouteMatch();
+        $response = $e->getResponse();
         $login = new AuthenticationService();
 
-//        if ($login->hasIdentity()) {
-//            $userRepository = $e->getApplication()->getServiceManager()->get('UserRepository');
-//            $login->getStorage()->write($userRepository->getById($login->getIdentity()->getId()));
-//        }
-//
         if (!$login->hasIdentity() && !in_array($routeMatch->getMatchedRouteName(), ['login', 'logout'])) {
-            $request = $e->getRequest();
-            $response = $e->getResponse();
-//
-//            if ($request instanceof Request and $request->isXmlHttpRequest()) {
-//                $response->setContent('<!--logout-->');
-//            } else {
-                $redirect = '';
-                if (!$request->isPost() && $request->getRequestUri() != '/') {
-                    $redirect .= '?redirect=' . $request->getRequestUri();
-                }
+            $router = $e->getRouter();
+            $response->setStatusCode(302);
+            $response->getHeaders()->addHeaderLine('Location', $router->assemble([], ['name' => 'login']));
 
-                $router = $e->getRouter();
-                $url = $router->assemble([], ['name' => 'login']);
-
-                $response->setStatusCode(302);
-                $response->getHeaders()->addHeaderLine('Location', $url . $redirect);
-//            }
-//
-//            return $response;
-//        } elseif ($login->hasIdentity() and $routeMatch->getMatchedRouteName() == 'login') {
-//            $response = $e->getResponse()->setStatusCode(302);
-//            $response->getHeaders()->addHeaderLine('Location', '/');
-//
-//            return $response;
+            return $response;
         }
     }
 
