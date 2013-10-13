@@ -2,8 +2,11 @@
 
 namespace Martha\Controller;
 
+use Martha\Authentication\Adapter\GitHubAdapter;
+use Zend\Authentication\AuthenticationService;
+use Zend\Http\Client;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
 /**
  * Class LoginController
@@ -14,7 +17,7 @@ class LoginController extends AbstractActionController
     /**
      * Login page
      *
-     * @return ViewModel
+     * @return array
      */
     public function indexAction()
     {
@@ -29,17 +32,14 @@ class LoginController extends AbstractActionController
         $methods = $config['authentication']['method'];
         $methods = is_array($methods) ? $methods : [$methods];
 
-        $view = new ViewModel(
-            [
-                'methods' => $methods
-            ]
-        );
+        $data = ['methods' => $methods];
 
         if (in_array('github', $methods)) {
-            $view->setVariable('clientId', $config['authentication']['github_client_id']);
+            $data['clientId'] = $config['authentication']['github_client_id'];
+            $data['scope'] = 'user,repo';
         }
 
-        return $view;
+        return $data;
     }
 
     /**
@@ -49,6 +49,19 @@ class LoginController extends AbstractActionController
     {
         $code = $this->params()->fromQuery('code');
 
-        // todo fixme finishme
+        $config = $this->getServiceLocator()->get('Config');
+        $config = $config['martha'];
+
+        $adapter = new GitHubAdapter($config['authentication']);
+        $adapter->setCredential($code);
+
+        $auth = new AuthenticationService();
+        $result = $auth->authenticate($adapter);
+
+        if ($result->isValid()) {
+            $this->redirect()->toUrl('/');
+        } else {
+            $this->redirect()->toUrl('/login');
+        }
     }
 }
