@@ -28,3 +28,6 @@ div.dashboard-widget.building {background-color: #77a2fc
 
 .hideme {display: none}
 
+/** build/view **/
+
+div#build-steps ol li {padding: 4px}
