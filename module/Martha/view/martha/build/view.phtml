@@ -1,4 +1,6 @@
 <h2 class="page-title">
+    <a href="/projects/view/<?= $this->build->getProject()->getId() ?>">
+        <?= $this->build->getProject()->getName() ?></a> ::
     Build #<?= $this->build->getId() ?>
     <?= $this->buildStatus($this->build->getStatus()) ?>
 </h2>
