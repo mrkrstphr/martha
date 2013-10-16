@@ -2,6 +2,13 @@ h2.page-title {margin-top: 0}
 pre {background-color: #191919; color: #fff;}
 ul.nav-tabs {margin-bottom: 8px}
 
+div.container a.navbar-brand {
+    background: url(/images/logo-34x40.png) no-repeat scroll 12px 4px transparent;
+    margin-left: 0;
+    padding-left: 52px;
+}
+
+
 span.success {color: #93d44f}
 span.error {color: #ff6565}
 span.info {color: #eab93d}
