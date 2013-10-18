@@ -30,11 +30,14 @@ div.dashboard-widget a, a:visited {color: #333}
 
 div.dashboard-widget.failed {background-color: #ff6565}
 div.dashboard-widget.success {background-color: #93d44f}
-div.dashboard-widget.building {background-color: #77a2fc
-}
+div.dashboard-widget.building {background-color: #77a2fc}
 
 .hideme {display: none}
 
 /** build/view **/
 
+div.build-information {margin-top: 24px}
+div.build-information table th {background-color: #f8f8f8;border-right: 1px solid #eaeaea}
+div.build-information table th,
+div.build-information table td {width: 25%}
 div#build-steps ol li {padding: 4px}
