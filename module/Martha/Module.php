@@ -69,6 +69,15 @@ class Module
      */
     public function onRender(MvcEvent $e)
     {
+        // Add view paths for individual plugins:
+        $vm = $this->application->getServiceManager()->get('ViewTemplatePathStack');
+
+        foreach (System::getInstance()->getPluginManager()->getRegisteredViewPaths() as $pluginPaths) {
+            foreach ($pluginPaths as $path) {
+                $vm->addPath($path);
+            }
+        }
+
         $model = current($e->getViewModel()->getChildren());
 
         // If a page title was given to the view, prepend it to the helper:
