@@ -21,27 +21,37 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * It is not recommend to change anything in this file. User configurable settings can be found in martha.local.php
+ */
 return [
     'doctrine' => [
+        'configuration' => [
+            'orm_default' => [
+                'types' => [
+                    'hash' => 'Martha\Core\Persistence\Type\HashType',
+                ],
+            ],
+        ],
         'connection' => [
             'orm_default' => [
-                //// Sample Sqlite
-                //'driverClass' => 'Doctrine\DBAL\Driver\PDOSqlite\Driver',
-                //'params' => [
-                //    'path' => realpath(__DIR__ . '/../../data/martha.db')
-                //]
+                'doctrine_type_mappings' => [
+                    'hash' => 'hash',
+                ],
             ]
         ],
-    ],
-    'martha' => [
-        'site_url' => 'http://yoursite.com',
-        'data-directory' => realpath(__DIR__ . '/../../data/jobs'),
-        'build-directory' => realpath(__DIR__ . '/../../data/build'),
-
-        // the following is where Martha loads plugins from. You can make this an array and add
-        // paths for any non-standard plugins you may wish to use. Plugin.php will be added to the
-        // end of this path to look for plugins.
-        'plugin-path' => getcwd() . '/vendor/*/*/src/Martha/Plugin/*/',
-        'plugins' => []
+        'driver' => [
+            'martha_driver' => [
+                'class' => 'Doctrine\ORM\Mapping\Driver\YamlDriver',
+                'cache' => 'array',
+                'paths' => [
+                    realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Domain/Entity'),
+                    realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Persistence/Mapping')
+                ],
+            ],
+            'orm_default' => [
+                'drivers' => ['Martha\Core\Domain\Entity' => 'martha_driver']
+            ]
+        ]
     ]
 ];
