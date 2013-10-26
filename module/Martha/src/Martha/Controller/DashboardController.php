@@ -32,7 +32,7 @@ class DashboardController extends AbstractActionController
      */
     public function indexAction()
     {
-        $builds = $this->buildRepository->getBy([], ['created' => 'ASC'], 10);
+        $builds = $this->buildRepository->getBy([], ['created' => 'DESC'], 10);
 
         return [
             'builds' => $builds

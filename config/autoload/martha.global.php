@@ -21,12 +21,37 @@
  * IN THE SOFTWARE.
  */
 
+/**
+ * It is not recommend to change anything in this file. User configurable settings can be found in martha.local.php
+ */
 return [
-    'invokables' => [
-        'age' => 'Martha\View\Helper\Age',
-        'buildStatus' => 'Martha\View\Helper\BuildStatus',
-        'bootstrapFormLabel' => 'Martha\View\Helper\BootstrapFormLabel',
-        'bootstrapFormInput' => 'Martha\View\Helper\BootstrapFormInput',
-        'bootstrapFormSelect' => 'Martha\View\Helper\BootstrapFormSelect'
+    'doctrine' => [
+        'configuration' => [
+            'orm_default' => [
+                'types' => [
+                    'hash' => 'Martha\Core\Persistence\Type\HashType',
+                ],
+            ],
+        ],
+        'connection' => [
+            'orm_default' => [
+                'doctrine_type_mappings' => [
+                    'hash' => 'hash',
+                ],
+            ]
+        ],
+        'driver' => [
+            'martha_driver' => [
+                'class' => 'Doctrine\ORM\Mapping\Driver\YamlDriver',
+                'cache' => 'array',
+                'paths' => [
+                    realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Domain/Entity'),
+                    realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Persistence/Mapping')
+                ],
+            ],
+            'orm_default' => [
+                'drivers' => ['Martha\Core\Domain\Entity' => 'martha_driver']
+            ]
+        ]
     ]
 ];
