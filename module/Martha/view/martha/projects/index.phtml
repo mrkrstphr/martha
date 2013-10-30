@@ -1,9 +1,11 @@
 
 <h2 class="page-title pull-left">Projects</h2>
 
+<?php if ($this->projects): ?>
 <span class="pull-right">
     <a class="btn btn-primary" href="<?= $this->url('projects/create') ?>">Create Project</a>
 </span>
+<div class="clearfix"></div>
 
 <table class="table table-striped table-hover">
     <thead>
@@ -35,3 +37,13 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php else: ?>
+<div class="clearfix"></div>
+<div class="callout callout-warning">
+    <h4>You don't have any projects yet!</h4>
+    <p>
+        Go ahead and <a href="/projects/create">create your first one</a>, or, for more information about how to
+        create projects, please checkout the <a href="http://martha-ci.github.io/guide">user guide</a>.
+    </p>
+</div>
+<?php endif; ?>

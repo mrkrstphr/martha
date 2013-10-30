@@ -44,3 +44,38 @@ div.build-information table th {background-color: #f8f8f8;border-right: 1px soli
 div.build-information table th,
 div.build-information table td {width: 25%}
 div#build-steps ol li {padding: 4px}
+
+.callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid #eee;
+}
+.callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.callout p:last-child {
+    margin-bottom: 0;
+}
+
+.callout-danger {
+    background-color: #fdf7f7;
+    border-color: #eed3d7;
+}
+.callout-danger h4 {
+    color: #b94a48;
+}
+.callout-warning {
+    background-color: #faf8f0;
+    border-color: #faebcc;
+}
+.callout-warning h4 {
+    color: #c09853;
+}
+.callout-info {
+    background-color: #f4f8fa;
+    border-color: #bce8f1;
+}
+.callout-info h4 {
+    color: #3a87ad;
+}
