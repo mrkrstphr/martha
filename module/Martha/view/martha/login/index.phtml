@@ -1,8 +1,9 @@
 
-<?php if (in_array('github', $this->methods)): ?>
-<a class="btn btn-default" href="https://github.com/login/oauth/authorize?client_id=<?=
-    $this->clientId ?>&scope=<?= $this->scope ?>">
-    <img alt="" src="/images/github-icon.png" style="vertical-align: middle; width: 16px;" />
-    Login with GitHub
-</a>
-<?php endif; ?>
+<?php foreach ($this->oauth as $provider): ?>
+    <a class="btn btn-default oauth-provider" href="<?= $provider->getUrl() ?>">
+        <?php if ($provider->getIcon()): ?>
+        <img alt="<?= $provider->getName() ?>" src="<?= $provider->getIcon() ?>" title="Login with <?= $provider->getName() ?>">
+        <?php endif; ?>
+        Login with <?= $provider->getName() ?>
+    </a>
+<?php endforeach; ?>

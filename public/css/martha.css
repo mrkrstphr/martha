@@ -41,3 +41,5 @@ div.build-information table th {background-color: #f8f8f8;border-right: 1px soli
 div.build-information table th,
 div.build-information table td {width: 25%}
 div#build-steps ol li {padding: 4px}
+
+a.btn.oauth-provider img {vertical-align: middle; width: 16px;}

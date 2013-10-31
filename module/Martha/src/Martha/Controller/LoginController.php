@@ -3,6 +3,7 @@
 namespace Martha\Controller;
 
 use Martha\Authentication\Adapter\GitHubAdapter;
+use Martha\Core\Authentication\Provider\AbstractOAuthProvider;
 use Zend\Authentication\AuthenticationService;
 use Zend\Http\Client;
 use Zend\Http\Request;
@@ -21,22 +22,25 @@ class LoginController extends AbstractActionController
      */
     public function indexAction()
     {
+        $system = $this->getServiceLocator()->get('System');
         $config = $this->getServiceLocator()->get('Config');
         $config = $config['martha'];
 
-        if (!isset($config['authentication']) || !isset($config['authentication']['method'])) {
+        if (!isset($config['authentication']) || !isset($config['authentication']['enabled']) ||
+            !$config['authentication']['enabled']
+        ) {
             $this->getResponse()->setStatusCode(404);
             return [];
         }
 
-        $methods = $config['authentication']['method'];
-        $methods = is_array($methods) ? $methods : [$methods];
+        $data = [
+            'oauth' => []
+        ];
 
-        $data = ['methods' => $methods];
-
-        if (in_array('github', $methods)) {
-            $data['clientId'] = $config['authentication']['github_client_id'];
-            $data['scope'] = 'user,repo';
+        foreach ($system->getPluginManager()->getAuthenticationProviders() as $provider) {
+            if ($provider instanceof AbstractOAuthProvider) {
+                $data['oauth'][] = $provider;
+            }
         }
 
         return $data;
