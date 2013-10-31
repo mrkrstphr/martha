@@ -19,49 +19,60 @@
         $models = $this->viewModel()->getCurrent()->getChildren();
         $model = $models[0];
     ?>
-    <div class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Martha CI</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <?= $this->navigation('Navigation')->menu()->setPartial(['layout/navigation.phtml', 'Application'])->render(); ?>
+    <div id="wrap">
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Martha CI</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <?= $this->navigation('Navigation')->menu()->setPartial(['layout/navigation.phtml', 'Application'])->render(); ?>
 
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if ($model->identity): ?>
+                            <li>
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    <?= $model->identity->getFullName() ?></a>
+                            </li>
+                            <li>
+                                <a href="/logout">
+                                    <span class="glyphicon glyphicon-off"></span> Logout</a>
+                            </li>
+                        <?php else: ?>
+                            <li>
+                                <a href="/login">
+                                    <span class="glyphicon glyphicon-off"></span> Login</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <?= $this->content ?>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <div class="col-md-6">
+                <p class="text-muted credit">Powered by <a href="https://github.com/martha-ci">Martha CI</a>.</p>
+            </div>
+
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <?php if ($model->identity): ?>
                     <li>
-                        <a href="#">
-                            <span class="glyphicon glyphicon-user"></span>
-                            <?= $model->identity->getFullName() ?></a>
+                        <a href="#">Errors <span class="badge badge-error">0</span></a>
                     </li>
-                    <li>
-                        <a href="/logout">
-                            <span class="glyphicon glyphicon-off"></span> Logout</a>
-                    </li>
-                    <?php else: ?>
-                    <li>
-                        <a href="/login">
-                            <span class="glyphicon glyphicon-off"></span> Login</a>
-                    </li>
-                    <?php endif; ?>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container">
-        <?= $this->content ?>
-    </div>
-    <footer>
-        <div class="container">
-            <hr>
-            Powered by <a href="https://github.com/martha-ci">Martha CI</a>.
-        </div>
-    </footer>
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <?php echo $this->inlineScript() ?>

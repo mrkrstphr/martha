@@ -1,3 +1,7 @@
+html, body {height: 100%}
+#wrap {min-height: 100%; height: auto; margin: 0 auto -52px; padding: 0 0 52px}
+#footer {background-color: #f5f5f5;}
+#footer .container .credit {margin: 16px 0;}
 h2.page-title {margin-top: 0}
 pre {background-color: #191919; color: #fff;}
 ul.nav-tabs {margin-bottom: 8px}
@@ -8,11 +12,10 @@ div.container a.navbar-brand {
     padding-left: 52px;
 }
 
-
 span.success {color: #93d44f}
 span.error {color: #ff6565}
 span.info {color: #eab93d}
-
+.badge-error {background-color: #b94a48}
 
 ul#build-tabs {margin-top: 24px}
 
@@ -43,3 +46,38 @@ div.build-information table td {width: 25%}
 div#build-steps ol li {padding: 4px}
 
 a.btn.oauth-provider img {vertical-align: middle; width: 16px;}
+
+.callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid #eee;
+}
+.callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.callout p:last-child {
+    margin-bottom: 0;
+}
+
+.callout-danger {
+    background-color: #fdf7f7;
+    border-color: #eed3d7;
+}
+.callout-danger h4 {
+    color: #b94a48;
+}
+.callout-warning {
+    background-color: #faf8f0;
+    border-color: #faebcc;
+}
+.callout-warning h4 {
+    color: #c09853;
+}
+.callout-info {
+    background-color: #f4f8fa;
+    border-color: #bce8f1;
+}
+.callout-info h4 {
+    color: #3a87ad;
+}
