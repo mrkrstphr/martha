@@ -1,9 +1,16 @@
-<h2 class="page-title">
+<h2 class="page-title pull-left">
     <a href="/projects/view/<?= $this->build->getProject()->getId() ?>">
         <?= $this->build->getProject()->getName() ?></a> ::
     Build #<?= $this->build->getId() ?>
     <?= $this->buildStatus($this->build->getStatus()) ?>
 </h2>
+
+<?php if (!in_array($this->build->getStatus(), ['pending', 'building'])): ?>
+<a class="btn btn-primary pull-right" href="<?=
+    $this->url('build', ['action' => 'rebuild', 'id' => $this->build->getId()]) ?>">Rebuild</a>
+<?php endif; ?>
+
+<div class="clearfix"></div>
 
 <div class="panel panel-default build-information">
     <div class="panel-heading">

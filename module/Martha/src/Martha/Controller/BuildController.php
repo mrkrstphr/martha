@@ -94,6 +94,21 @@ class BuildController extends AbstractActionController
     }
 
     /**
+     * Restart a build by setting it back to Pending and kicking off the queue. When done, redirect back to the
+     * view build page.
+     */
+    public function rebuildAction()
+    {
+        $id = $this->params()->fromRoute('id');
+        $this->buildRepository->restartBuild($id);
+
+        $queue = new Queue($this->buildRepository, $this->getConfig());
+        $queue->run();
+
+        $this->redirect()->toRoute('build', ['action' => 'view', 'id' => $id]);
+    }
+
+    /**
      * @throws \Exception
      * @return array
      */
