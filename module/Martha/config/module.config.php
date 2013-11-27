@@ -96,10 +96,9 @@ return [
             'build' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/build/view/[:id]',
+                    'route' => '/build/[:action][/:id]',
                     'defaults' => [
-                        'controller' => 'Martha\Controller\Build',
-                        'action' => 'view'
+                        'controller' => 'Martha\Controller\Build'
                     ]
                 ]
             ]
