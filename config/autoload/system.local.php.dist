@@ -42,6 +42,21 @@ return [
         // paths for any non-standard plugins you may wish to use. Plugin.php will be added to the
         // end of this path to look for plugins.
         'plugin-path' => getcwd() . '/vendor/*/*/src/Martha/Plugin/*/',
-        'plugins' => []
+        'plugins' => [],
+
+        'authentication' => [
+            // valid methods: database, ldap, github
+            'method' => 'database',
+            //'method' => ['database', 'github'],
+            // valid modes: strict, lenient
+            'mode' => 'strict',
+            'allow_registration' => false,
+
+            // required for GitHub authentication
+            'github_client_id' => '',
+            'github_client_secret' => '',
+            'github_allowed_organizations' => '',
+            //'github_allowed_organizations' => ['','']
+        ]
     ]
 ];

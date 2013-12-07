@@ -1,0 +1,9 @@
+
+<?php foreach ($this->oauth as $provider): ?>
+    <a class="btn btn-default oauth-provider" href="<?= $provider->getUrl() ?>">
+        <?php if ($provider->getIcon()): ?>
+        <img alt="<?= $provider->getName() ?>" src="<?= $provider->getIcon() ?>" title="Login with <?= $provider->getName() ?>">
+        <?php endif; ?>
+        Login with <?= $provider->getName() ?>
+    </a>
+<?php endforeach; ?>

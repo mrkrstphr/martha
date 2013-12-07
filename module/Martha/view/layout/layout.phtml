@@ -15,6 +15,10 @@
     <![endif]-->
 </head>
 <body>
+    <?php
+        $models = $this->viewModel()->getCurrent()->getChildren();
+        $model = $models[0];
+    ?>
     <div id="wrap">
         <div class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -28,6 +32,25 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <?= $this->navigation('Navigation')->menu()->setPartial(['layout/navigation.phtml', 'Application'])->render(); ?>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if ($model->identity): ?>
+                            <li>
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    <?= $model->identity->getFullName() ?></a>
+                            </li>
+                            <li>
+                                <a href="/logout">
+                                    <span class="glyphicon glyphicon-off"></span> Logout</a>
+                            </li>
+                        <?php else: ?>
+                            <li>
+                                <a href="/login">
+                                    <span class="glyphicon glyphicon-off"></span> Login</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -23,11 +23,13 @@
 
 namespace Martha;
 
+use Martha\Core\System;
+use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\Literal;
-use Martha\Core\System;
+use Zend\Stdlib\ResponseInterface;
 
 /**
  * Class Module
@@ -52,7 +54,8 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        $eventManager->attach('render', array($this, 'onRender'));
+        $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender']);
+        $eventManager->attach(MvcEvent::EVENT_ROUTE, [$this, 'onRoute']);
 
         $config = $this->application->getServiceManager()->get('Config');
 
@@ -86,6 +89,36 @@ class Module
     }
 
     /**
+     * EVENT_ROUTE listener for handling user login authentication.
+     *
+     * @param MvcEvent $e
+     * @return ResponseInterface|null
+     */
+    public function onRoute(MvcEvent $e)
+    {
+        $config = $e->getApplication()->getServiceManager()->get('Config');
+        $config = $config['martha'];
+
+        if (!isset($config['authentication']) ||
+            (isset($config['authentication']['mode']) && $config['authentication']['mode'] == 'lenient')
+        ) {
+            return null;
+        }
+
+        $routeMatch = $e->getRouteMatch();
+        $response = $e->getResponse();
+        $login = new AuthenticationService();
+
+        if (!$login->hasIdentity() && !in_array($routeMatch->getMatchedRouteName(), ['login', 'logout', 'register'])) {
+            $router = $e->getRouter();
+            $response->setStatusCode(302);
+            $response->getHeaders()->addHeaderLine('Location', $router->assemble([], ['name' => 'login']));
+
+            return $response;
+        }
+    }
+
+    /**
      * @param MvcEvent $e
      */
     public function onRender(MvcEvent $e)
@@ -106,6 +139,11 @@ class Module
             $viewHelperManager = $e->getApplication()->getServiceManager()->get('viewHelperManager');
             $headTitleHelper   = $viewHelperManager->get('headTitle');
             $headTitleHelper->prepend($model->getVariable('pageTitle'));
+        }
+
+        $login = new AuthenticationService();
+        if ($login->hasIdentity()) {
+            $model->setVariable('identity', $login->getIdentity());
         }
     }
 

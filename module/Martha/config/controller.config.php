@@ -22,6 +22,9 @@
  */
 
 return [
+    'invokables' => [
+        'Martha\Controller\Registration' => 'Martha\Controller\RegistrationController'
+    ],
     'factories' => [
         'Martha\Controller\Build' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\BuildController(
@@ -34,6 +37,9 @@ return [
                 $cm->getServiceLocator()->get('ProjectRepository'),
                 $cm->getServiceLocator()->get('BuildRepository')
             );
+        },
+        'Martha\Controller\Login' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+            return new Martha\Controller\LoginController();
         },
         'Martha\Controller\Plugin' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\PluginController(

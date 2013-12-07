@@ -101,6 +101,36 @@ return [
                         'controller' => 'Martha\Controller\Build'
                     ]
                 ]
+            ],
+            'register' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/register[/[:action]]',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Registration',
+                        'action' => 'index'
+                    ]
+                ]
+            ],
+            'login' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/login[/[:action]]',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Login',
+                        'action' => 'index'
+                    ]
+                ]
+            ],
+            'logout' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/logout',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Login',
+                        'action' => 'logout'
+                    ]
+                ]
             ]
         ],
     ],
