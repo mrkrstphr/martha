@@ -33,21 +33,25 @@
                 <div class="navbar-collapse collapse">
                     <?= $this->navigation('Navigation')->menu()->setPartial(['layout/navigation.phtml', 'Application'])->render(); ?>
 
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul id="user-menu" class="nav navbar-nav navbar-right">
                         <?php if ($model->identity): ?>
                             <li>
-                                <a href="#">
-                                    <span class="glyphicon glyphicon-user"></span>
+                                <a href="#" class="user-icon">
+                                    <img alt="" src="<?= $this->gravatarUrl($model->identity, 24) ?>">
                                     <?= $model->identity->getFullName() ?></a>
                             </li>
                             <li>
-                                <a href="/logout">
-                                    <span class="glyphicon glyphicon-off"></span> Logout</a>
+                                <a href="#" title="Settings">
+                                    <span class="glyphicon glyphicon-cog"></span></a>
+                            </li>
+                            <li>
+                                <a href="/logout" title="Logout">
+                                    <span class="glyphicon glyphicon-off"></span></a>
                             </li>
                         <?php else: ?>
                             <li>
-                                <a href="/login">
-                                    <span class="glyphicon glyphicon-off"></span> Login</a>
+                                <a href="/login" title="Login">
+                                    <span class="glyphicon glyphicon-off"></span></a>
                             </li>
                         <?php endif; ?>
                     </ul>

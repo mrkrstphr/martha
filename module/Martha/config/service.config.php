@@ -44,6 +44,10 @@ return [
         'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
         'System' => function (Zend\ServiceManager\ServiceManager $sm) {
             return Martha\Core\System::getInstance();
-        }
+        },
+        'UserRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createUserRepository();
+        },
     ]
 ];
