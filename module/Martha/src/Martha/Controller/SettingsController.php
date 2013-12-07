@@ -16,7 +16,7 @@ class SettingsController extends AbstractActionController
     public function indexAction()
     {
         return [
-            'js' => '/js/view/settings.js',
+            'js' => ['/js/settings.js'],
             'pageTitle' => 'System Settings'
         ];
     }
