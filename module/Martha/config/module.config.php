@@ -56,6 +56,18 @@ return [
                     ],
                 ]
             ],
+            'settings' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/settings',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Settings',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => []
+            ],
             'web-hook' => [
                 'type' => 'Literal',
                 'options' => [

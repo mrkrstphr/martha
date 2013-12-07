@@ -1,0 +1,123 @@
+<div ng-controller="settingsController">
+    <div class="row">
+        <h2 class="page-title">System Settings</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+            <div class="row">
+                <div class="panel panel-default panel-info">
+                    <div class="panel-heading">Navigation</div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active">
+                                <a href="#" class="active">Plugins</a>
+                            </li>
+                            <li>
+                                <a href="#" class="active">Users</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+            <div class="panel panel-default panel-info">
+                <div class="panel-heading">Plugins</div>
+                <div class="panel-body">
+
+                    <div bs-tabs>
+                        <div data-title="Installed">
+                            <p>The following plugins are installed on this system:</p>
+                            <form action="" method="post">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Description</th>
+                                            <th class="visible-lg">Version</th>
+                                            <th class="visible-md visible-lg">Author</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="plugin in installed_plugins">
+                                            <td>
+                                                <input ng-if="plugin.is_update_available" type="checkbox">
+                                            </td>
+                                            <td>
+                                                <strong>{{plugin.title}}</strong> <span class="visible-md visible-sm visible-xs">({{plugin.version}})</span><br />
+                                                <p>
+                                                    {{plugin.description}}
+                                                </p>
+                                                <p class="visible-sm visible-xs">
+                                                    By <a href="{{plugin.author_url}}">{{plugin.author}}</a>
+                                                </p>
+                                            </td>
+                                            <td class="visible-lg">
+                                                {{plugin.version}}
+                                            </td>
+                                            <td class="visible-md visible-lg">
+                                                <a href="{{plugin.author_url}}">{{plugin.author}}</a>
+                                            </td>
+                                            <td>
+                                                <div class="btn-toolbar" role="toolbar">
+                                                    <div class="btn-group">
+                                                        <button ng-if="plugin.is_enabled" type="button" class="btn btn-warning" title="Disable Plugin">
+                                                            <span class="glyphicon glyphicon-minus-sign"></span>
+                                                        </button>
+                                                        <button ng-if="!plugin.is_enabled" type="button" class="btn btn-success" title="Enable Plugin">
+                                                            <span class="glyphicon glyphicon-ok-sign"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger" title="Delete Plugin">
+                                                            <span class="glyphicon glyphicon-trash"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-danger">Disable Selected</button>
+                                    <button type="submit" class="btn btn-success">Upgrade Selected</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div data-title="Available">
+                            <p>These are plugins available for download:</p>
+                            <form action="" method="post">
+                                <table class="table table-striped table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                        </td>
+                                        <td>
+                                            <strong>Title of the Plugin</strong><br />
+                                            <p>
+                                                Description of the plugin...
+                                            </p>
+                                        </td>
+                                        <td>
+                                            3.4.12
+                                        </td>
+                                        <td>
+                                            <a href="#">Kristopher Wilson</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success">Install Selected</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
