@@ -32,7 +32,29 @@ return [
                         'controller' => 'Martha\Controller\Dashboard',
                         'action' => 'index',
                     ],
+                ]
+            ],
+            'errors' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/errors',
+                    'defaults' => [
+                        'controller' => 'Martha\Controller\Errors',
+                        'action' => 'index'
+                    ]
                 ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'create' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/clear',
+                            'defaults' => [
+                                'action' => 'clear'
+                            ]
+                        ],
+                    ],
+                ]
             ],
             'web-hook' => [
                 'type' => 'Literal',

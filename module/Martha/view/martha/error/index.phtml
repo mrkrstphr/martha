@@ -1,0 +1,33 @@
+<div class="row">
+    <h2 class="page-title pull-left">Error Log</h2>
+
+    <form action="/errors/clear">
+        <button class="btn btn-primary pull-right" type="submit">Clear</button>
+    </form>
+</div>
+
+<div class="row">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->errors as $error): ?>
+            <tr class="<?= !$error->getWasRead() ? 'warning' : '' ?>">
+                <td><?= $error->getId() ?></td>
+                <td><?= $error->getMessage() ?></td>
+                <td><?= $error->getCreated()->format('m/d/Y h:i:s A') ?></td>
+            </tr>
+            <?php endforeach; ?>
+            <?php if (empty($this->errors)): ?>
+            <tr>
+                <td colspan="3" class="text-center"><em>All is well; there are no errors to report.</em></td>
+            </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>

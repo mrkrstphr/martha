@@ -31,6 +31,10 @@ return [
             $factory = $sm->get('RepositoryFactory');
             return $factory->createBuildRepository();
         },
+        'ErrorRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createErrorRepository();
+        },
         'ProjectForm' => function (Zend\ServiceManager\ServiceManager $sm) {
             $entityManager = $sm->get('Doctrine\ORM\EntityManager');
             $form = (new Martha\Form\Project\Create())

@@ -71,7 +71,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#">Errors <span class="badge badge-error">0</span></a>
+                        <a href="/errors">
+                            Errors
+                            <span class="badge <?= $this->errorCount() ? 'badge-error' : '' ?>">
+                                <?= $this->errorCount() ?></span></a>
                     </li>
                 </ul>
             </div>

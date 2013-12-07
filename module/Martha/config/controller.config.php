@@ -38,6 +38,11 @@ return [
                 $cm->getServiceLocator()->get('BuildRepository')
             );
         },
+        'Martha\Controller\Errors' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+            return new Martha\Controller\ErrorController(
+                $cm->getServiceLocator()->get('ErrorRepository')
+            );
+        },
         'Martha\Controller\Login' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\LoginController(
                 $cm->getServiceLocator()->get('UserRepository')
