@@ -39,7 +39,9 @@ return [
             );
         },
         'Martha\Controller\Login' => function (Zend\Mvc\Controller\ControllerManager $cm) {
-            return new Martha\Controller\LoginController();
+            return new Martha\Controller\LoginController(
+                $cm->getServiceLocator()->get('UserRepository')
+            );
         },
         'Martha\Controller\Plugin' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\PluginController(

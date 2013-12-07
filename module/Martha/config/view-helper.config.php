@@ -22,6 +22,11 @@
  */
 
 return [
+    'factories' => [
+        'gravatarUrl' => function (Zend\View\HelperPluginManager $pm) {
+            return new Martha\View\Helper\GravatarUrl($pm->getServiceLocator()->get('Config'));
+        },
+    ],
     'invokables' => [
         'age' => 'Martha\View\Helper\Age',
         'buildStatus' => 'Martha\View\Helper\BuildStatus',

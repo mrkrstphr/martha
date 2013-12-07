@@ -2,11 +2,12 @@
 
 namespace Martha\Controller;
 
-use Martha\Authentication\Adapter\GitHubAdapter;
+
 use Martha\Core\Authentication\Provider\AbstractOAuthProvider;
+use Martha\Core\Domain\Repository\UserRepositoryInterface;
+use Martha\Core\Http\Request;
 use Zend\Authentication\AuthenticationService;
 use Zend\Http\Client;
-use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
@@ -15,6 +16,19 @@ use Zend\Mvc\Controller\AbstractActionController;
  */
 class LoginController extends AbstractActionController
 {
+    /**
+     * @var \Martha\Core\Domain\Repository\UserRepositoryInterface
+     */
+    protected $repository;
+
+    /**
+     * @param \Martha\Core\Domain\Repository\UserRepositoryInterface $repository
+     */
+    public function __construct(UserRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Login page
      *
@@ -51,22 +65,34 @@ class LoginController extends AbstractActionController
      */
     public function oauthCallbackAction()
     {
-        $code = $this->params()->fromQuery('code');
+        $request = (new Request())
+            ->setBody($this->getRequest()->getContent())
+            ->setGet($this->params()->fromQuery())
+            ->setPost($this->params()->fromPost());
 
-        $config = $this->getServiceLocator()->get('Config');
-        $config = $config['martha'];
+        $system = $this->getServiceLocator()->get('System');
 
-        $adapter = new GitHubAdapter($config['authentication']);
-        $adapter->setCredential($code);
+        foreach ($system->getPluginManager()->getAuthenticationProviders() as $provider) {
+            if ($provider instanceof AbstractOAuthProvider) {
+                if (($user = $provider->validateResult($request))) {
+                    $dbUser = $this->repository->getBy(['email' => $user->getEmail()]);
 
-        $auth = new AuthenticationService();
-        $result = $auth->authenticate($adapter);
+                    if (!$dbUser) {
+                        $this->repository->persist($user)->flush();
+                        $dbUser = $user;
+                    } else {
+                        $dbUser = current($dbUser);
+                    }
 
-        if ($result->isValid()) {
-            $this->redirect()->toUrl('/');
-        } else {
-            $this->redirect()->toUrl('/login');
+                    $auth = new AuthenticationService();
+                    $auth->getStorage()->write($dbUser);
+                    $this->redirect()->toUrl('/');
+                    return;
+                }
+            }
         }
+
+        $this->redirect()->toUrl('/login');
     }
 
     /**
