@@ -25,6 +25,12 @@
  * It is not recommend to change anything in this file. User configurable settings can be found in martha.local.php
  */
 return [
+    'hateos' => [
+        'metadata' => [
+            'Martha\Core\Domain\Entity' =>
+                realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Domain/Serializer/Hateoas')
+        ]
+    ],
     'doctrine' => [
         'configuration' => [
             'orm_default' => [

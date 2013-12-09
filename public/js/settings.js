@@ -1,19 +1,10 @@
-var controllers = angular.module('settings', ['$strap.directives']);
+'use strict';
 
-controllers.controller('settingsController', ['$scope',
-    function($scope) {
-        $scope.users = [
-            {
-                id: 1,
-                fullName: 'Kristopher Wilson',
-                email: 'kristopherwilson@gmail.com'
-            },
-            {
-                id: 2,
-                fullName: 'Marshall Moo',
-                email: 'marshall.moo@gmail.com'
-            }
-        ];
+var controllers = angular.module('marthaControllers', ['$strap.directives']);
+
+controllers.controller('settingsController', ['$scope', 'User',
+    function($scope, User) {
+        $scope.users = User.query();
 
         $scope.installed_plugins = [
             {

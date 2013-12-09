@@ -46,6 +46,16 @@ return [
             return $factory->createProjectRepository();
         },
         'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+        'Serializer' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $config = $sm->get('Config');
+            $hateoas = \Hateoas\HateoasBuilder::create();
+
+            foreach ($config['hateos']['metadata'] as $prefix => $path) {
+                $hateoas->addMetadataDir($path, $prefix);
+            }
+
+            return new \Martha\Core\Domain\Serializer\HateoasSerializerAdapter($hateoas->build());
+        },
         'System' => function (Zend\ServiceManager\ServiceManager $sm) {
             return Martha\Core\System::getInstance();
         },

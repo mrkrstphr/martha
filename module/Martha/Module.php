@@ -30,6 +30,8 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\Literal;
 use Zend\Stdlib\ResponseInterface;
+use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 /**
  * Class Module
@@ -132,7 +134,14 @@ class Module
             }
         }
 
-        $model = current($e->getViewModel()->getChildren());
+        $model = $e->getViewModel();
+        if ($model instanceof JsonModel) {
+            return;
+        }
+
+        if ($model->hasChildren()) {
+            $model = current($model->getChildren());
+        }
 
         // If a page title was given to the view, prepend it to the helper:
         if ($model && $model->getVariable('pageTitle')) {

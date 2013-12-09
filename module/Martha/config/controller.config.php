@@ -61,5 +61,11 @@ return [
                 $cm->getServiceLocator()->get('BuildRepository')
             );
         },
+        'Martha\Controller\Users' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+            return new Martha\Controller\UsersController(
+                $cm->getServiceLocator()->get('Serializer'),
+                $cm->getServiceLocator()->get('UserRepository')
+            );
+        },
     ]
 ];

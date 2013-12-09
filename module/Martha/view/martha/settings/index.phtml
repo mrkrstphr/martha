@@ -131,6 +131,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Auth Method</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -140,10 +141,13 @@
                                     {{user.id}}
                                 </td>
                                 <td>
-                                    {{user.fullName}}
+                                    {{user.full_name}}
                                 </td>
                                 <td>
                                     {{user.email}}
+                                </td>
+                                <td>
+                                    {{user.auth_service}}
                                 </td>
                                 <td>
 
