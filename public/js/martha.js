@@ -9,7 +9,7 @@ var marthaServices = angular.module('marthaServices', ['ngResource']);
 
 marthaServices.factory('User', ['$resource',
     function($resource){
-        return $resource('/users/:id', {}, {
+        return $resource('/api/users/:id', {}, {
             query: {method:'GET', params:{id:''}, isArray:true}
         });
     }]

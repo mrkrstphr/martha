@@ -1,6 +1,6 @@
 <?php
 
-namespace Martha\Controller;
+namespace Api\Controller;
 
 use Martha\Core\Domain\Repository\UserRepositoryInterface;
 use Martha\Core\Domain\Serializer\SerializerInterface;
@@ -9,7 +9,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 /**
  * Class UsersController
- * @package Martha\Controller
+ * @package Api\Controller
  */
 class UsersController extends AbstractActionController
 {

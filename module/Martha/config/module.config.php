@@ -146,31 +146,6 @@ return [
                     ]
                 ]
             ],
-            'users' => [
-                'type' => 'Literal',
-                'options' => [
-                    'route' => '/users',
-                    'defaults' => [
-                        'controller' => 'Martha\Controller\Users',
-                        'action' => 'index'
-                    ]
-                ],
-                'may_terminate' => true,
-                'child_routes' => [
-                    'create' => [
-                        'type' => 'Segment',
-                        'options' => [
-                            'route' => '/[:id]',
-                            'defaults' => [
-                                'action' => 'view'
-                            ]
-                        ],
-                        'constraints' => [
-                            'id' => '[0-9]+'
-                        ]
-                    ],
-                ]
-            ],
             'login' => [
                 'type' => 'Segment',
                 'options' => [

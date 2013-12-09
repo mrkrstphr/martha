@@ -21,15 +21,4 @@
  * IN THE SOFTWARE.
  */
 
-return [
-    'modules' => [
-        'DoctrineModule',
-        'DoctrineORMModule',
-        'Api',
-        'Martha'
-    ],
-    'module_listener_options' => [
-        'module_paths' => ['./module', './vendor'],
-        'config_glob_paths' => ['config/autoload/{,*.}{global,local}.php'],
-    ]
-];
+require __DIR__ . '/src/Api/Module.php';

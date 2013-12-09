@@ -22,14 +22,12 @@
  */
 
 return [
-    'modules' => [
-        'DoctrineModule',
-        'DoctrineORMModule',
-        'Api',
-        'Martha'
-    ],
-    'module_listener_options' => [
-        'module_paths' => ['./module', './vendor'],
-        'config_glob_paths' => ['config/autoload/{,*.}{global,local}.php'],
+    'factories' => [
+        'Api\Controller\Users' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+            return new Api\Controller\UsersController(
+                $cm->getServiceLocator()->get('Serializer'),
+                $cm->getServiceLocator()->get('UserRepository')
+            );
+        },
     ]
 ];

@@ -22,14 +22,33 @@
  */
 
 return [
-    'modules' => [
-        'DoctrineModule',
-        'DoctrineORMModule',
-        'Api',
-        'Martha'
-    ],
-    'module_listener_options' => [
-        'module_paths' => ['./module', './vendor'],
-        'config_glob_paths' => ['config/autoload/{,*.}{global,local}.php'],
+    'router' => [
+        'routes' => [
+            'api-users' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/api/users',
+                    'defaults' => [
+                        'controller' => 'Api\Controller\Users',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'route' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/[:id]',
+                            'defaults' => [
+                                'action' => 'view'
+                            ]
+                        ],
+                        'constraints' => [
+                            'id' => '[0-9]+'
+                        ]
+                    ],
+                ]
+            ],
+        ],
     ]
 ];
