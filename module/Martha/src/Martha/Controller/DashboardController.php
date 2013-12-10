@@ -35,7 +35,6 @@ class DashboardController extends AbstractActionController
         $builds = $this->buildRepository->getBy([], ['created' => 'DESC'], 10);
 
         return [
-            'js' => ['/js/dashboard.js'],
             'builds' => $builds
         ];
     }
