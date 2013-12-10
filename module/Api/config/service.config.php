@@ -35,17 +35,14 @@ return [
             $factory = $sm->get('RepositoryFactory');
             return $factory->createErrorRepository();
         },
-        'ProjectForm' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-            $form = (new Martha\Form\Project\Create())
-                ->setHydrator(new DoctrineModule\Stdlib\Hydrator\DoctrineObject($entityManager));
-            return $form;
+        'PluginRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createPluginRepository();
         },
         'ProjectRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
             $factory = $sm->get('RepositoryFactory');
             return $factory->createProjectRepository();
         },
-        'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
         'Serializer' => function (Zend\ServiceManager\ServiceManager $sm) {
             $config = $sm->get('Config');
             $hateoas = \Hateoas\HateoasBuilder::create();
@@ -55,9 +52,6 @@ return [
             }
 
             return new \Martha\Core\Domain\Serializer\HateoasSerializerAdapter($hateoas->build());
-        },
-        'System' => function (Zend\ServiceManager\ServiceManager $sm) {
-            return Martha\Core\System::getInstance();
         },
         'UserRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
             $factory = $sm->get('RepositoryFactory');

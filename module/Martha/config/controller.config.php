@@ -23,7 +23,8 @@
 
 return [
     'invokables' => [
-        'Martha\Controller\Registration' => 'Martha\Controller\RegistrationController'
+        'Martha\Controller\Registration' => 'Martha\Controller\RegistrationController',
+        'Martha\Controller\Settings' => 'Martha\Controller\SettingsController'
     ],
     'factories' => [
         'Martha\Controller\Build' => function (Zend\Mvc\Controller\ControllerManager $cm) {
@@ -59,6 +60,6 @@ return [
                 $cm->getServiceLocator()->get('ProjectRepository'),
                 $cm->getServiceLocator()->get('BuildRepository')
             );
-        },
+        }
     ]
 ];

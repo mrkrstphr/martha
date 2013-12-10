@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="marthaApp">
 <head>
     <?= $this->headTitle($this->translate('Martha Continuous Integration Server'))
         ->setSeparator(' - ')
@@ -41,7 +41,7 @@
                                     <?= $model->identity->getFullName() ?></a>
                             </li>
                             <li>
-                                <a href="#" title="Settings">
+                                <a href="/settings" title="Settings">
                                     <span class="glyphicon glyphicon-cog"></span></a>
                             </li>
                             <li>
@@ -80,8 +80,22 @@
             </div>
         </div>
     </div>
-    <script src="/js/jquery.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <?php echo $this->inlineScript() ?>
+    <?php
+        $this->inlineScript()
+            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js')
+            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular-resource.min.js')
+            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js')
+            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular-strap/0.7.4/angular-strap.min.js')
+            ->appendFile('/js/martha.js');
+
+        if ($model->getVariable('js', false)) {
+            foreach ($model->js as $js) {
+                $this->inlineScript()->appendFile($js);
+            }
+        }
+
+        echo $this->inlineScript()
+    ?>
 </body>
 </html>
