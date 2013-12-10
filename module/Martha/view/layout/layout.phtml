@@ -83,11 +83,7 @@
     <?php
         $this->inlineScript()
             ->appendFile('//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js')
-            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular-resource.min.js')
-            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js')
-            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular-strap/0.7.4/angular-strap.min.js')
-            ->appendFile('/js/martha.js');
+            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js');
 
         if ($model->getVariable('js', false)) {
             foreach ($model->js as $js) {
