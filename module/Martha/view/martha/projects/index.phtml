@@ -30,7 +30,11 @@
             </td>
             <td><?= $project->getDescription() ?></td>
             <td>
-                <span class="label label-success">Success</span>
+                <?php if ($project->getMostRecentBuild()): ?>
+                <?= $this->buildStatus($project->getMostRecentBuild()->getStatus()) ?>
+                <?php else: ?>
+                <span class="label label-default">No Builds</span>
+                <?php endif; ?>
             </td>
             <td><?= $project->getUri() ?></td>
         </tr>

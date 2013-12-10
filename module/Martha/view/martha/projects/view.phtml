@@ -26,6 +26,7 @@
     </div>
 <?php endif;*/ ?>
 
+<?php if (count($this->builds)): ?>
 <h3>Recent Builds</h3>
 
 <table class="table table-striped table-hover">
@@ -60,3 +61,12 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php else: ?>
+<div class="clearfix"></div>
+<div class="callout callout-warning">
+    <h4>This project hasn't been built yet!</h4>
+    <p>
+        Go ahead and start your first build of this project by clicking <em>Build Now</em>!
+    </p>
+</div>
+<?php endif; ?>
