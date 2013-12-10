@@ -49,6 +49,31 @@ return [
                     ],
                 ]
             ],
+            'api-plugins' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/api/plugins',
+                    'defaults' => [
+                        'controller' => 'Api\Controller\Plugins',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'route' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/[:id]',
+                            'defaults' => [
+                                'action' => 'view'
+                            ]
+                        ],
+                        'constraints' => [
+                            'id' => '[0-9]+'
+                        ]
+                    ],
+                ]
+            ],
         ],
     ]
 ];

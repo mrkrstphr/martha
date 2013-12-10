@@ -35,6 +35,10 @@ return [
             $factory = $sm->get('RepositoryFactory');
             return $factory->createErrorRepository();
         },
+        'PluginRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $factory = $sm->get('RepositoryFactory');
+            return $factory->createPluginRepository();
+        },
         'ProjectRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
             $factory = $sm->get('RepositoryFactory');
             return $factory->createProjectRepository();
