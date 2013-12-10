@@ -26,7 +26,7 @@
             <?php foreach ($this->builds as $build): ?>
             <tr>
                 <td>
-                    <a href="<?= $this->url('build', ['id' => $build->getId()]) ?>">
+                    <a href="<?= $this->url('build', ['action' => 'view', 'id' => $build->getId()]) ?>">
                         <?= $build->getId() ?></a>
                 </td>
                 <td>
