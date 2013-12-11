@@ -15,6 +15,14 @@ marthaServices.factory('Plugin', ['$resource',
     }]
 );
 
+marthaServices.factory('AvailablePlugin', ['$resource',
+    function($resource){
+        return $resource('/api/available-plugins/:id', {}, {
+            query: {method:'GET', params:{id:''}, isArray:true}
+        });
+    }]
+);
+
 marthaServices.factory('User', ['$resource',
     function($resource){
         return $resource('/api/users/:id', {}, {

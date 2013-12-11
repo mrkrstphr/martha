@@ -23,6 +23,12 @@
 
 return [
     'factories' => [
+        'Api\Controller\AvailablePlugins' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+            return new Api\Controller\AvailablePluginsController(
+                $cm->getServiceLocator()->get('Serializer'),
+                $cm->getServiceLocator()->get('PluginRepository')
+            );
+        },
         'Api\Controller\Plugins' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Api\Controller\PluginsController(
                 $cm->getServiceLocator()->get('Serializer'),

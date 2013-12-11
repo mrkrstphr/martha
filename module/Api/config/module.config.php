@@ -74,6 +74,31 @@ return [
                     ],
                 ]
             ],
+            'api-available-plugins' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/api/available-plugins',
+                    'defaults' => [
+                        'controller' => 'Api\Controller\AvailablePlugins',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'route' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/[:id]',
+                            'defaults' => [
+                                'action' => 'view'
+                            ]
+                        ],
+                        'constraints' => [
+                            'id' => '[0-9]+'
+                        ]
+                    ],
+                ]
+            ],
         ],
     ]
 ];
