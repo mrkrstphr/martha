@@ -7,12 +7,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/martha.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
     <![endif]-->
+
+<?= $this->headScript()
+        ->appendFile('//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+        ->appendFile('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js');
+?>
+
 </head>
 <body>
     <?php
@@ -42,16 +49,16 @@
                             </li>
                             <li>
                                 <a href="/settings" title="Settings">
-                                    <span class="glyphicon glyphicon-cog"></span></a>
+                                    <span class="fa fa-wrench"></span></a>
                             </li>
                             <li>
                                 <a href="/logout" title="Logout">
-                                    <span class="glyphicon glyphicon-log-out"></span></a>
+                                    <span class="fa fa-unlock"></span></a>
                             </li>
                         <?php else: ?>
                             <li>
                                 <a href="/login" title="Login">
-                                    <span class="glyphicon glyphicon-log-in"></span></a>
+                                    <span class="fa fa-lock"></span></a>
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -81,10 +88,6 @@
         </div>
     </div>
     <?php
-        $this->inlineScript()
-            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-            ->appendFile('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js');
-
         if ($model->getVariable('js', false)) {
             foreach ($model->js as $js) {
                 $this->inlineScript()->appendFile($js);
