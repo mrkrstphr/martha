@@ -1,6 +1,6 @@
 html, body {height: 100%}
-#wrap {min-height: 100%; height: auto; margin: 0 auto -55px; padding: 0 0 55px}
-#footer {background-color: #222; border-top: 3px solid #111; color: #fff}
+#wrap {min-height: 100%; height: auto; margin: 0 auto -71px; padding: 0 0 71px}
+#footer {background-color: #222; border-top: 3px solid #111; color: #fff; margin-top: 16px}
 #footer .container .credit {margin: 16px 0;}
 #footer .text-muted {color: #ddd}
 
