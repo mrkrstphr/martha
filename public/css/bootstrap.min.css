@@ -899,7 +899,7 @@ body {
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-    background-color: #fff;
+    background-color: #eee;
 }
 input,
 button,
@@ -909,7 +909,7 @@ textarea {
     font-size: inherit;
     line-height: inherit;
 }
-a {
+a, a:visited {
     color: #cc624e;
     text-decoration: none;
 }
@@ -1341,7 +1341,7 @@ code,
 kbd,
 pre,
 samp {
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace;
 }
 code {
     padding: 2px 4px;
@@ -1371,11 +1371,11 @@ pre {
     margin: 0 0 10px;
     font-size: 13px;
     line-height: 1.42857143;
-    color: #333;
+    color: #fff;
     word-break: break-all;
     word-wrap: break-word;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
+    background-color: #191919;
+    border: 1px solid #191919;
     border-radius: 4px;
 }
 pre code {
@@ -2080,8 +2080,10 @@ th {
     border-top: 1px solid #ddd;
 }
 .table > thead > tr > th {
+    background-color: #333;
+    color: #eee;
     vertical-align: bottom;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid #000;
 }
 .table > caption + thead > tr:first-child > th,
 .table > colgroup + thead > tr:first-child > th,
@@ -2122,7 +2124,11 @@ th {
 }
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
-    background-color: #f9f9f9;
+    background-color: #fafafa;
+}
+.table-striped > tbody > tr:nth-child(even) > td,
+.table-striped > tbody > tr:nth-child(even) > th {
+    background-color: #fff;
 }
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
@@ -3641,6 +3647,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     cursor: default;
     background-color: #fff;
     border: 1px solid #ddd;
+    border-top-color: #e66e51;
+    border-top-width: 2px;
     border-bottom-color: transparent;
 }
 .nav-tabs.nav-justified {
@@ -3755,6 +3763,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
         border-bottom-color: #fff;
     }
 }
+
+.tab-content {background-color: #fff; padding: 8px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 4px 4px;}
+
 .tab-content > .tab-pane {
     display: none;
 }
@@ -4100,7 +4111,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-    color: #5e5e5e;
+    color: #eee;
     background-color: transparent;
 }
 .navbar-default .navbar-text {
@@ -5196,8 +5207,8 @@ a.list-group-item-danger.active:focus {
     border-color: #ddd;
 }
 .panel-default > .panel-heading {
-    color: #333;
-    background-color: #f5f5f5;
+    color: #eee;
+    background-color: #333;
     border-color: #ddd;
 }
 .panel-default > .panel-heading + .panel-collapse > .panel-body {

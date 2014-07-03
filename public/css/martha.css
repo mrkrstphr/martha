@@ -4,6 +4,8 @@ html, body {height: 100%}
 #footer .container .credit {margin: 16px 0;}
 #footer .text-muted {color: #ddd}
 
+.navbar-brand {font-family: Pacifico, "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 24px}
+
 #footer a:hover, #footer a:visited {color: #efefef}
 
 #footer .nav > li > a:hover,
@@ -13,8 +15,6 @@ html, body {height: 100%}
 }
 
 h2.page-title {margin-top: 0}
-pre {background-color: #191919; color: #fff;}
-ul.nav-tabs {margin-bottom: 8px}
 
 div.container a.navbar-brand {
     /*background: url(/images/logo-34x40.png) no-repeat scroll 12px 4px transparent;*/
