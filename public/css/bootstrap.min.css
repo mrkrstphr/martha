@@ -1376,7 +1376,6 @@ pre {
     word-wrap: break-word;
     background-color: #191919;
     border: 1px solid #191919;
-    border-radius: 4px;
 }
 pre code {
     padding: 0;
@@ -2743,7 +2742,6 @@ select[multiple].input-lg {
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
-    border-radius: 4px;
 }
 .btn:focus,
 .btn:active:focus,
@@ -2819,6 +2817,7 @@ fieldset[disabled] .btn-default.active {
     color: #fff;
     background-color: #428bca;
     border-color: #357ebd;
+    border-bottom-width: 2px;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -3635,7 +3634,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     margin-right: 2px;
     line-height: 1.42857143;
     border: 1px solid transparent;
-    border-radius: 4px 4px 0 0;
 }
 .nav-tabs > li > a:hover {
     border-color: #eee #eee #ddd;
@@ -3764,7 +3762,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     }
 }
 
-.tab-content {background-color: #fff; padding: 8px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 4px 4px;}
+.tab-content {background-color: #fff; padding: 8px; border: 1px solid #ddd; border-top: none}
 
 .tab-content > .tab-pane {
     display: none;
@@ -4459,7 +4457,6 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: .25em;
 }
 a.label:hover,
 a.label:focus {
@@ -5007,7 +5004,6 @@ a.list-group-item-danger.active:focus {
     margin-bottom: 20px;
     background-color: #fff;
     border: 1px solid transparent;
-    border-radius: 4px;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
     box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
@@ -5017,8 +5013,6 @@ a.list-group-item-danger.active:focus {
 .panel-heading {
     padding: 10px 15px;
     border-bottom: 1px solid transparent;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
 }
 .panel-heading > .dropdown .dropdown-toggle {
     color: inherit;

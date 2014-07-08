@@ -48,6 +48,13 @@ div.dashboard-widget.building {background-color: #77a2fc}
 
 .hideme {display: none}
 
+ul.builds {list-style-type: none; margin-left: 0; padding-left: 0}
+ul.builds li.build {background-color: #fff; border-color: #ccc; border-width: 0 1px 1px 3px; border-style: solid; margin-bottom: 3px; padding: 8px}
+ul.builds li.build-success {border-left-color: #5cb85c}
+ul.builds li.build-failure {border-left-color: #d9534f}
+ul.builds li div.build-info i {margin-left: 8px;}
+.label-failure {background-color: #d9534f}
+
 /** build/view **/
 
 div.build-information {margin-top: 24px}
