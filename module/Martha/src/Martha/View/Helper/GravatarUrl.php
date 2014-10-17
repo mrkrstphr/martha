@@ -33,7 +33,7 @@ class GravatarUrl extends AbstractHelper
      */
     public function __invoke(User $user, $size = 32)
     {
-        return 'http://www.gravatar.com/avatar/ea18468457d16acb5be8feb5bb3aca8f?s=' . $size .
+        return 'http://www.gravatar.com/avatar/' . md5($user->getEmail()) . '?s=' . $size .
             '&d=' . urlencode($this->config['martha']['site_url'] . '/images/no-user-icon.png');
     }
 }
