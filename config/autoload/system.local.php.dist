@@ -41,7 +41,7 @@ return [
         // the following is where Martha loads plugins from. You can make this an array and add
         // paths for any non-standard plugins you may wish to use. Plugin.php will be added to the
         // end of this path to look for plugins.
-        'plugin-path' => getcwd() . '/vendor/*/*/src/Martha/Plugin/*/',
+        'plugin-path' => ['./src/Plugin/*/'],
         'plugins' => [],
 
         'authentication' => [
