@@ -12,7 +12,7 @@ chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
 if ($_SERVER['argc'] != 2) {
-    die("Usage: php run.php buildId\n");
+    die("Usage: ./bin/martha buildId\n");
 }
 
 $buildId = $_SERVER['argv'][1];
