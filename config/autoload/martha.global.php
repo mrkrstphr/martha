@@ -28,7 +28,7 @@ return [
     'hateos' => [
         'metadata' => [
             'Martha\Core\Domain\Entity' =>
-                realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Domain/Serializer/Hateoas')
+                realpath(__DIR__ . '/../../src/Core/Domain/Serializer/Hateoas')
         ]
     ],
     'doctrine' => [
@@ -51,8 +51,8 @@ return [
                 'class' => 'Doctrine\ORM\Mapping\Driver\YamlDriver',
                 'cache' => 'array',
                 'paths' => [
-                    realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Domain/Entity'),
-                    realpath(__DIR__ . '/../../vendor/martha-ci/core/src/Martha/Core/Persistence/Mapping')
+                    realpath(__DIR__ . '/../../src/Core/Domain/Entity'),
+                    realpath(__DIR__ . '/../../src/Core/Persistence/Mapping')
                 ],
             ],
             'orm_default' => [
