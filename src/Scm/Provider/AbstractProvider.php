@@ -70,4 +70,10 @@ abstract class AbstractProvider
      * @return \Martha\Scm\ChangeSet\ChangeSet
      */
     abstract public function getChangeSet($fromCommit, $toCommit = '');
+
+    /**
+     * @param string $startingCommit
+     * @return array
+     */
+    abstract public function getHistory($startingCommit = '');
 }

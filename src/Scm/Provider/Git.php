@@ -98,6 +98,19 @@ class Git extends AbstractProvider
     }
 
     /**
+     * @param string $startingCommit
+     * @return array
+     */
+    public function getHistory($startingCommit = '')
+    {
+        $command = 'cd ' . $this->repository . ' && git log --pretty=format:"%H" -n 100 --skip 1 ' . $startingCommit;
+
+        exec($command, $commits);
+
+        return $commits;
+    }
+
+    /**
      * @param $fromCommit
      * @param string $toCommit
      * @return \Martha\Scm\ChangeSet\ChangeSet

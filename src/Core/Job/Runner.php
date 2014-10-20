@@ -99,6 +99,19 @@ class Runner
         $this->setupEnvironment($build);
         $this->checkoutSourceCode($build);
 
+        $scm = ProviderFactory::createForProject($build->getProject());
+        $scm->setRepository($this->workingDir);
+
+        $revisionNo = $build->getRevisionNumber();
+
+        $revisions = $scm->getHistory($revisionNo);
+
+        $parent = $this->buildRepository->getParentBuild($revisions);
+
+        if ($build) {
+            $build->setParent($parent);
+        }
+
         $script = $this->parseBuildScript();
 
         if (!$script) {

@@ -39,6 +39,11 @@ class Build extends AbstractEntity
     protected $project;
 
     /**
+     * @var Build
+     */
+    protected $parent;
+
+    /**
      * @var \DateTime
      */
     protected $created;
@@ -125,6 +130,24 @@ class Build extends AbstractEntity
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * @return Build
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param Build $parent
+     * @return $this
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+        return $this;
     }
 
     /**

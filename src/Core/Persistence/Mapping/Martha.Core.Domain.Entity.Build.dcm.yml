@@ -50,3 +50,9 @@ Martha\Core\Domain\Entity\Build:
         joinColumn:
           name: project_id
           referencedColumnName: id
+      parent:
+        targetEntity: Martha\Core\Domain\Entity\Build
+        inversedBy: exceptions
+        joinColumn:
+          name: parent_id
+          referencedColumnName: id
