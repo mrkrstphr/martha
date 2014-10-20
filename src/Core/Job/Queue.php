@@ -51,7 +51,7 @@ class Queue
                 $this->maxBuildsInProgress - count($building)
             );
 
-            $script = getcwd() . '/scripts/run.php';
+            $script = getcwd() . '/bin/martha.php';
 
             /**
              * @var Build $build
