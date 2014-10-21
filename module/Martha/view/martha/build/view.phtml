@@ -82,6 +82,10 @@
             </div>
         </div>
         <?php endforeach; ?>
+
+        <?php foreach ($this->build->getAlerts() as $alert): ?>
+            <?= $this->displayAlert($alert) ?>
+        <?php endforeach; ?>
     </div>
     <div class="tab-pane" id="build-steps">
         <?php if (count($this->build->getSteps())): ?>

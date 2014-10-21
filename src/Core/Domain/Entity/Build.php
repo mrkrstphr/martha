@@ -4,7 +4,9 @@ namespace Martha\Core\Domain\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Martha\Core\Domain\Entity\Build\Alert;
 use Martha\Core\Domain\Entity\Build\BuildException;
+use Martha\Core\Domain\Entity\Build\Statistic;
 use Martha\Core\Hash;
 
 /**
@@ -101,6 +103,16 @@ class Build extends AbstractEntity
     /**
      * @var ArrayCollection
      */
+    protected $statistics;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $alerts;
+
+    /**
+     * @var ArrayCollection
+     */
     protected $exceptions;
 
     /**
@@ -111,6 +123,8 @@ class Build extends AbstractEntity
         $this->artifacts = new ArrayCollection();
         $this->steps = new ArrayCollection();
         $this->metadata = new Hash();
+        $this->statistics = new ArrayCollection();
+        $this->alerts = new ArrayCollection();
         $this->exceptions = new ArrayCollection();
     }
 
@@ -344,6 +358,78 @@ class Build extends AbstractEntity
     public function getExceptions()
     {
         return $this->exceptions;
+    }
+
+    /**
+     * @param Statistic $statistic
+     * @return $this
+     */
+    public function addStatistic(Statistic $statistic)
+    {
+        $statistic->setBuild($this);
+        $this->getStatistics()->add($statistic);
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getStatistics()
+    {
+        return $this->statistics;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFlatStatistics()
+    {
+        $stats = [];
+
+        foreach ($this->getStatistics() as $statistic) {
+            $stats[$statistic->getName()] = $statistic->getValue();
+        }
+
+        return $stats;
+    }
+
+    /**
+     * @param ArrayCollection $statistics
+     * @return $this
+     */
+    public function setStatistics($statistics)
+    {
+        $this->statistics = $statistics;
+        return $this;
+    }
+
+    /**
+     * @param \Martha\Core\Domain\Entity\Build\Alert $alert
+     * @return $this
+     */
+    public function addAlert(Alert $alert)
+    {
+        $alert->setBuild($this);
+        $this->getAlerts()->add($alert);
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAlerts()
+    {
+        return $this->alerts;
+    }
+
+    /**
+     * @param ArrayCollection $alerts
+     * @return $this
+     */
+    public function setAlerts($alerts)
+    {
+        $this->alerts = $alerts;
+        return $this;
     }
 
     /**
