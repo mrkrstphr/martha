@@ -1,0 +1,38 @@
+
+<div class="container">
+    <div class="projects-dashboard">
+        <div class="row">
+            <h2 class="page-title">Recent Builds</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Project</th>
+                        <th>Status</th>
+                        <th>Age</th>
+                        <th>Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="build in builds">
+                        <td>
+                            <a href="#/builds/{{build.id}}">{{build.id}}</a>
+                        </td>
+                        <td>
+                            <a href="#/projects/{{build.project.id}}">{{build.project.name}}</a>
+                        </td>
+                        <td>
+                            <span data-status-badge="{{build.status}}"></span>
+                        </td>
+                        <td>
+                            <span data-timeago="{{build.created}}"></span>
+                        </td>
+                        <td>
+                            {{build.method}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

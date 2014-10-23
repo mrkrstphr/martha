@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-ng-app="marthaApp">
+<head>
+    <meta charset="utf-8">
+    <title>Martha CI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/martha.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+</head>
+<body>
+
+<div id="wrap">
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Martha</a>
+            </div>
+            <div class="navbar-collapse collapse">
+
+            </div>
+        </div>
+    </div>
+    <div class="container view-container">
+        <div data-ng-view class="view-frame"></div>
+    </div>
+</div>
+<div id="footer">
+    <div class="container">
+        <div class="col-md-6">
+            <p class="text-muted credit">Powered by <a href="https://github.com/martha-ci">Martha CI</a>.</p>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/errors">
+                        Errors <span class="badge">0</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/vendor/jquery/dist/jquery.js"></script>
+<script src="/vendor/angular/angular.js"></script>
+<script src="/vendor/angular-route/angular-route.js"></script>
+<script src="/vendor/angular-resource/angular-resource.js"></script>
+<script src="/vendor/moment/min/moment.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/controllers.js"></script>
+<script src="/js/services.js"></script>
+
+</body>
+</html>

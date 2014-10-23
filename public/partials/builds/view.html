@@ -1,0 +1,40 @@
+<div class="container">
+    <h2 class="page-title pull-left">
+        <a href="/#projects/{{build.project.id}}">
+            {{build.project.name}}</a>
+        ::
+        Build #{{build.id}}
+        <span data-status-badge="{{build.status}}"></span>
+    </h2>
+
+    <div class="clearfix"></div>
+
+    <div class="panel panel-default build-information">
+        <div class="panel-heading">
+            <span class="fa fa-wrench"></span>
+            <strong>Build Information</strong>
+        </div>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Triggered On: </th>
+                <td><span data-timeago="{{build.created}}"></span></td>
+                <th>Method: </th>
+                <td>{{build.method}}</td>
+            </tr>
+            <tr>
+                <th>Branch: </th>
+                <td>fix-task-perms</td>
+                <th>Fork: </th>
+                <td>Git@github.com:freemanirl/sales.git</td>
+            </tr>
+            <tr>
+                <th>RevNo: </th>
+                <td>5c1266d2279f0fe2e8631b0ab36e22b79a5c2e42</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
