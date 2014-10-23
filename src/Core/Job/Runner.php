@@ -107,10 +107,12 @@ class Runner
 
         $revisions = $scm->getHistory($revisionNo);
 
-        $parent = $this->buildRepository->getParentBuild($revisions);
+        if (count($revisions)) {
+            $parent = $this->buildRepository->getParentBuild($revisions);
 
-        if ($build) {
-            $build->setParent($parent);
+            if ($build) {
+                $build->setParent($parent);
+            }
         }
 
         $script = $this->parseBuildScript();
