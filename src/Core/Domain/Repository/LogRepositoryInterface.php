@@ -3,15 +3,15 @@
 namespace Martha\Core\Domain\Repository;
 
 /**
- * Class ErrorRepository
+ * Interface LogRepositoryInterface
  * @package Martha\Core\Domain\Repository
  */
-interface ErrorRepositoryInterface extends RepositoryInterface
+interface LogRepositoryInterface extends RepositoryInterface
 {
     /**
      * @return $this
      */
-    public function clearUnreadErrors();
+    public function clearUnreadLogs();
 
     /**
      * @return $this

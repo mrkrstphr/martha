@@ -2,25 +2,25 @@
 
 namespace Martha\Core\Persistence\Repository;
 
-use Martha\Core\Domain\Repository\ErrorRepositoryInterface;
+use Martha\Core\Domain\Repository\LogRepositoryInterface;
 
 /**
- * Class ErrorRepository
+ * Class LogRepository
  * @package Martha\Core\Persistence\Repository
  */
-class ErrorRepository extends AbstractRepository implements ErrorRepositoryInterface
+class LogRepository extends AbstractRepository implements LogRepositoryInterface
 {
     /**
      * @var string
      */
-    protected $entityType = '\Martha\Core\Domain\Entity\Error';
+    protected $entityType = '\Martha\Core\Domain\Entity\Log';
 
     /**
      * {@inheritDoc}
      */
-    public function clearUnreadErrors()
+    public function clearUnreadLogs()
     {
-        $dql = 'UPDATE Martha\Core\Domain\Entity\Error e SET e.wasRead = true WHERE e.wasRead = false';
+        $dql = 'UPDATE Martha\Core\Domain\Entity\Log l SET l.read = true WHERE l.read = false';
         $this->entityManager->createQuery($dql)->execute();
 
         return $this;
@@ -31,7 +31,7 @@ class ErrorRepository extends AbstractRepository implements ErrorRepositoryInter
      */
     public function deleteAll()
     {
-        $dql = 'DELETE FROM Martha\Core\Domain\Entity\Error e';
+        $dql = 'DELETE FROM Martha\Core\Domain\Entity\Log';
         $this->entityManager->createQuery($dql)->execute();
 
         return $this;

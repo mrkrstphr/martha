@@ -48,11 +48,11 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * @return BuildRepositoryInterface
+     * @return LogRepository
      */
-    public function createErrorRepository()
+    public function createLogRepository()
     {
-        return new ErrorRepository($this->entityManager);
+        return new LogRepository($this->entityManager);
     }
 
     /**

@@ -1,16 +1,17 @@
-Martha\Core\Domain\Entity\Error:
+Martha\Core\Domain\Entity\Log:
   type: entity
-  table: errors
+  table: logs
   id:
     id:
       type: bigint
       generator:
         strategy: IDENTITY
   fields:
+    level:
+      length: 30
     message:
       type: text
-    wasRead:
-      column: was_read
+    read:
       type: boolean
     created:
       type: datetimetz

@@ -2,7 +2,7 @@
 
 namespace Martha\Controller;
 
-use Martha\Core\Domain\Repository\ErrorRepositoryInterface;
+use Martha\Core\Domain\Repository\LogRepositoryInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
@@ -12,14 +12,14 @@ use Zend\Mvc\Controller\AbstractActionController;
 class ErrorController extends AbstractActionController
 {
     /**
-     * @var \Martha\Core\Domain\Repository\ErrorRepositoryInterface
+     * @var \Martha\Core\Domain\Repository\LogRepositoryInterface
      */
     protected $repository;
 
     /**
-     * @param ErrorRepositoryInterface $repository
+     * @param LogRepositoryInterface $repository
      */
-    public function __construct(ErrorRepositoryInterface $repository)
+    public function __construct(LogRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -31,7 +31,7 @@ class ErrorController extends AbstractActionController
     {
         $errors = $this->repository->getBy([], ['created' => 'DESC'], 20);
 
-        $this->repository->clearUnreadErrors();
+        $this->repository->clearUnreadLogs();
 
         return [
             'pageTitle' => 'Error Log',

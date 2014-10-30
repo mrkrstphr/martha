@@ -17,7 +17,7 @@
         </thead>
         <tbody>
             <?php foreach ($this->errors as $error): ?>
-            <tr class="<?= !$error->getWasRead() ? 'warning' : '' ?>">
+            <tr class="<?= !$error->isRead() ? 'warning' : '' ?>">
                 <td><?= $error->getId() ?></td>
                 <td><?= $error->getMessage() ?></td>
                 <td><?= $error->getCreated()->format('m/d/Y h:i:s A') ?></td>

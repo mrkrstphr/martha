@@ -41,7 +41,7 @@ return [
         },
         'Martha\Controller\Errors' => function (Zend\Mvc\Controller\ControllerManager $cm) {
             return new Martha\Controller\ErrorController(
-                $cm->getServiceLocator()->get('ErrorRepository')
+                $cm->getServiceLocator()->get('LogRepository')
             );
         },
         'Martha\Controller\Login' => function (Zend\Mvc\Controller\ControllerManager $cm) {

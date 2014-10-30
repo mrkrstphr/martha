@@ -5,11 +5,16 @@ namespace Martha\Core\Domain\Entity;
 use DateTime;
 
 /**
- * Class Error
+ * Class Log
  * @package Martha\Core\Domain\Entity
  */
-class Error extends AbstractEntity
+class Log extends AbstractEntity
 {
+    /**
+     * @var string
+     */
+    protected $level;
+
     /**
      * @var string
      */
@@ -18,12 +23,28 @@ class Error extends AbstractEntity
     /**
      * @var boolean
      */
-    protected $wasRead = false;
+    protected $read = false;
 
     /**
      * @var \DateTime
      */
     protected $created;
+
+    /**
+     * @return string
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @param string $level
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+    }
 
     /**
      * @param string $message
@@ -47,18 +68,26 @@ class Error extends AbstractEntity
      * @param boolean $wasRead
      * @return $this
      */
-    public function setWasRead($wasRead)
+    public function setRead($wasRead)
     {
-        $this->wasRead = $wasRead;
+        $this->read = $wasRead;
         return $this;
     }
 
     /**
      * @return boolean
      */
-    public function getWasRead()
+    public function getRead()
     {
-        return $this->wasRead;
+        return $this->read;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRead()
+    {
+        return $this->getRead() === true;
     }
 
     /**

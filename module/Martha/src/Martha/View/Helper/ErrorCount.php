@@ -2,7 +2,7 @@
 
 namespace Martha\View\Helper;
 
-use Martha\Core\Domain\Repository\ErrorRepositoryInterface;
+use Martha\Core\Domain\Repository\LogRepositoryInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -12,14 +12,14 @@ use Zend\View\Helper\AbstractHelper;
 class ErrorCount extends AbstractHelper
 {
     /**
-     * @var \Martha\Core\Domain\Repository\ErrorRepositoryInterface
+     * @var \Martha\Core\Domain\Repository\LogRepositoryInterface
      */
     protected $repository;
 
     /**
-     * @param ErrorRepositoryInterface $repository
+     * @param LogRepositoryInterface $repository
      */
-    public function __construct(ErrorRepositoryInterface $repository)
+    public function __construct(LogRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -29,6 +29,6 @@ class ErrorCount extends AbstractHelper
      */
     public function __invoke()
     {
-        return count($this->repository->getBy(['wasRead' => false]));
+        return count($this->repository->getBy(['read' => false]));
     }
 }

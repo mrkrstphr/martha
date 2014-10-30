@@ -24,7 +24,7 @@
 return [
     'factories' => [
         'errorCount' => function (Zend\View\HelperPluginManager $pm) {
-            return new Martha\View\Helper\ErrorCount($pm->getServiceLocator()->get('ErrorRepository'));
+            return new Martha\View\Helper\ErrorCount($pm->getServiceLocator()->get('LogRepository'));
         },
         'gravatarUrl' => function (Zend\View\HelperPluginManager $pm) {
             return new Martha\View\Helper\GravatarUrl($pm->getServiceLocator()->get('Config'));
