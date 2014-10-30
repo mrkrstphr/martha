@@ -201,6 +201,14 @@ class PluginManager
     }
 
     /**
+     * @return \Martha\Core\Service\Logger\DatabaseLogger
+     */
+    public function getLogger()
+    {
+        return $this->system->getLogger();
+    }
+
+    /**
      * Get all RemoteProjectProviders registered.
      *
      * @return array

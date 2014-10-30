@@ -5,6 +5,7 @@ namespace Martha\Core;
 use Doctrine\ORM\EntityManager;
 use Martha\Core\Persistence\Repository\Factory;
 use Martha\Core\Plugin\PluginManager;
+use Martha\Core\Service\Logger\DatabaseLogger;
 
 /**
  * Class System
@@ -38,6 +39,11 @@ class System
     protected $repositoryFactory;
 
     /**
+     * @var DatabaseLogger
+     */
+    protected $logger;
+
+    /**
      * Set us up the Martha!
      *
      * @param EntityManager $em
@@ -48,6 +54,7 @@ class System
         // todo fix me, inject this instead of EntityManager
         $this->repositoryFactory = new Factory($em);
         $this->eventManager = new EventManager();
+        $this->logger = new DatabaseLogger($this->repositoryFactory->createLogRepository());
 
         // todo fixme: this makes testing very hard
         $this->pluginManager = new PluginManager($this);
@@ -136,6 +143,14 @@ class System
     public function getSiteUrl()
     {
         return isset($this->config['site_url']) ? $this->config['site_url'] : '';
+    }
+
+    /**
+     * @return DatabaseLogger
+     */
+    public function getLogger()
+    {
+        return $this->logger;
     }
 
     /**
