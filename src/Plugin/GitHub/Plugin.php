@@ -10,7 +10,7 @@ use Martha\Core\Job\Queue;
 use Martha\Core\Plugin\AbstractPlugin;
 use Martha\Core\Plugin\ArtifactHandlers\TextBasedResultInterface;
 use Martha\GitHub\Client;
-use Martha\Plugin\GitHub\WebHook\Factory;
+use Martha\Plugin\GitHub\WebHook\BuildFactory;
 
 /**
  * Class Plugin
@@ -102,33 +102,14 @@ class Plugin extends AbstractPlugin
             return ['success' => false, 'description' => $message];
         }
 
-        $hook = Factory::createHook($payload);
+        $factory = new BuildFactory($this->projectRepository);
 
-        $project = $this->projectRepository->getBy(['name' => $hook->getRepository()->getName()]);
-
-        if (!$project) {
-            $message = 'Project not found: ' . $hook->getRepository()->getName();
-            $this->getPluginManager()->getLogger()->error($message, ['data' => $payload]);
-            return ['status' => 'failed', 'description' => $message];
-        }
-
-        $project = current($project);
-
-        $build = new Build();
-        $build->setMethod('GitHub Web Hook');
-        $build->setProject($project);
-        $build->setBranch($hook->getBranch());
-        $build->setFork($hook->getFork());
-        $build->setRevisionNumber($hook->getRevisionNumber());
-        $build->setForkUri($hook->getFork());
-        $build->setStatus(Build::STATUS_PENDING);
-        $build->setCreated(new \DateTime());
-        $build->getMetadata()
-            ->set('triggered-by', 'GitHubWebHook')
-            ->set('pull-request', $payload['number']);
+        // Todo: created strategies for handling the different payload actions...
+        $build = $factory->createBuildFromGitHubPayload($payload);
 
         $this->buildRepository->persist($build)->flush();
 
+        // Todo: move this to an actual queue system like php-resque...
         // Force the Build Queue to be checked now, instead of waiting for a scheduled run:
 
         $queue = new Queue($this->buildRepository, $this->getConfig());
