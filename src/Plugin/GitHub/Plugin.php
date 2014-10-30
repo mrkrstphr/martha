@@ -91,11 +91,15 @@ class Plugin extends AbstractPlugin
         }
 
         if (!$payload || !($payload = json_decode($payload, true))) {
-            return ['status' => 'failed', 'description' => 'Invalid payload'];
+            $message = 'Invalid GitHub Payload';
+            $this->getPluginManager()->getLogger()->error($message, ['data' => $payload]);
+            return ['success' => false, 'description' => $message];
         }
 
         if (!in_array($payload['action'], ['opened', 'reopened', 'synchronize'])) {
-            return [];
+            $message = 'Unhandled GitHub Payload: ' . $payload['action'];
+            $this->getPluginManager()->getLogger()->error($message, ['data' => $payload]);
+            return ['success' => false, 'description' => $message];
         }
 
         $hook = Factory::createHook($payload);
@@ -103,7 +107,9 @@ class Plugin extends AbstractPlugin
         $project = $this->projectRepository->getBy(['name' => $hook->getRepository()->getName()]);
 
         if (!$project) {
-            return ['status' => 'failed', 'description' => 'Project not found'];
+            $message = 'Project not found: ' . $hook->getRepository()->getName();
+            $this->getPluginManager()->getLogger()->error($message, ['data' => $payload]);
+            return ['status' => 'failed', 'description' => $message];
         }
 
         $project = current($project);
