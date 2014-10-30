@@ -1,6 +1,8 @@
 # martha
 
-Because not all Continuous Integration solutions need to be named after old men.
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martha-ci/martha/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/martha-ci/martha/?branch=master)
+
+> Because not all Continuous Integration solutions need to be named after old men.
 
 ## Installation
 
