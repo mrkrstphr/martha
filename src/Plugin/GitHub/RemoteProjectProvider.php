@@ -2,8 +2,8 @@
 
 namespace Martha\Plugin\GitHub;
 
+use Github\Client;
 use Martha\Core\Plugin\RemoteProjectProvider\AbstractRemoteProjectProvider;
-use Martha\GitHub\Client;
 
 /**
  * Class RemoteProjectProvider
@@ -17,6 +17,11 @@ class RemoteProjectProvider extends AbstractRemoteProjectProvider
      * @var string
      */
     protected $providerName = 'GitHub';
+
+    /**
+     * @var \GitHub\Client
+     */
+    protected $apiClient;
 
     /**
      * Get all available projects for the authenticated account, including organizations.
@@ -34,7 +39,7 @@ class RemoteProjectProvider extends AbstractRemoteProjectProvider
 
         foreach ($orgs as $org) {
             // Merge the organization repositories with the user repositories:
-            $orgRepos = $api->organizations()->repositories()->repositories($org['login']);
+            $orgRepos = $api->organizations()->repositories($org['login']);
             $repositories = array_merge($repositories, $orgRepos);
         }
 
@@ -58,7 +63,7 @@ class RemoteProjectProvider extends AbstractRemoteProjectProvider
     public function getProjectInformation($identifier)
     {
         list($owner, $repo) = explode('/', $identifier);
-        $project = $this->getApi()->repositories()->repository($owner, $repo);
+        $project = $this->getApi()->repository()->show($owner, $repo);
 
         return [
             'name' => $identifier,
@@ -94,13 +99,21 @@ class RemoteProjectProvider extends AbstractRemoteProjectProvider
     }
 
     /**
+     * Gets an instance of a configured GitHub API client and returns it.
+     *
      * @return Client
      */
     protected function getApi()
     {
-        $config = $this->plugin->getConfig();
-        $api = new Client($config);
+        if ($this->apiClient) {
+            return $this->apiClient;
+        }
 
-        return $api;
+        $config = $this->plugin->getConfig();
+
+        $this->apiClient = new Client();
+        $this->apiClient->authenticate($config['access_token'], null, Client::AUTH_HTTP_TOKEN);
+
+        return $this->apiClient;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Martha\Plugin\GitHub;
 
+use Github\Client;
 use Martha\Core\Domain\Entity\Build;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
@@ -9,7 +10,6 @@ use Martha\Core\Http\Request;
 use Martha\Core\Job\Queue;
 use Martha\Core\Plugin\AbstractPlugin;
 use Martha\Core\Plugin\ArtifactHandlers\TextBasedResultInterface;
-use Martha\GitHub\Client;
 use Martha\Plugin\GitHub\WebHook\Strategy\HookStrategyFactory;
 
 /**
@@ -29,7 +29,7 @@ class Plugin extends AbstractPlugin
     protected $projectRepository;
 
     /**
-     * @var \Martha\GitHub\Client
+     * @var Client
      */
     protected $apiClient;
 
@@ -245,7 +245,7 @@ class Plugin extends AbstractPlugin
             }
         }
 
-        $this->getApi()->repositories()->issues()->comments()->create(
+        $this->getApi()->issues()->comments()->create(
             $owner,
             $repo,
             $number,
@@ -265,7 +265,9 @@ class Plugin extends AbstractPlugin
         }
 
         $config = $this->getConfig();
-        $this->apiClient = new Client($config);
+
+        $this->apiClient = new Client();
+        $this->apiClient->authenticate($config['access_token'], null, Client::AUTH_HTTP_TOKEN);
 
         return $this->apiClient;
     }
