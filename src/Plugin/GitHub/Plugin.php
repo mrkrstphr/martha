@@ -166,6 +166,12 @@ class Plugin extends AbstractPlugin
                         '/build/view/' . $build->getId()
                 ]
             );
+
+            if (!is_array($response) || !isset($response['state']) || $response['state'] != 'success') {
+                $this->getPluginManager()->getLogger()->notice(
+                    'Unable to update the GitHub status of build #' . $build->getId() . ' to pending'
+                );
+            }
         }
     }
 
