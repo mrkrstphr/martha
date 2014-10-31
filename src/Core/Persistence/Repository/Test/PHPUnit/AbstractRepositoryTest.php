@@ -152,7 +152,7 @@ class AbstractRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('DomainException');
 
-        $repository = $this->getMockForAbstractClass(
+        $this->getMockForAbstractClass(
             '\Martha\Core\Persistence\Repository\AbstractRepository',
             [$this->entityManager]
         );
