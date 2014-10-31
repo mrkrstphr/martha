@@ -68,7 +68,6 @@ class CheckstyleArtifactHandler extends AbstractArtifactHandler implements
             foreach ($this->artifact->xpath('//file') as $file) {
                 foreach ($file->xpath('//error') as $error) {
                     $exception = new Build\BuildException();
-                    //$exception->setPlugin($this->plugin);
                     $exception->setAsset(basename($file['name']));
                     $exception->setReference($error['line']);
                     $exception->setType('E');
