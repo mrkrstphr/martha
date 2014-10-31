@@ -127,7 +127,7 @@ class ProjectsController extends AbstractMarthaController
 
         $project = $this->projectRepository->getById($id);
 
-        if (!$project) {
+        if (!($project instanceof Project)) {
             $this->getResponse()->setStatusCode(404);
             return null;
         }
