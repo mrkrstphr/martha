@@ -87,9 +87,7 @@ class Git extends AbstractProvider
         $commit->setRevisionNumber($revno);
         $commit->setAuthor($author);
         $commit->setMessage($message);
-
-        print_r($commit);
-
+        
         $commit = new Commit();
     }
 
@@ -140,8 +138,6 @@ class Git extends AbstractProvider
             $commit->setAuthor($author);
             $commit->setMessage($message);
         }
-
-        print_r($changeSet);
 
         return $changeSet;
     }
