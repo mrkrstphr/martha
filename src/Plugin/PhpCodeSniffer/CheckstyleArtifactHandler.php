@@ -62,6 +62,9 @@ class CheckstyleArtifactHandler extends AbstractArtifactHandler implements
         return $result;
     }
 
+    /**
+     * Log any build exceptions from the CheckStyle report.
+     */
     public function logBuildExceptions()
     {
         if ($this->artifact) {
