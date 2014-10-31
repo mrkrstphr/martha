@@ -169,8 +169,8 @@ class System
     /**
      * Get an instance of the Martha core system.
      *
-     * @param array $config
      * @return System
+     * @throws \Exception
      */
     public static function getInstance()
     {
