@@ -11,8 +11,9 @@ use Martha\Core\Plugin\ArtifactHandlers\TextBasedResultInterface;
  * Class CloverArtifactHandler
  * @package Martha\Plugin\PhpCodeSniffer
  */
-class CloverArtifactHandler extends AbstractArtifactHandler
-    implements TextBasedResultInterface, BuildStatisticInterface
+class CloverArtifactHandler extends AbstractArtifactHandler implements
+    TextBasedResultInterface,
+    BuildStatisticInterface
 {
     /**
      * @var string

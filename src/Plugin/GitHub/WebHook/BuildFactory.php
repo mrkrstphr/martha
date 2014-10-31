@@ -63,4 +63,3 @@ class BuildFactory
         return $build;
     }
 }
-

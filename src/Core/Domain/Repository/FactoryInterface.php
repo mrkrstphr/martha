@@ -22,5 +22,4 @@ interface FactoryInterface
      * @return ProjectRepositoryInterface
      */
     public function createProjectRepository();
-
 }

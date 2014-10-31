@@ -11,8 +11,9 @@ use Martha\Core\Plugin\ArtifactHandlers\TextBasedResultInterface;
  * Class CheckstyleArtifactHandler
  * @package Martha\Plugin\PhpCodeSniffer
  */
-class CheckstyleArtifactHandler extends AbstractArtifactHandler
-    implements TextBasedResultInterface, ExceptionWriterInterface
+class CheckstyleArtifactHandler extends AbstractArtifactHandler implements
+    TextBasedResultInterface,
+    ExceptionWriterInterface
 {
     /**
      * @var string

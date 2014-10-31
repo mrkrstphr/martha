@@ -1,6 +1,7 @@
 <?php
 
 namespace Martha\Plugin\GitHub\WebHook\Strategy;
+
 use Martha\Core\Plugin\PluginManager;
 use Martha\Plugin\GitHub\WebHook\BuildFactory;
 

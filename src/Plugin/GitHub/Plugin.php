@@ -98,7 +98,7 @@ class Plugin extends AbstractPlugin
 
         if ($request->getBody()) {
             $payload = $request->getBody();
-        } else if ($request->getPost('payload')) {
+        } elseif ($request->getPost('payload')) {
             $payload = $request->getPost('payload');
         }
 
