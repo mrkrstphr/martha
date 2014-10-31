@@ -79,10 +79,6 @@ class Git extends AbstractProvider
 
         $result = Command::run($chainOfCommands);
 
-        //$command = 'cd ' . $this->repository . ' && git log -n 1 --pretty="%h||%an||%s" ' . $revno;
-
-        //exec($command, $output);
-
 
         list($revno, $author, $message) = explode('||', $result->getOutputAsString());
         echo "-- $revno::$author::$message\n";
