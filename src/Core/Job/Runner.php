@@ -219,12 +219,10 @@ class Runner
     /**
      * Log a message to the console output file.
      *
-     * @todo Implement handling of type
      * @throws \Exception
      * @param string $message
-     * @param string $type
      */
-    protected function log($message, $type = 'standard')
+    protected function log($message)
     {
         if (!$this->outputFile) {
             throw new \Exception('Attempting to log before setting up log file');
