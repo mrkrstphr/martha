@@ -453,6 +453,10 @@ class Build extends AbstractEntity
         return $this;
     }
 
+    /**
+     * @param string $plugin
+     * @return array
+     */
     public function getExceptionsByPlugin($plugin)
     {
         return $this->exceptions->filter(function ($exception) use ($plugin) {
