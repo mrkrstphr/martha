@@ -2,12 +2,10 @@
 
 namespace Martha\Controller;
 
-
 use Martha\Core\Authentication\Provider\AbstractOAuthProvider;
 use Martha\Core\Domain\Repository\UserRepositoryInterface;
 use Martha\Core\Http\Request;
 use Zend\Authentication\AuthenticationService;
-use Zend\Http\Client;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**

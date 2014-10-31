@@ -4,12 +4,8 @@ namespace Martha\Plugin\PhpCodeSniffer;
 
 use Martha\Core\Domain\Entity\Build;
 use Martha\Core\Plugin\AbstractArtifactHandler;
-use Martha\Core\Plugin\ArtifactHandlers\DashboardWidgetProviderInterface;
 use Martha\Core\Plugin\ArtifactHandlers\ExceptionWriterInterface;
-use Martha\Core\Plugin\ArtifactHandlers\TabProviderInterface;
 use Martha\Core\Plugin\ArtifactHandlers\TextBasedResultInterface;
-use Martha\Core\Plugin\View\DashboardWidget;
-use Martha\Core\Plugin\View\TabbedPane;
 
 /**
  * Class CheckstyleArtifactHandler

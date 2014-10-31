@@ -2,7 +2,6 @@
 
 namespace Martha\Core\Job;
 
-use Martha\Core\System;
 
 /**
  * Class Manager

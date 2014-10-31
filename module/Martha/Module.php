@@ -25,13 +25,11 @@ namespace Martha;
 
 use Martha\Core\System;
 use Zend\Authentication\AuthenticationService;
-use Zend\Mvc\Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\Literal;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\JsonModel;
-use Zend\View\Model\ViewModel;
 
 /**
  * Class Module

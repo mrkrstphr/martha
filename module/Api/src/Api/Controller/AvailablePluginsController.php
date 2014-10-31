@@ -4,7 +4,6 @@ namespace Api\Controller;
 
 use Martha\Core\Domain\Repository\PluginRepositoryInterface;
 use Martha\Core\Domain\Serializer\SerializerInterface;
-use Martha\View\Model\RawJsonModel;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 

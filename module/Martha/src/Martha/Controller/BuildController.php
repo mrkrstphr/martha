@@ -2,7 +2,6 @@
 
 namespace Martha\Controller;
 
-use Martha\Core\Domain\Entity\Build;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
 use Martha\Core\Job\Queue;

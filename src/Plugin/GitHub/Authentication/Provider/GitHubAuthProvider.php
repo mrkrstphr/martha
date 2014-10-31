@@ -2,8 +2,6 @@
 
 namespace Martha\Plugin\GitHub\Authentication\Provider;
 
-use Buzz\Client\Curl;
-use Buzz\Message\Response;
 use Martha\Core\Authentication\Provider\AbstractOAuthProvider;
 use Martha\Core\Domain\Entity\User;
 use Martha\Core\Http\Request;

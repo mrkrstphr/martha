@@ -10,7 +10,6 @@ use Martha\Core\Job\Queue;
 use Martha\Core\Plugin\AbstractPlugin;
 use Martha\Core\Plugin\ArtifactHandlers\TextBasedResultInterface;
 use Martha\GitHub\Client;
-use Martha\Plugin\GitHub\WebHook\BuildFactory;
 use Martha\Plugin\GitHub\WebHook\Strategy\HookStrategyFactory;
 
 /**
