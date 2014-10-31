@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\Build\Statistic:
   table: build_statistics
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
@@ -13,10 +13,11 @@ Martha\Core\Domain\Entity\Build\Statistic:
   manyToOne:
       build:
         targetEntity: Martha\Core\Domain\Entity\Build
-        inversedBy: exceptions
+        inversedBy: statistics
         joinColumn:
           name: build_id
           referencedColumnName: id
+          nullable: false
       plugin:
         targetEntity: Martha\Core\Domain\Entity\Plugin
         joinColumn:

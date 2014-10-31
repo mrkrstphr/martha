@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\Build\BuildException:
   table: build_exceptions
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
@@ -25,6 +25,7 @@ Martha\Core\Domain\Entity\Build\BuildException:
         joinColumn:
           name: build_id
           referencedColumnName: id
+          nullable: false
       plugin:
         targetEntity: Martha\Core\Domain\Entity\Plugin
         joinColumn:

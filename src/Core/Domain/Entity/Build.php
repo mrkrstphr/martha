@@ -78,6 +78,16 @@ class Build extends AbstractEntity
     /**
      * @var string
      */
+    protected $message;
+
+    /**
+     * @var string
+     */
+    protected $author;
+
+    /**
+     * @var string
+     */
     protected $method;
 
     /**
@@ -216,6 +226,38 @@ class Build extends AbstractEntity
     public function getForkUri()
     {
         return $this->forkUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param string $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
     }
 
     /**

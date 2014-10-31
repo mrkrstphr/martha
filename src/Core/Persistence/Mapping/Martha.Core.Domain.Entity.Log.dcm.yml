@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\Log:
   table: logs
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
@@ -14,4 +14,4 @@ Martha\Core\Domain\Entity\Log:
     read:
       type: boolean
     created:
-      type: datetimetz
+      type: datetime

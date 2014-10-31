@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\Build\Alert:
   table: build_alerts
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
@@ -11,15 +11,16 @@ Martha\Core\Domain\Entity\Build\Alert:
       length: 20
     description:
   manyToOne:
-      build:
-        targetEntity: Martha\Core\Domain\Entity\Build
-        inversedBy: exceptions
-        joinColumn:
-          name: build_id
-          referencedColumnName: id
-      plugin:
-        targetEntity: Martha\Core\Domain\Entity\Plugin
-        joinColumn:
-          name: plugin_id
-          referencedColumnName: id
-        nullable: true
+    build:
+      targetEntity: Martha\Core\Domain\Entity\Build
+      inversedBy: alerts
+      joinColumn:
+        name: build_id
+        referencedColumnName: id
+        nullable: false
+    plugin:
+      targetEntity: Martha\Core\Domain\Entity\Plugin
+      joinColumn:
+        name: plugin_id
+        referencedColumnName: id
+      nullable: true

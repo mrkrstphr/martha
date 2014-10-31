@@ -3,18 +3,18 @@ Martha\Core\Domain\Entity\Project:
   table: projects
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
     name:
       length: 100
     description:
+      type: text
       nullable: true
     scm:
-      length: 100
+      length: 50
     uri:
-      length: 100
   oneToMany:
     builds:
       targetEntity: Martha\Core\Domain\Entity\Build

@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\Build:
   table: builds
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
@@ -16,6 +16,11 @@ Martha\Core\Domain\Entity\Build:
     forkUri:
       column: fork_uri
       nullable: true
+    message:
+      type: text
+      nullable: true
+    author:
+      nullable: true
     method:
       length: 100
       nullable: true
@@ -24,12 +29,12 @@ Martha\Core\Domain\Entity\Build:
       length: 255
       nullable: true
     metadata:
-      type: hash
+      type: text
       nullable: true
     status:
       length: 40
     created:
-      type: datetimetz
+      type: datetime
   oneToMany:
     steps:
       targetEntity: Martha\Core\Domain\Entity\Step
@@ -52,15 +57,15 @@ Martha\Core\Domain\Entity\Build:
       mappedBy: build
       cascade: ["persist"]
   manyToOne:
-      project:
-        targetEntity: Martha\Core\Domain\Entity\Project
-        inversedBy: builds
-        joinColumn:
-          name: project_id
-          referencedColumnName: id
-      parent:
-        targetEntity: Martha\Core\Domain\Entity\Build
-        inversedBy: exceptions
-        joinColumn:
-          name: parent_id
-          referencedColumnName: id
+    project:
+      targetEntity: Martha\Core\Domain\Entity\Project
+      inversedBy: builds
+      joinColumn:
+        name: project_id
+        referencedColumnName: id
+        nullable: false
+    parent:
+      targetEntity: Martha\Core\Domain\Entity\Build
+      joinColumn:
+        name: parent_id
+        referencedColumnName: id

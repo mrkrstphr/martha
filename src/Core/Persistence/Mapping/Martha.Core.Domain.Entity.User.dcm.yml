@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\User:
   table: users
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:

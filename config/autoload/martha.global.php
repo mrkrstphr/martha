@@ -58,6 +58,14 @@ return [
             'orm_default' => [
                 'drivers' => ['Martha\Core\Domain\Entity' => 'martha_driver']
             ]
-        ]
+        ],
+        'migrations_configuration' => [
+            'orm_default' => [
+                'directory' => realpath(__DIR__ . '/../../src/Core/Persistence/Migration'),
+                'name' => 'Martha CI',
+                'namespace' => 'Martha\Core\Persistence\Migration',
+                'table' => 'migrations',
+            ],
+        ],
     ]
 ];

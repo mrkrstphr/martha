@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\Plugin:
   table: plugins
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
@@ -11,6 +11,7 @@ Martha\Core\Domain\Entity\Plugin:
       length: 100
     description:
       type: text
+      nullable: true
     key:
       length: 100
     author:
@@ -27,6 +28,7 @@ Martha\Core\Domain\Entity\Plugin:
       nullable: true
     enabled:
       type: boolean
+      nullable: true
     created:
       type: datetime
     lastEnabled:

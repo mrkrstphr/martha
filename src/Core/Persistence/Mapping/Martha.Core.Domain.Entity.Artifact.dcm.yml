@@ -3,7 +3,7 @@ Martha\Core\Domain\Entity\Artifact:
   table: artifacts
   id:
     id:
-      type: bigint
+      type: integer
       generator:
         strategy: IDENTITY
   fields:
@@ -16,3 +16,4 @@ Martha\Core\Domain\Entity\Artifact:
         joinColumn:
           name: build_id
           referencedColumnName: id
+          nullable: false
