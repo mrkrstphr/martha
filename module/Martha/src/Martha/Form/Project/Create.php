@@ -7,7 +7,6 @@ use Zend\Form\Element\Select;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Textarea;
 use Zend\Form\Form;
-use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterProviderInterface;
 
 /**
@@ -79,6 +78,9 @@ class Create extends Form implements InputFilterProviderInterface
         $this->add($submit);
     }
 
+    /**
+     * @return array
+     */
     public function getInputFilterSpecification()
     {
         return [
@@ -113,22 +115,6 @@ class Create extends Form implements InputFilterProviderInterface
             'project_id' => [
                 'required' => false,
                 'disable_inarray_validator' => true
-//                'allow_empty' => false,
-//                'continue_if_empty' => true,
-//                'validators' => [
-//                    [
-//                        'name' => 'Zend\Validator\Callback',
-//                        'options' => [
-//                            'messages' => [
-//                                \Zend\Validator\Callback::INVALID_VALUE => 'Value is required and can\'t be emptyvfart',
-//                            ],
-//                            'callback' => function ($value, $context = []) {
-//                                var_dump($context);
-//                                return false;
-//                            }
-//                        ]
-//                    ]
-//                ]
             ]
         ];
     }
