@@ -29,7 +29,7 @@ class BuildFactory
      * @return Build
      * @throws PayloadException
      */
-    public function createBuildFromGitHubPayload(array $payload)
+    public function createBuildFromPullRequest(array $payload)
     {
         $repositoryData = isset($payload['repository']) ? $payload['repository'] : false;
         if (!$repositoryData) {

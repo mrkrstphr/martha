@@ -4,6 +4,8 @@ namespace Martha\Core\Http;
 
 /**
  * Class Request
+ * @todo get rid of this stupid class
+ * @deprecated
  * @package Martha\Core\Http
  */
 class Request
@@ -22,6 +24,11 @@ class Request
      * @var array
      */
     protected $post = [];
+
+    /**
+     * @var array
+     */
+    protected $headers = [];
 
     /**
      * @param string $body
@@ -48,6 +55,16 @@ class Request
     public function setGet($get)
     {
         $this->get = $get;
+        return $this;
+    }
+
+    /**
+     * @param $headers
+     * @return $this;
+     */
+    public function setHeaders($headers)
+    {
+        $this->headers = $headers;
         return $this;
     }
 
@@ -85,5 +102,28 @@ class Request
         }
 
         return $this->post;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param string $name
+     * @return bool|string
+     */
+    public function getHeader($name)
+    {
+        foreach ($this->headers as $key => $value) {
+            if (strtolower($name) == strtolower($key)) {
+                return $value;
+            }
+        }
+
+        return false;
     }
 }

@@ -82,6 +82,7 @@ class RemoteProjectProvider extends AbstractRemoteProjectProvider
                 'name' => 'web',
                 'active' => true,
                 'events' => [
+                    'push',
                     'pull_request'
                 ],
                 'config' => [

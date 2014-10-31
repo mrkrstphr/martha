@@ -49,10 +49,12 @@ class PluginController extends AbstractActionController
         }
 
         if (is_callable($route['callback'])) {
+            // todo fix stupid
             $request = (new Request())
                 ->setBody($this->getRequest()->getContent())
                 ->setGet($this->params()->fromQuery())
-                ->setPost($this->params()->fromPost());
+                ->setPost($this->params()->fromPost())
+                ->setHeaders($this->params()->fromHeader());
 
             $data = $route['callback']($request);
         } else {

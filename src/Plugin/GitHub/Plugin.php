@@ -11,6 +11,7 @@ use Martha\Core\Plugin\AbstractPlugin;
 use Martha\Core\Plugin\ArtifactHandlers\TextBasedResultInterface;
 use Martha\GitHub\Client;
 use Martha\Plugin\GitHub\WebHook\BuildFactory;
+use Martha\Plugin\GitHub\WebHook\Strategy\HookStrategyFactory;
 
 /**
  * Class Plugin
@@ -32,6 +33,11 @@ class Plugin extends AbstractPlugin
      * @var \Martha\GitHub\Client
      */
     protected $apiClient;
+
+    /**
+     * @var array
+     */
+    protected $supportedEvents = ['push', 'pull_request'];
 
     /**
      * Configure and register the plugin.
@@ -84,6 +90,13 @@ class Plugin extends AbstractPlugin
     {
         $payload = '';
 
+        $event = $request->getHeader('X-GitHub-Event');
+        if (!$event) {
+            $message = 'No GitHub event provided';
+            $this->getPluginManager()->getLogger()->error($message);
+            return ['success' => false, 'description' => $message];
+        }
+
         if ($request->getBody()) {
             $payload = $request->getBody();
         } else if ($request->getPost('payload')) {
@@ -96,18 +109,28 @@ class Plugin extends AbstractPlugin
             return ['success' => false, 'description' => $message];
         }
 
-        if (!in_array($payload['action'], ['opened', 'reopened', 'synchronize'])) {
-            $message = 'Unhandled GitHub Payload: ' . $payload['action'];
-            $this->getPluginManager()->getLogger()->error($message, ['data' => $payload]);
+        $hookStrategyFactory = new HookStrategyFactory($this->pluginManager);
+        $strategy = $hookStrategyFactory->createStrategyForEvent($event);
+
+        if (!$strategy) {
+            $message = 'Unsupported GitHub event: ' . $event;
+            $this->getPluginManager()->getLogger()->error($message);
             return ['success' => false, 'description' => $message];
         }
 
-        $factory = new BuildFactory($this->projectRepository);
+        try {
+            $strategy->handlePayload($payload);
+        } catch (\Exception $e) {
+            $message = 'Error handling payload';
+            $this->getPluginManager()->getLogger()->error($message, ['exception' => $e->getMessage()]);
+            return ['success' => false, 'description' => $message];
+        }
 
-        // Todo: created strategies for handling the different payload actions...
-        $build = $factory->createBuildFromGitHubPayload($payload);
-
-        $this->buildRepository->persist($build)->flush();
+        // Gracefully ignore anything that is not of these actions, as they don't necessarily mean anything
+        // is wrong, but we don't want to generate a build when someone comments, etc on the PR.
+        if (!in_array($payload['action'], ['opened', 'reopened', 'synchronize'])) {
+            return ['success' => true, 'description' => 'Operation Unhandled'];
+        }
 
         // Todo: move this to an actual queue system like php-resque...
         // Force the Build Queue to be checked now, instead of waiting for a scheduled run:
@@ -115,7 +138,7 @@ class Plugin extends AbstractPlugin
         $queue = new Queue($this->buildRepository, $this->getConfig());
         $queue->run();
 
-        return [];
+        return ['success' => true];
     }
 
     /**
