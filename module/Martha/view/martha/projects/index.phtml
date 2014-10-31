@@ -2,11 +2,13 @@
 <h2 class="page-title pull-left">Projects</h2>
 
 <?php if ($this->projects): ?>
+<?php if ($this->identity()): ?>
 <span class="pull-right">
     <a class="btn btn-primary" href="<?= $this->url('projects/create') ?>">Create Project</a>
 </span>
 <div class="clearfix"></div>
-
+<?php endif; ?>
+    
 <table class="table table-striped table-hover">
     <thead>
         <tr>
