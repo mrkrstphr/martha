@@ -459,7 +459,7 @@ class Build extends AbstractEntity
      */
     public function getExceptionsByPlugin($plugin)
     {
-        return $this->exceptions->filter(function ($exception) use ($plugin) {
+        return $this->exceptions->filter(function (BuildException $exception) use ($plugin) {
             return $exception->getPlugin()->getKey() == $plugin;
         });
     }
