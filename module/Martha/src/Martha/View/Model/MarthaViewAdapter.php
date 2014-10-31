@@ -2,8 +2,12 @@
 
 namespace Martha\View\Model;
 
+use Traversable;
 use Martha\Core\Plugin\View\AbstractView;
+use Zend\Stdlib\ArrayUtils;
 use Zend\View\Model\ModelInterface;
+use Zend\View\Model\ViewModel;
+use Zend\View\Exception;
 
 /**
  * Class MarthaViewAdapter
