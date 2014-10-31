@@ -1,6 +1,6 @@
 # martha
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martha-ci/martha/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/martha-ci/martha/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/martha-ci/martha/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/martha-ci/martha/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/69b45127-c0df-4d8f-a6df-a0b5ee029261/mini.png)](https://insight.sensiolabs.com/projects/69b45127-c0df-4d8f-a6df-a0b5ee029261)
 
 > Because not all Continuous Integration solutions need to be named after old men.
 
