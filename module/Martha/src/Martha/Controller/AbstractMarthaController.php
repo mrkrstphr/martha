@@ -4,7 +4,6 @@ namespace Martha\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ModelInterface;
-use Martha\Core\Domain\Repository\ProjectRepositoryInterface;
 
 /**
  * Class AbstractMarthaController
@@ -16,14 +15,6 @@ class AbstractMarthaController extends AbstractActionController
      * @var ModelInterface
      */
     protected $view;
-
-    /**
-     *
-     */
-    protected function getProjects()
-    {
-        $this->view->projects = $this->projectRepository->getAll();
-    }
 
     /**
      * @param string $key
