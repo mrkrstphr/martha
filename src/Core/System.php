@@ -95,8 +95,6 @@ class System
                 continue;
             }
 
-            require_once $file;
-
             $className = 'Martha\Plugin\\' . $pluginName . '\Plugin';
 
             if (class_exists($className)) {
