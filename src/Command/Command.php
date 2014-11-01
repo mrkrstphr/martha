@@ -77,12 +77,12 @@ class Command implements RunnableInterface
      */
     public static function run(RunnableInterface $command)
     {
-        $output = '';
+        $output = [];
         $returnValue = 0;
 
         exec($command, $output, $returnValue);
 
-        $result = new Result($returnValue, $output);
+        $result = new Result($returnValue, $output ?: []);
 
         return $result;
     }
