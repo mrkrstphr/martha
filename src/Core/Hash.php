@@ -83,7 +83,7 @@ class Hash
      */
     public function toJson()
     {
-        return json_encode($this->data, true);
+        return json_encode($this->data);
     }
 
     /**
