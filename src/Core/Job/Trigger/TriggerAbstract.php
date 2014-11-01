@@ -2,7 +2,6 @@
 
 namespace Martha\Core\Job\Trigger;
 
-use Martha\Scm\ChangeSet\ChangeSet;
 use Martha\Scm\Repository;
 
 /**
@@ -30,11 +29,6 @@ abstract class TriggerAbstract
      * @var string
      */
     protected $revisionNumber;
-
-    /**
-     * @var ChangeSet
-     */
-    protected $changeSet;
 
     /**
      * @param \Martha\Scm\Repository $repository
@@ -106,23 +100,5 @@ abstract class TriggerAbstract
     public function getRepository()
     {
         return $this->repository;
-    }
-
-    /**
-     * @param \Martha\Scm\ChangeSet\ChangeSet $changeSet
-     * @return $this
-     */
-    public function setChangeSet($changeSet)
-    {
-        $this->changeSet = $changeSet;
-        return $this;
-    }
-
-    /**
-     * @return \Martha\Scm\ChangeSet\ChangeSet
-     */
-    public function getChangeSet()
-    {
-        return $this->changeSet;
     }
 }

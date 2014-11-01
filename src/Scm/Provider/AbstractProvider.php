@@ -2,8 +2,6 @@
 
 namespace Martha\Scm\Provider;
 
-use Martha\Scm\Commit;
-
 /**
  * Class AbstractProvider
  * @package Martha\Scm\Provider
@@ -57,12 +55,6 @@ abstract class AbstractProvider
      * @return array
      */
     abstract public function getBranches();
-
-    /**
-     * @param string $revno
-     * @return Commit
-     */
-    abstract public function getCommit($revno);
 
     /**
      * @param string $startingCommit

@@ -4,8 +4,6 @@ namespace Martha\Scm\Provider;
 
 use Martha\Command\ChainOfCommands;
 use Martha\Command\Command;
-use Martha\Scm\ChangeSet\ChangeSet;
-use Martha\Scm\Commit;
 
 /**
  * Class Git
@@ -56,39 +54,6 @@ class Git extends AbstractProvider
     public function getBranches()
     {
         return [];
-    }
-
-    /**
-     * @param string $revno
-     * @return Commit
-     */
-    public function getCommit($revno)
-    {
-        $cdCommand = (new Command('cd'))
-            ->addArgument($this->repository);
-
-        $logCommand = (new Command('git'))
-            ->addArgument('log')
-            ->addParameter('n', 1)
-            ->addParameter('pretty', '"%h||%an||%s"')
-            ->addArgument($revno);
-
-        $chainOfCommands = (new ChainOfCommands())
-            ->addCommand($cdCommand)
-            ->addCommand($logCommand);
-
-        $result = Command::run($chainOfCommands);
-
-
-        list($revno, $author, $message) = explode('||', $result->getOutputAsString());
-        echo "-- $revno::$author::$message\n";
-
-        $commit = new Commit();
-        $commit->setRevisionNumber($revno);
-        $commit->setAuthor($author);
-        $commit->setMessage($message);
-        
-        $commit = new Commit();
     }
 
     /**
