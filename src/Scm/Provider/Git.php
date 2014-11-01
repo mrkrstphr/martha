@@ -107,7 +107,7 @@ class Git extends AbstractProvider
     /**
      * @param $fromCommit
      * @param string $toCommit
-     * @return \Martha\Scm\ChangeSet\ChangeSet
+     * @return \Martha\Scm\ChangeSet\ChangeSet|false
      */
     public function getChangeSet($fromCommit, $toCommit = '')
     {
@@ -126,6 +126,10 @@ class Git extends AbstractProvider
         echo "Running: {$command}\n";
 
         exec($command, $output);
+
+        if (!$output) {
+            return false;
+        }
 
         $changeSet = new ChangeSet();
 
