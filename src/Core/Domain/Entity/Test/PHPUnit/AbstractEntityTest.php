@@ -52,12 +52,12 @@ abstract class AbstractEntityTest extends PHPUnit_Framework_TestCase
         $methods = $class->getMethods();
 
         foreach ($methods as $method) {
-            if (substr($method->getName(), 0, 3) == 'set') {
+            if (substr($method->name, 0, 3) == 'set') {
                 if ($reflectionTest->hasMethod('test' . $method->getName())) {
                     continue;
                 }
 
-                $methodName = substr($method->getName(), 3);
+                $methodName = substr($method->name, 3);
                 $annotations = $method->getDocComment();
 
                 if (preg_match_all('/\@param (.*) (.*)( (.*)|)/', $annotations, $matches) > 0) {
