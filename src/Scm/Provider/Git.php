@@ -103,46 +103,4 @@ class Git extends AbstractProvider
 
         return $commits;
     }
-
-    /**
-     * @param $fromCommit
-     * @param string $toCommit
-     * @return \Martha\Scm\ChangeSet\ChangeSet|false
-     */
-    public function getChangeSet($fromCommit, $toCommit = '')
-    {
-        $command = 'cd ' . $this->repository . ' && git log --pretty="%h||%an||%s" ';
-        $arguments = '';
-
-        if (empty($toCommit)) {
-            $command .= '-n 1 ';
-            $arguments .= $fromCommit;
-        } else {
-            $arguments .= $fromCommit . '..' . $toCommit;
-        }
-
-        $command .= $arguments;
-
-        echo "Running: {$command}\n";
-
-        exec($command, $output);
-
-        if (!$output) {
-            return false;
-        }
-
-        $changeSet = new ChangeSet();
-
-        foreach ($output as $line) {
-            list($revno, $author, $message) = explode('||', $line);
-            echo "-- $revno::$author::$message\n";
-
-            $commit = new Commit();
-            $commit->setRevisionNumber($revno);
-            $commit->setAuthor($author);
-            $commit->setMessage($message);
-        }
-
-        return $changeSet;
-    }
 }

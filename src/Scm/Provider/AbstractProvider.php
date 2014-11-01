@@ -65,13 +65,6 @@ abstract class AbstractProvider
     abstract public function getCommit($revno);
 
     /**
-     * @param $fromCommit
-     * @param string $toCommit
-     * @return \Martha\Scm\ChangeSet\ChangeSet
-     */
-    abstract public function getChangeSet($fromCommit, $toCommit = '');
-
-    /**
      * @param string $startingCommit
      * @return array
      */
