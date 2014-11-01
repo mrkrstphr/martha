@@ -110,14 +110,14 @@ abstract class AbstractCliTask extends AbstractTask
         }
 
         $status = 0;
-        $output = '';
+        $output = [];
 
         echo "[{$fullCommand}]\n";
 
         exec($fullCommand, $output, $status);
 
         $this->setStatus($status);
-        $this->setOutput(implode("\n", $output));
+        $this->setOutput(implode("\n", $output ?: []));
 
         return $status > 0;
     }
