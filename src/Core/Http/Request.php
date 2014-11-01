@@ -59,10 +59,10 @@ class Request
     }
 
     /**
-     * @param $headers
-     * @return $this;
+     * @param array $headers
+     * @return $this
      */
-    public function setHeaders($headers)
+    public function setHeaders(array $headers)
     {
         $this->headers = $headers;
         return $this;
