@@ -96,7 +96,7 @@ class Job
 
     /**
      * @param array $tasks
-     * @return $this;
+     * @return $this
      */
     public function setTasks(array $tasks)
     {
