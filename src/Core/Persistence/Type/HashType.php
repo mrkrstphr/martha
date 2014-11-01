@@ -19,17 +19,7 @@ class HashType extends Type
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        switch ($platform->getName()) {
-            case 'postgresql':
-                return 'text';
-                break;
-            case 'mysql':
-            case 'sqlite':
-                return 'text';
-                break;
-            default:
-                throw new \Exception('Unsupported database platform: ' . $platform->getName());
-        }
+        return 'text';
     }
 
     /**
