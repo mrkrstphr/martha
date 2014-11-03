@@ -39,22 +39,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Flush the entity manager.
-     *
-     * @param AbstractEntity $entity
-     * @return RepositoryInterface
-     */
-    public function flush(AbstractEntity $entity = null)
-    {
-        $this->entityManager->flush($entity);
-        return $this;
-    }
-
-    /**
-     * Get an entity by id.
-     *
-     * @param $id
-     * @return AbstractEntity
+     * {@inheritDoc}
      */
     public function getById($id)
     {
@@ -62,9 +47,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Get all entities.
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getAll()
     {
@@ -72,13 +55,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Get all entities meeting the specified conditions.
-     *
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer|null $limit
-     * @param integer|null $offset
-     * @return array
+     * {@inheritDoc}
      */
     public function getBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -86,30 +63,20 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Persist an entity.
-     *
-     * @param AbstractEntity $entity
-     * @return RepositoryInterface
+     * {@inheritDoc}
      */
     public function persist(AbstractEntity $entity)
     {
-        $this->verifyType($entity);
         $this->entityManager->persist($entity);
         return $this;
     }
 
     /**
-     * Verify that the entity type matches this repository.
-     *
-     * @param AbstractEntity $entity
-     * @return RepositoryInterface
-     * @throws DomainException
+     * {@inheritDoc}
      */
-    protected function verifyType(AbstractEntity $entity)
+    public function flush(AbstractEntity $entity = null)
     {
-        if (!is_a($entity, $this->entityType)) {
-            throw new DomainException(get_class($entity) . " is not an instance of {$this->entityType}");
-        }
+        $this->entityManager->flush($entity);
         return $this;
     }
 }
