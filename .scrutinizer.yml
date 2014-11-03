@@ -2,7 +2,7 @@ filter:
   paths: [src/*]
   excluded_paths: [vendor/*, tests/*]
 tools:
-  php_sim: true
+  php_cpd: true
   php_changetracking: true
   php_mess_detector:
     enabled: true
