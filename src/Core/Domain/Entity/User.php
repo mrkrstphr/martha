@@ -18,6 +18,11 @@ class User extends AbstractEntity
     /**
      * @var string
      */
+    protected $alias;
+
+    /**
+     * @var string
+     */
     protected $email;
 
     /**
