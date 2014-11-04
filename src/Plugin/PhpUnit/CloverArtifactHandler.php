@@ -75,26 +75,6 @@ class CloverArtifactHandler extends AbstractArtifactHandler implements
             $statistics = $parent->getFlatStatistics();
 
             $this->generateCoverageComparisonStatistics($statistics);
-            
-            if (isset($statistics['method-coverage'])) {
-                $this->details['methodCoverageChange'] =
-                    $this->details['coverageMethods'] - $statistics['method-coverage'];
-            }
-
-            if (isset($statistics['statement-coverage'])) {
-                $this->details['statementCoverageChange'] =
-                    $this->details['coverageStatements'] - $statistics['statement-coverage'];
-            }
-
-            if (isset($statistics['conditional-coverage'])) {
-                $this->details['conditionalCoverageChange'] =
-                    $this->details['coverageConditionals'] - $statistics['conditional-coverage'];
-            }
-
-            if (isset($statistics['total-coverage'])) {
-                $this->details['totalCoverageChange'] =
-                    $this->details['coverage'] - $statistics['total-coverage'];
-            }
         }
     }
 
