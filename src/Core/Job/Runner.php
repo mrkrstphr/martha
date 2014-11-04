@@ -7,6 +7,7 @@ use Martha\Core\Domain\Entity\Step;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Plugin\ArtifactHandlers\BuildStatisticInterface;
 use Martha\Core\System;
+use Martha\StdLib\Date\Comparison;
 use Symfony\Component\Yaml\Yaml;
 use Martha\Core\Domain\Entity\Build;
 use Martha\Scm\Provider\ProviderFactory;
@@ -161,11 +162,10 @@ class Runner
         }
 
         $end = microtime(true);
-        $duration = $end - $start;
 
         $this->log(
             'Build completed at: <strong>' . date('j M Y h:i:s A', $end) . '</strong>' . PHP_EOL .
-            'Build duration: <strong>' . $this->formatTime($duration) . '</strong>'
+            'Build duration: <strong>' . Comparison::difference($start, $end) . '</strong>'
         );
 
         foreach ($script['artifacts'] as $pluginHelper => $artifactFile) {
@@ -234,7 +234,7 @@ class Runner
     /**
      * Setup the directory structure needed for the build.
      *
-     * @param \Martha\Core\Build\Build $build
+     * @param Build $build
      * @return $this
      */
     protected function setupEnvironment(Build $build)
@@ -348,8 +348,6 @@ class Runner
     }
 
     /**
-     *
-     *
      * @param string $line
      * @return string
      */
@@ -360,6 +358,8 @@ class Runner
 
     /**
      * Cleans up after the build, removing unnecessary files, etc.
+     *
+     * @param Build $build
      */
     protected function cleanupBuild(Build $build)
     {
@@ -388,36 +388,5 @@ class Runner
         );
 
         return $text;
-    }
-
-    /**
-     * Takes a number of seconds and formats it in the format of X hours, Y minutes, Z seconds.
-     *
-     * @param int $seconds
-     * @return string
-     */
-    protected function formatTime($seconds)
-    {
-        $hours = floor($seconds / 3600);
-        $minutes = floor(($seconds - ($hours * 3600)) / 60);
-        $seconds = floor($seconds - ($minutes * 3600) + ($hours * 3600));
-
-        $time = '';
-
-        if ($hours > 0) {
-            $time .= $hours . ' hour' . ($hours > 1 ? 's ' : ' ');
-        }
-
-        if ($minutes > 0) {
-            $time .= empty($time) ? '' : ', ';
-            $time .= $minutes . ' minute' . ($minutes > 1 ? 's ' : ' ');
-        }
-
-        if ($seconds > 0) {
-            $time .= empty($time) ? '' : ', ';
-            $time .= $seconds . ' second' . ($seconds > 1 ? 's ' : ' ');
-        }
-
-        return $time;
     }
 }
