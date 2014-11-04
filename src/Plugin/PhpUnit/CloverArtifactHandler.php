@@ -68,43 +68,14 @@ class CloverArtifactHandler extends AbstractArtifactHandler implements
             }
         }
 
-        if ($this->details['totalMethods'] == 0) {
-            $this->details['coverageMethods'] = 0;
-        } else {
-            $this->details['coverageMethods'] = round(
-                $this->details['coveredMethods'] / $this->details['totalMethods'] * 100,
-                2
-            );
-        }
-
-        if ($this->details['totalStatements'] == 0) {
-            $this->details['coverageStatements'] = 0;
-        } else {
-            $this->details['coverageStatements'] = round(
-                $this->details['coveredStatements'] / $this->details['totalStatements'] * 100,
-                2
-            );
-        }
-
-        if ($this->details['totalConditionals'] == 0) {
-            $this->details['coverageConditionals'] = 0;
-        } else {
-            $this->details['coverageConditionals'] = round(
-                $this->details['coveredConditionals'] / $this->details['totalConditionals'] * 100,
-                2
-            );
-        }
-
-        if ($this->details['total'] == 0) {
-            $this->details['coverage'] = 0;
-        } else {
-            $this->details['coverage'] = round($this->details['covered'] / $this->details['total'] * 100, 2);
-        }
+        $this->calculateTotals();
 
         if ($build->getParent()) {
             $parent = $build->getParent();
             $statistics = $parent->getFlatStatistics();
 
+            $this->generateCoverageComparisonStatistics($statistics);
+            
             if (isset($statistics['method-coverage'])) {
                 $this->details['methodCoverageChange'] =
                     $this->details['coverageMethods'] - $statistics['method-coverage'];
@@ -125,6 +96,75 @@ class CloverArtifactHandler extends AbstractArtifactHandler implements
                     $this->details['coverage'] - $statistics['total-coverage'];
             }
         }
+    }
+
+    /**
+     * Calculate build statistic totals.
+     */
+    protected function calculateTotals()
+    {
+        $this->details['coverageMethods'] = $this->formatTotals(
+            $this->details,
+            'coveredMethods',
+            'totalMethods'
+        );
+
+        $this->details['coverageStatement'] = $this->formatTotals(
+            $this->details,
+            'coveredStatements',
+            'totalStatements'
+        );
+
+        $this->details['coverageConditions'] = $this->formatTotals(
+            $this->details,
+            'coveredConditions',
+            'totalConditions'
+        );
+
+        $this->details['coverage'] = $this->formatTotals($this->details, 'coverage', 'total');
+    }
+
+    /**
+     * Calculate coverage statistics against the parent build.
+     *
+     * @param array $statistics
+     */
+    protected function generateCoverageComparisonStatistics(array $statistics)
+    {
+        if (isset($statistics['method-coverage'])) {
+            $this->details['methodCoverageChange'] =
+                $this->details['coverageMethods'] - $statistics['method-coverage'];
+        }
+
+        if (isset($statistics['statement-coverage'])) {
+            $this->details['statementCoverageChange'] =
+                $this->details['coverageStatements'] - $statistics['statement-coverage'];
+        }
+
+        if (isset($statistics['conditional-coverage'])) {
+            $this->details['conditionalCoverageChange'] =
+                $this->details['coverageConditionals'] - $statistics['conditional-coverage'];
+        }
+
+        if (isset($statistics['total-coverage'])) {
+            $this->details['totalCoverageChange'] =
+                $this->details['coverage'] - $statistics['total-coverage'];
+        }
+    }
+
+    /**
+     * @param array $details
+     * @param string $metric
+     * @param string $total
+     * @return float|int
+     */
+    protected function formatTotals(array $details, $metric, $total)
+    {
+        if ($details[$total] > 0) {
+            return round($details[$metric] / $details[$total] * 100, 2);
+        }
+
+        return 0;
     }
 
     /**
