@@ -7,6 +7,7 @@ use Martha\Core\Domain\Entity\Step;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Plugin\ArtifactHandlers\BuildStatisticInterface;
 use Martha\Core\System;
+use Martha\Scm\Provider\AbstractProvider;
 use Martha\StdLib\Date\Comparison;
 use Symfony\Component\Yaml\Yaml;
 use Martha\Core\Domain\Entity\Build;
@@ -104,17 +105,7 @@ class Runner
         $scm = ProviderFactory::createForProject($build->getProject());
         $scm->setRepository($this->workingDir);
 
-        $revisionNo = $build->getRevisionNumber();
-
-        $revisions = $scm->getHistory($revisionNo);
-
-        if (count($revisions)) {
-            $parent = $this->buildRepository->getParentBuild($revisions);
-
-            if ($build) {
-                $build->setParent($parent);
-            }
-        }
+        $this->setParentBuild($build, $scm);
 
         $script = $this->parseBuildScript();
 
@@ -168,7 +159,41 @@ class Runner
             'Build duration: <strong>' . Comparison::difference($start, $end) . '</strong>'
         );
 
-        foreach ($script['artifacts'] as $pluginHelper => $artifactFile) {
+        $this->parseBuildArtifacts($build, $script['artifacts']);
+        $this->cleanupBuild($build);
+
+        $wasSuccessful = $this->wasBuildSuccessful($status);
+        $this->completeBuild($build, $wasSuccessful);
+
+        return $wasSuccessful;
+    }
+
+    /**
+     * @param Build $build
+     * @param AbstractProvider $scm
+     */
+    protected function setParentBuild(Build $build, AbstractProvider $scm)
+    {
+        $revisionNo = $build->getRevisionNumber();
+
+        $revisions = $scm->getHistory($revisionNo);
+
+        if (count($revisions)) {
+            $parent = $this->buildRepository->getParentBuild($revisions);
+
+            if ($build) {
+                $build->setParent($parent);
+            }
+        }
+    }
+
+    /**
+     * @param Build $build
+     * @param array $artifacts
+     */
+    protected function parseBuildArtifacts(Build $build, array $artifacts)
+    {
+        foreach ($artifacts as $pluginHelper => $artifactFile) {
             $artifactFile = $this->parseBuildScriptLine($artifactFile);
             $artifact = new Artifact();
             $artifact->setBuild($build);
@@ -177,16 +202,19 @@ class Runner
 
             $build->getArtifacts()->add($artifact);
         }
+    }
 
-        $this->cleanupBuild($build);
-
+    /**
+     * @param array $steps
+     * @return bool
+     */
+    protected function wasBuildSuccessful(array $steps)
+    {
         $wasSuccessful = true;
 
-        foreach ($status as $stepStatus) {
+        foreach ($steps as $stepStatus) {
             $wasSuccessful = $wasSuccessful && $stepStatus == 0;
         }
-
-        $this->completeBuild($build, $wasSuccessful);
 
         return $wasSuccessful;
     }
