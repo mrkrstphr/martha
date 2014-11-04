@@ -66,43 +66,19 @@ class System
     /**
      * Load all of the plugins.
      *
-     * @todo clean this up. remove the reliance on plugin-path.
      * @param array $config
      */
     protected function loadPlugins(array $config)
     {
-        $path = $config['plugin-path'];
         $plugins = isset($config['plugins']) ? $config['plugins'] : [];
 
-        if (!$plugins) {
-            return;
-        }
-
-        $files = [];
-
-        if (is_array($path)) {
-            foreach ($path as $dir) {
-                $files = array_merge($files, glob($dir . 'Plugin.php'));
-            }
-        } else {
-            $files = glob($path . 'Plugin.php');
-        }
-
-        foreach ($files as $file) {
-            $pluginName = basename(dirname($file));
-
-            if (!array_key_exists($pluginName, $plugins)) {
-                continue;
-            }
-
-            $className = 'Martha\Plugin\\' . $pluginName . '\Plugin';
-
-            if (class_exists($className)) {
-                $plugin = new $className(
+        foreach ($plugins as $plugin => $config) {
+            if (class_exists($plugin)) {
+                $pluginObj = new $plugin(
                     $this->pluginManager,
-                    isset($config['plugins'][$pluginName]) ? $config['plugins'][$pluginName] : []
+                    $config
                 );
-                $this->pluginManager->registerPlugin($className, $plugin);
+                $this->pluginManager->registerPlugin($plugin, $pluginObj);
             }
         }
     }
