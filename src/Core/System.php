@@ -73,7 +73,8 @@ class System
         $plugins = isset($config['plugins']) ? $config['plugins'] : [];
 
         foreach ($plugins as $plugin => $config) {
-            if (class_exists($plugin)) {
+            $plugin .= '\Plugin';
+            if (class_exists($plugin, true)) {
                 $pluginObj = new $plugin(
                     $this->pluginManager,
                     $config
