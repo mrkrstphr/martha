@@ -1,5 +1,4 @@
-pre:
-  - curl -s https://getcomposer.org/installer | php
-  - php composer.phar install --prefer-dist --dev
 build:
-  - phpcs --standard=PSR2 --report=checkstyle --report-file=${outputdir}/checkstyle.xml src/
+  - command: curl -s https://getcomposer.org/installer | php
+  - command: php composer.phar install --prefer-dist --dev
+  - command: phpcs --standard=PSR2 --report=checkstyle --report-file=${outputdir}/checkstyle.xml src/
