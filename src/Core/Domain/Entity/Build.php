@@ -132,7 +132,6 @@ class Build extends AbstractEntity
     {
         $this->artifacts = new ArrayCollection();
         $this->steps = new ArrayCollection();
-        $this->metadata = new Hash();
         $this->statistics = new ArrayCollection();
         $this->alerts = new ArrayCollection();
         $this->exceptions = new ArrayCollection();
