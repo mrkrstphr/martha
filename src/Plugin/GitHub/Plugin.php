@@ -152,7 +152,7 @@ class Plugin extends AbstractPlugin
     {
         $project = $build->getProject();
 
-        if ($build->getMetadata()->get('triggered-by') == 'GitHubWebHook') {
+        if ($build->getMethod() == 'GitHub:WebHook') {
             list($owner, $repo) = explode('/', $project->getName());
 
             $response = $this->getApi()->repositories()->statuses()->create(
@@ -183,7 +183,7 @@ class Plugin extends AbstractPlugin
     {
         $project = $build->getProject();
 
-        if ($build->getMetadata()->get('triggered-by') == 'GitHubWebHook') {
+        if ($build->getMethod() == 'GitHub:WebHook') {
             list($owner, $repo) = explode('/', $project->getName());
 
             $this->getApi()->repositories()->statuses()->create(
