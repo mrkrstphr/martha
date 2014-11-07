@@ -119,37 +119,8 @@ class Runner
         $this->log('Build started at: <strong>' . date('j M Y h:i:s A', $start) . '</strong>'. PHP_EOL);
         $status = [];
 
-        foreach ($script['build'] as $commandIndex => $command) {
-            $step = new Step();
-            $step->setBuild($build);
-            $step->setCommand($command['command']);
-
-            if (isset($command['stopOnFailure'])) {
-                $step->setStopOnFailure((bool)$command['stopOnFailure']);
-            }
-
-            if (isset($command['markBuildFailed'])) {
-                $step->setMarkBuildFailed((bool)$command['markBuildFailed']);
-            }
-
-            $return = $this->runCommand($step->getCommand());
-
-            if ($step->getMarkBuildFailed()) {
-                $status[$commandIndex] = $return;
-            }
-
-            $step->setReturnStatus($return);
-
-            $build->getSteps()->add($step);
-
-            $this->log("\nCommand returned status [{$return}].\n");
-
-            if ($return != 0 && $step->getStopOnFailure()) {
-                $this->log('Build halting due to failure');
-                break;
-            }
-
-            $this->log(''); // force a newline after each command
+        if ($script['build']) {
+            $this->runBuildSteps($build, $script['build']);
         }
 
         $end = microtime(true);
@@ -159,7 +130,10 @@ class Runner
             'Build duration: <strong>' . Comparison::difference($start, $end) . '</strong>'
         );
 
-        $this->parseBuildArtifacts($build, $script['artifacts']);
+        if (isset($script['artifacts'])) {
+            $this->parseBuildArtifacts($build, $script['artifacts']);
+        }
+
         $this->cleanupBuild($build);
 
         $wasSuccessful = $this->wasBuildSuccessful($status);
@@ -181,7 +155,7 @@ class Runner
         if (count($revisions)) {
             $parent = $this->buildRepository->getParentBuild($revisions);
 
-            if ($build) {
+            if ($parent) {
                 $build->setParent($parent);
             }
         }
@@ -346,6 +320,47 @@ class Runner
         $script = $yaml->parse($this->workingDir . '/build.yml');
 
         return $script;
+    }
+
+    /**
+     * @param Build $build
+     * @param array $steps
+     * @throws \Exception
+     */
+    public function runBuildSteps(Build $build, array $steps)
+    {
+        foreach ($steps as $commandIndex => $command) {
+            $step = new Step();
+            $step->setBuild($build);
+            $step->setCommand($command['command']);
+
+            if (isset($command['stopOnFailure'])) {
+                $step->setStopOnFailure((bool)$command['stopOnFailure']);
+            }
+
+            if (isset($command['markBuildFailed'])) {
+                $step->setMarkBuildFailed((bool)$command['markBuildFailed']);
+            }
+
+            $return = $this->runCommand($step->getCommand());
+
+            if ($step->getMarkBuildFailed()) {
+                $status[$commandIndex] = $return;
+            }
+
+            $step->setReturnStatus($return);
+
+            $build->getSteps()->add($step);
+
+            $this->log("\nCommand returned status [{$return}].\n");
+
+            if ($return != 0 && $step->getStopOnFailure()) {
+                $this->log('Build halting due to failure');
+                break;
+            }
+
+            $this->log(''); // force a newline after each command
+        }
     }
 
     /**
