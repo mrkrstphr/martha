@@ -44,7 +44,7 @@ class BuildFactory
 
         $build = new Build();
         $build->setProject($project[0]);
-        $build->setMethod('GitHub Web Hook');
+        $build->setMethod('GitHub:WebHook');
 
         $build->setRevisionNumber($payload['pull_request']['head']['sha']);
         $build->setBranch(basename($payload['pull_request']['head']['ref']));
