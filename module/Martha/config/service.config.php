@@ -23,6 +23,9 @@
 
 return [
     'factories' => [
+        'Zend\Authentication\AuthenticationService' => function ($sm) {
+            return new \Zend\Authentication\AuthenticationService();
+        },
         'RepositoryFactory' => function (Zend\ServiceManager\ServiceManager $sm) {
             $entityManager = $sm->get('Doctrine\ORM\EntityManager');
             return new Martha\Core\Persistence\Repository\Factory($entityManager);

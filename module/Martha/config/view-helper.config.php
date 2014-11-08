@@ -36,6 +36,7 @@ return [
         'bootstrapFormLabel' => 'Martha\View\Helper\BootstrapFormLabel',
         'bootstrapFormInput' => 'Martha\View\Helper\BootstrapFormInput',
         'bootstrapFormSelect' => 'Martha\View\Helper\BootstrapFormSelect',
-        'displayAlert' => 'Martha\View\Helper\DisplayAlert'
+        'displayAlert' => 'Martha\View\Helper\DisplayAlert',
+        'flashErrorMessages' => 'Martha\View\Helper\FlashErrorMessages'
     ]
 ];

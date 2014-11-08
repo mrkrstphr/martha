@@ -1,3 +1,4 @@
+<?php $hasIdentity = !is_null($this->identity()); ?>
 
 <ul class="nav navbar-nav">
     <?php foreach ($this->container as $group): ?>
@@ -7,10 +8,12 @@
         <?php if ($group->getPages()): ?>
         <ul class="dropdown-menu">
             <?php foreach ($group->getPages() as $page): ?>
+            <?php if (!$page->get('requires-login') || $hasIdentity): ?>
             <li<?= $page->isActive() ? ' class="active"' : '' ?>>
                 <a href="<?= $page->getHref() ?>">
                     <?= $this->escapeHtml($page->getLabel()); ?></a>
             </li>
+            <?php endif; ?>
             <?php endforeach; ?>
         </ul>
         <?php endif; ?>

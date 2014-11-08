@@ -67,6 +67,11 @@ class ProjectsController extends AbstractMarthaController
      */
     public function createAction()
     {
+        if (!$this->identity()) {
+            $this->flashMessenger()->addErrorMessage('You have to log in to do that!');
+            return $this->redirect()->toRoute('projects');
+        }
+
         $form = $this->getServiceLocator()->get('ProjectForm')->bind(new Project());
         $providers = $this->system->getPluginManager()->getRemoteProjectProviders();
         $options = $form->get('project_type')->getValueOptions();

@@ -220,7 +220,8 @@ return [
                     ],
                     [
                         'label' => 'Create New',
-                        'route' => 'projects/create'
+                        'route' => 'projects/create',
+                        'requires-login' => true
                     ]
                 ]
             ]
