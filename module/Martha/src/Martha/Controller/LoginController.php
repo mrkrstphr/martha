@@ -2,10 +2,9 @@
 
 namespace Martha\Controller;
 
-use Martha\Core\Authentication\Provider\AbstractOAuthProvider;
-use Martha\Core\Domain\Repository\UserRepositoryInterface;
-use Martha\Core\Http\Request;
-use Zend\Authentication\AuthenticationService;
+use Martha\Core\Authentication\AuthenticationService;
+use Symfony\Component\HttpFoundation\Request;
+use Zend\Authentication;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
@@ -15,16 +14,16 @@ use Zend\Mvc\Controller\AbstractActionController;
 class LoginController extends AbstractActionController
 {
     /**
-     * @var \Martha\Core\Domain\Repository\UserRepositoryInterface
+     * @var AuthenticationService
      */
-    protected $repository;
+    protected $authService;
 
     /**
-     * @param \Martha\Core\Domain\Repository\UserRepositoryInterface $repository
+     * @param AuthenticationService $authService
      */
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(AuthenticationService $authService)
     {
-        $this->repository = $repository;
+        $this->authService = $authService;
     }
 
     /**
@@ -34,7 +33,6 @@ class LoginController extends AbstractActionController
      */
     public function indexAction()
     {
-        $system = $this->getServiceLocator()->get('System');
         $config = $this->getServiceLocator()->get('Config');
         $config = $config['martha'];
 
@@ -45,52 +43,45 @@ class LoginController extends AbstractActionController
             return [];
         }
 
-        $data = [
-            'oauth' => []
+        return [
+            'oauth' => $this->authService->getRegisteredoAuthProviders()
         ];
+    }
 
-        foreach ($system->getPluginManager()->getAuthenticationProviders() as $provider) {
-            if ($provider instanceof AbstractOAuthProvider) {
-                $data['oauth'][] = $provider;
-            }
+    /**
+     * @return \Zend\Http\Response
+     */
+    public function oauthAction()
+    {
+        $provider = $this->authService->getAuthenticationProvider(
+            $this->params()->fromQuery('service')
+        );
+
+        if ($provider) {
+            $provider->prepareForRedirect();
+            return $this->redirect()->toUrl($provider->getUrl());
         }
 
-        return $data;
+        return $this->redirect()->toRoute('login');
     }
 
     /**
      * OAuth Callback after authentication.
+     * @return \Zend\Http\Response
      */
     public function oauthCallbackAction()
     {
-        $request = (new Request())
-            ->setBody($this->getRequest()->getContent())
-            ->setGet($this->params()->fromQuery())
-            ->setPost($this->params()->fromPost());
+        $service = $this->params()->fromRoute('id');
+        $request = Request::createFromGlobals();
 
-        $system = $this->getServiceLocator()->get('System');
-
-        foreach ($system->getPluginManager()->getAuthenticationProviders() as $provider) {
-            if ($provider instanceof AbstractOAuthProvider) {
-                if (($user = $provider->validateResult($request))) {
-                    $dbUser = $this->repository->getBy(['email' => $user->getEmail()]);
-
-                    if (!$dbUser) {
-                        $this->repository->persist($user)->flush();
-                        $dbUser = $user;
-                    } else {
-                        $dbUser = current($dbUser);
-                    }
-
-                    $auth = new AuthenticationService();
-                    $auth->getStorage()->write($dbUser);
-                    $this->redirect()->toUrl('/');
-                    return;
-                }
-            }
+        if (($user = $this->authService->authenticateWithOAuthProvider($service, $request)) !== false) {
+            $auth = new Authentication\AuthenticationService();
+            $auth->getStorage()->write($user);
+            return $this->redirect()->toUrl('/');
         }
 
-        $this->redirect()->toUrl('/login');
+        // some kind of flash message
+        return $this->redirect()->toUrl('/login');
     }
 
     /**
@@ -98,7 +89,7 @@ class LoginController extends AbstractActionController
      */
     public function logoutAction()
     {
-        $auth = new AuthenticationService();
+        $auth = new Authentication\AuthenticationService();
         $auth->clearIdentity();
 
         $this->redirect()->toUrl('/');

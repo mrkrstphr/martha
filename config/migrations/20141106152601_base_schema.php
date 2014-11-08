@@ -5,7 +5,6 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Class BaseSchema
- * @package Martha\Core\Persistence\Migration
  */
 class BaseSchema extends AbstractMigration
 {
@@ -196,6 +195,7 @@ class BaseSchema extends AbstractMigration
     {
         $users = $this->table('users')
             ->addColumn('full_name', 'string', ['limit' => 100, 'null' => true])
+            ->addColumn('alias', 'string', ['limit' => 100, 'null' => true])
             ->addColumn('email', 'string')
             ->addColumn('password', 'text', ['null' => true])
             ->addColumn('auth_service', 'string', ['limit' => 100])

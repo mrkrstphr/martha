@@ -106,6 +106,21 @@ class PluginManager
     }
 
     /**
+     * @param string $name
+     * @return bool
+     */
+    public function getAuthenticationProvider($name)
+    {
+        foreach ($this->getAuthenticationProviders() as $provider) {
+            if (strtolower($provider->getName()) == strtolower($name)) {
+                return $provider;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Allows a plugin to register an ArtifactHandler.
      *
      * @param AbstractPlugin $plugin

@@ -2,8 +2,6 @@
 
 namespace Martha\Core\Authentication\Provider;
 
-use Martha\Core\Http\Request;
-
 /**
  * Class AbstractOAuthProvider
  * @package Martha\Core\Authentication\Provider
@@ -21,13 +19,9 @@ abstract class AbstractOAuthProvider extends AbstractProvider
     abstract public function getUrl();
 
     /**
-     * @return string
+     * Allow the client to do anything it needs to do before redirecting the user to the service.
      */
-    abstract public function getIcon();
-
-    /**
-     * @param \Martha\Core\Http\Request $request
-     * @return boolean|\Martha\Core\Domain\Entity\User
-     */
-    abstract public function validateResult(Request $request);
+    public function prepareForRedirect()
+    {
+    }
 }

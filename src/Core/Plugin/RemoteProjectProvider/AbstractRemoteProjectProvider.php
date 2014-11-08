@@ -2,7 +2,7 @@
 
 namespace Martha\Core\Plugin\RemoteProjectProvider;
 
-use Martha\Plugin\GitHub\Plugin;
+use Martha\Core\Plugin\AbstractPlugin;
 
 /**
  * Class AbstractRemoteProjectProvider
@@ -21,9 +21,9 @@ abstract class AbstractRemoteProjectProvider
     protected $plugin;
 
     /**
-     * @param Plugin $plugin
+     * @param AbstractPlugin $plugin
      */
-    public function __construct(Plugin $plugin)
+    public function __construct(AbstractPlugin $plugin)
     {
         $this->plugin = $plugin;
     }

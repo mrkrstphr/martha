@@ -3,6 +3,9 @@
 namespace Martha\Core\Domain\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Martha\Core\Domain\Entity\User\Email;
+use Martha\Core\Domain\Entity\User\Token;
 
 /**
  * Class User
@@ -21,19 +24,14 @@ class User extends AbstractEntity
     protected $alias;
 
     /**
-     * @var string
+     * @var ArrayCollection
      */
-    protected $email;
+    protected $emails;
 
     /**
-     * @var string
+     * @var ArrayCollection
      */
-    protected $authService;
-
-    /**
-     * @var string
-     */
-    protected $accessToken;
+    protected $tokens;
 
     /**
      * @var string
@@ -50,6 +48,8 @@ class User extends AbstractEntity
      */
     public function __construct()
     {
+        $this->emails = new ArrayCollection();
+        $this->tokens = new ArrayCollection();
         $this->created = new DateTime();
     }
 
@@ -90,21 +90,74 @@ class User extends AbstractEntity
     }
 
     /**
-     * @param string $email
+     * @param ArrayCollection $emails
      * @return $this
      */
-    public function setEmail($email)
+    public function setEmails($emails)
     {
-        $this->email = $email;
+        $this->emails = $emails;
         return $this;
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getEmails()
+    {
+        return $this->emails;
+    }
+
+    /**
+     * @param Email $email
+     * @return $this
+     */
+    public function addEmail(Email $email)
+    {
+        $email->setUser($this);
+        $this->emails->add($email);
+        return $this;
+    }
+
+    /**
+     * @todo Bake in a concept of primary
      * @return string
      */
-    public function getEmail()
+    public function getPrimaryEmail()
     {
-        return $this->email;
+        if (count($this->getEmails())) {
+            return $this->getEmails()->first()->getEmail();
+        }
+
+        return '';
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
+    }
+
+    /**
+     * @param ArrayCollection $tokens
+     * @return $this
+     */
+    public function setTokens($tokens)
+    {
+        $this->tokens = $tokens;
+        return $this;
+    }
+
+    /**
+     * @param Token $token
+     * @return $this
+     */
+    public function addToken(Token $token)
+    {
+        $token->setUser($this);
+        $this->tokens->add($token);
+        return $this;
     }
 
     /**

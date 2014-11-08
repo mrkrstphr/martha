@@ -149,7 +149,7 @@ return [
             'login' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/login[/[:action]]',
+                    'route' => '/login[/[:action][/:id]]',
                     'defaults' => [
                         'controller' => 'Martha\Controller\Login',
                         'action' => 'index'

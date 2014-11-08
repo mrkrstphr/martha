@@ -11,15 +11,21 @@ Martha\Core\Domain\Entity\User:
       column: full_name
       length: 100
       nullable: true
-    email:
+    alias:
+      column: alias
+      length: 100
+      nullable: true
     password:
       type: text
       nullable: true
-    authService:
-      column: auth_service
-      length: 100
-    accessToken:
-      column: access_token
-      nullable: true
     created:
       type: datetime
+  oneToMany:
+    emails:
+      targetEntity: Martha\Core\Domain\Entity\User\Email
+      mappedBy: user
+      cascade: ["persist"]
+    tokens:
+      targetEntity: Martha\Core\Domain\Entity\User\Token
+      mappedBy: user
+      cascade: ["persist"]

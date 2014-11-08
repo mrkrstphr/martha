@@ -2,7 +2,9 @@
 
 namespace Martha\Core\Authentication\Provider;
 
+use Martha\Core\Authentication\AuthenticationResult;
 use Martha\Core\Plugin\AbstractPlugin;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AbstractProvider
@@ -37,4 +39,10 @@ abstract class AbstractProvider
     {
         return $this->config;
     }
+
+    /**
+     * @param Request $request
+     * @return AuthenticationResult
+     */
+    abstract public function validateResult(Request $request);
 }

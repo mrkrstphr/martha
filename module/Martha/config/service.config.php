@@ -26,6 +26,12 @@ return [
         'Zend\Authentication\AuthenticationService' => function ($sm) {
             return new \Zend\Authentication\AuthenticationService();
         },
+        'Martha\Service\AuthenticationService' => function ($sm) {
+            return new \Martha\Core\Authentication\AuthenticationService(
+                $sm->get('System')->getPluginManager(),
+                $sm->get('UserRepository')
+            );
+        },
         'RepositoryFactory' => function (Zend\ServiceManager\ServiceManager $sm) {
             $entityManager = $sm->get('Doctrine\ORM\EntityManager');
             return new Martha\Core\Persistence\Repository\Factory($entityManager);
