@@ -120,7 +120,7 @@ class Runner
         $status = [];
 
         if ($script['build']) {
-            $this->runBuildSteps($build, $script['build']);
+            $status = $this->runBuildSteps($build, $script['build']);
         }
 
         $end = microtime(true);
@@ -329,6 +329,8 @@ class Runner
      */
     public function runBuildSteps(Build $build, array $steps)
     {
+        $status = [];
+
         foreach ($steps as $commandIndex => $command) {
             $step = new Step();
             $step->setBuild($build);
@@ -361,6 +363,8 @@ class Runner
 
             $this->log(''); // force a newline after each command
         }
+
+        return $status;
     }
 
     /**
