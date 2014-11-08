@@ -189,7 +189,8 @@ class Plugin extends AbstractPlugin
                     'description' => 'The Martha CI Build ' .
                         ($build->getStatus() == Build::STATUS_SUCCESS ? 'Passed' : 'Failed'),
                     'target_url' => $this->getPluginManager()->getSystem()->getSiteUrl() .
-                        '/build/view/' . $build->getId()
+                        '/build/view/' . $build->getId(),
+                    'context' => 'martha-ci:build'
                 ]
             );
 
