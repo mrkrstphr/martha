@@ -42,11 +42,11 @@
                     <?= $this->navigation('Navigation')->menu()->setPartial(['layout/navigation.phtml', 'Application'])->render(); ?>
 
                     <ul id="user-menu" class="nav navbar-nav navbar-right">
-                        <?php if ($model->identity): ?>
+                        <?php if ($this->identity()): ?>
                             <li>
                                 <a href="#" class="user-icon">
-                                    <img alt="" src="<?= $this->gravatarUrl($model->identity, 24) ?>">
-                                    <?= $model->identity->getFullName() ?></a>
+                                    <img alt="" src="<?= $this->gravatarUrl($this->identity(), 24) ?>">
+                                    <?= $this->identity()->getFullName() ?></a>
                             </li>
                             <li>
                                 <a href="/settings" title="Settings">
@@ -67,7 +67,6 @@
             </div>
         </div>
         <div class="container">
-
             <?= $this->flashErrorMessages() ?>
             <?= $this->content ?>
         </div>
