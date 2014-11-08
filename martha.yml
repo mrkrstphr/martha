@@ -1,4 +1,15 @@
 build:
-  - command: curl -s https://getcomposer.org/installer | php
-  - command: php composer.phar install --prefer-dist --dev
-  - command: ./vendor/bin/phpcs --standard=PSR2 --report=checkstyle --report-file=${outputdir}/checkstyle.xml src/
+  -
+    command: curl -s https://getcomposer.org/installer | php
+    stopOnFailure: true
+  -
+    command: php composer.phar install --prefer-dist --dev
+    stopOnFailure: true
+  -
+    command: phploc --log-xml=${outputdir}/phploc.xml module/
+    markBuildFailed: false
+  -
+    command: ./vendor/bin/phpcs --standard=PSR2 --report=checkstyle --report-file=${outputdir}/checkstyle.xml src/
+artifacts:
+  phploc: ${outputdir}/phploc.xml
+  phpcs: ${outputdir}/checkstyle.xml
