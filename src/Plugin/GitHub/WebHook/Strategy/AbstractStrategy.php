@@ -10,7 +10,6 @@ abstract class AbstractStrategy
 {
     /**
      * @param array $payload
-     * @return mixed
      */
     abstract public function handlePayload(array $payload);
 }

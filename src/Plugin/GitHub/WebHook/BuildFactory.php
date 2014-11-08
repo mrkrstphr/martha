@@ -31,6 +31,34 @@ class BuildFactory
      */
     public function createBuildFromPullRequest(array $payload)
     {
+        $build = $this->createBuildFromPayload($payload)
+            ->setRevisionNumber($payload['pull_request']['head']['sha'])
+            ->setBranch(basename($payload['pull_request']['head']['ref']));
+
+        return $build;
+    }
+
+    /**
+     * @param array $payload
+     * @return Build
+     * @throws PayloadException
+     */
+    public function createFromPush(array $payload)
+    {
+        $build = $this->createBuildFromPayload($payload)
+            ->setRevisionNumber($payload['head_commit']['id'])
+            ->setBranch(basename($payload['ref']));
+
+        return $build;
+    }
+
+    /**
+     * @param array $payload
+     * @return Build
+     * @throws PayloadException
+     */
+    protected function createBuildFromPayload(array $payload)
+    {
         $repositoryData = isset($payload['repository']) ? $payload['repository'] : false;
         if (!$repositoryData) {
             throw new PayloadException('Repository data is missing from the payload');
@@ -45,20 +73,11 @@ class BuildFactory
         $build = new Build();
         $build->setProject($project[0]);
         $build->setMethod('GitHub:WebHook');
-
-        $build->setRevisionNumber($payload['pull_request']['head']['sha']);
-        $build->setBranch(basename($payload['pull_request']['head']['ref']));
-
-        if ($payload['pull_request']['head']['repo']['full_name'] != $build->getProject()->getName()) {
-            $build->setFork($payload['pull_request']['head']['repo']['ssh_url']);
-            $build->setForkUri($build->getFork()); // wtf?
-        }
-
         $build->setStatus(Build::STATUS_PENDING);
         $build->setCreated(new \DateTime());
-        $build->getMetadata()
-            ->set('triggered-by', 'GitHubWebHook')
-            ->set('pull-request', $payload['number']);
+        //$build->getMetadata()
+        //    ->set('triggered-by', 'GitHubWebHook')
+        //    ->set('pull-request', $payload['number']);
 
         return $build;
     }

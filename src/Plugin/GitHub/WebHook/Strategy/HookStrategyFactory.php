@@ -37,6 +37,13 @@ class HookStrategyFactory
                     $this->pluginManager->getSystem()->getRepositoryFactory()->createProjectRepository()
                 )
             );
+        } else if ($event == 'push') {
+            return new PushStrategy(
+                $this->pluginManager->getSystem()->getRepositoryFactory()->createBuildRepository(),
+                new BuildFactory(
+                    $this->pluginManager->getSystem()->getRepositoryFactory()->createProjectRepository()
+                )
+            );
         }
 
         return false;

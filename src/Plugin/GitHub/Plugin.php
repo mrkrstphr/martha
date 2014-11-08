@@ -125,12 +125,6 @@ class Plugin extends AbstractPlugin
             return ['success' => false, 'description' => $message];
         }
 
-        // Gracefully ignore anything that is not of these actions, as they don't necessarily mean anything
-        // is wrong, but we don't want to generate a build when someone comments, etc on the PR.
-        if (!in_array($payload['action'], ['opened', 'reopened', 'synchronize'])) {
-            return ['success' => true, 'description' => 'Operation Unhandled'];
-        }
-
         // Todo: move this to an actual queue system like php-resque...
         // Force the Build Queue to be checked now, instead of waiting for a scheduled run:
 
