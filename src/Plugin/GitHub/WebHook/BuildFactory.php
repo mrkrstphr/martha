@@ -34,6 +34,9 @@ class BuildFactory
         $build = $this->createBuildFromPayload($payload)
             ->setRevisionNumber($payload['pull_request']['head']['sha'])
             ->setBranch(basename($payload['pull_request']['head']['ref']));
+        $build->getMetadata()
+            ->set('triggered-by', 'GitHubHook:PullRequest')
+            ->set('pull-request', $payload['number']);
 
         return $build;
     }
@@ -48,6 +51,7 @@ class BuildFactory
         $build = $this->createBuildFromPayload($payload)
             ->setRevisionNumber($payload['head_commit']['id'])
             ->setBranch(basename($payload['ref']));
+        $build->getMetadata()->set('triggered-by', 'GitHubHook:Push');
 
         return $build;
     }
@@ -75,9 +79,6 @@ class BuildFactory
         $build->setMethod('GitHub:WebHook');
         $build->setStatus(Build::STATUS_PENDING);
         $build->setCreated(new \DateTime());
-        //$build->getMetadata()
-        //    ->set('triggered-by', 'GitHubWebHook')
-        //    ->set('pull-request', $payload['number']);
 
         return $build;
     }

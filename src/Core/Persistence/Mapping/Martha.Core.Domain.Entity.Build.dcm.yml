@@ -29,7 +29,7 @@ Martha\Core\Domain\Entity\Build:
       length: 255
       nullable: true
     metadata:
-      type: text
+      type: hash
       nullable: true
     status:
       length: 40
