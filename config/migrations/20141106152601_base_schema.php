@@ -18,7 +18,9 @@ class BaseSchema extends AbstractMigration
      */
     public function change()
     {
-        $projects = $this->createProjectsTable();
+        $users = $this->createUsersTable();
+
+        $projects = $this->createProjectsTable($users);
         $builds = $this->createBuildsTable($projects);
         $plugins = $this->createPluginsTable();
 
@@ -28,21 +30,24 @@ class BaseSchema extends AbstractMigration
         $this->createBuildExceptionsTable($builds, $plugins);
         $this->createBuildStatisticsTable($builds, $plugins);
 
-        $this->createUsersTable();
         $this->createLogsTable();
     }
 
     /**
+     * @param Table $users
      * @return Table
      */
-    protected function createProjectsTable()
+    protected function createProjectsTable(Table $users)
     {
         $projects = $this->table('projects')
             ->addColumn('name', 'string', ['limit' => 100])
             ->addColumn('description', 'text', ['null' => true])
             ->addColumn('scm', 'string', ['limit' => 50])
             ->addColumn('uri', 'string')
-            ->addColumn('is_private', 'boolean', ['default' => false]);
+            ->addColumn('is_private', 'boolean', ['default' => false])
+            ->addColumn('created', 'timestamp')
+            ->addColumn('created_by_id', 'integer')
+            ->addForeignKey('created_by_id', $users, 'id');
         $projects->create();
 
         return $projects;
@@ -197,12 +202,24 @@ class BaseSchema extends AbstractMigration
         $users = $this->table('users')
             ->addColumn('full_name', 'string', ['limit' => 100, 'null' => true])
             ->addColumn('alias', 'string', ['limit' => 100, 'null' => true])
-            ->addColumn('email', 'string')
             ->addColumn('password', 'text', ['null' => true])
             ->addColumn('public_key', 'text')
             ->addCOlumn('private_key', 'text')
             ->addColumn('created', 'timestamp');
         $users->create();
+
+        $emails = $this->table('user_emails')
+            ->addColumn('email', 'string')
+            ->addColumn('user_id', 'integer')
+            ->addForeignKey('user_id', $users, 'id');
+        $emails->create();
+
+        $tokens = $this->table('user_tokens')
+            ->addColumn('user_id', 'integer')
+            ->addColumn('auth_service', 'string', ['limit' => 100])
+            ->addColumn('access_token', 'string')
+            ->addForeignKey('user_id', $users, 'id');
+        $tokens->create();
 
         return $users;
     }
