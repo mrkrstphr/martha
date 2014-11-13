@@ -3,6 +3,7 @@
 namespace Martha\Form\Project;
 
 use Zend\Form\Element\Button;
+use Zend\Form\Element\Checkbox;
 use Zend\Form\Element\Select;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Textarea;
@@ -62,6 +63,10 @@ class Create extends Form implements InputFilterProviderInterface
                 ]
             );
 
+        $private = (new Checkbox('private'))
+            ->setLabel('Is Private?')
+            ->setValue('true');
+
         $submit = (new Button('create'))
             ->setLabel('Create')
             ->setAttribute('type', 'submit');
@@ -72,6 +77,7 @@ class Create extends Form implements InputFilterProviderInterface
         $this->add($description);
         $this->add($scm);
         $this->add($uri);
+        $this->add($private);
 
         $this->add($projectId);
 

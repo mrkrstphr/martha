@@ -2,6 +2,7 @@
 
 namespace Martha\Core\Plugin\RemoteProjectProvider;
 
+use Martha\Core\Domain\Entity\User;
 use Martha\Core\Plugin\AbstractPlugin;
 
 /**
@@ -41,24 +42,27 @@ abstract class AbstractRemoteProjectProvider
     /**
      * Get a list of available projects from the remote source.
      *
+     * @param User $user
      * @return array
      */
-    abstract public function getAvailableProjects();
+    abstract public function getAvailableProjectsForUser(User $user);
 
     /**
      * Get information about a specific project from the remote source.
      *
+     * @param User $user
      * @param $identifier
      * @return mixed
      */
-    abstract public function getProjectInformation($identifier);
+    abstract public function getProjectInformation(User $user, $identifier);
 
     /**
      * Event that is triggered when a project is created using this RemoteProjectProvider.
-     * 
+     *
+     * @param User $user
      * @param int $projectId
      */
-    public function onProjectCreated($projectId)
+    public function onProjectCreated(User $user, $projectId)
     {
     }
 }

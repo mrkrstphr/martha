@@ -30,8 +30,8 @@ Martha\Core\Domain\Entity\User:
     emails:
       targetEntity: Martha\Core\Domain\Entity\User\Email
       mappedBy: user
-      cascade: ["persist"]
+      cascade: ["persist", "remove"]
     tokens:
       targetEntity: Martha\Core\Domain\Entity\User\Token
       mappedBy: user
-      cascade: ["persist"]
+      cascade: ["persist", "remove"]

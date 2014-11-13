@@ -92,7 +92,7 @@ class ProjectsController extends AbstractMarthaController
 
                 if ($projectId) {
                     $provider = $this->system->getPluginManager()->getRemoteProjectProvider($projectType);
-                    $projectData = $provider->getProjectInformation($projectId);
+                    $projectData = $provider->getProjectInformation($this->identity(), $projectId);
 
                     $form->setData(array_merge($this->request->getPost()->toArray(), $projectData));
                 } else {
@@ -106,7 +106,8 @@ class ProjectsController extends AbstractMarthaController
                 $project = $form->getData();
 
                 if ($projectType != 'generic') {
-                    $provider->onProjectCreated($projectId);
+                    // todo: make this a real event
+                    $provider->onProjectCreated($this->identity(), $projectId);
                 }
 
                 $this->projectRepository->persist($project)->flush();
@@ -164,7 +165,7 @@ class ProjectsController extends AbstractMarthaController
 
         return new JsonModel(
             [
-                'projects' => $provider->getAvailableProjects()
+                'projects' => $provider->getAvailableProjectsForUser($this->identity())
             ]
         );
     }

@@ -31,6 +31,11 @@ class Project extends AbstractEntity
     protected $uri;
 
     /**
+     * @var boolean
+     */
+    protected $private;
+
+    /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $builds;
@@ -113,6 +118,24 @@ class Project extends AbstractEntity
     public function getUri()
     {
         return $this->uri;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPrivate()
+    {
+        return $this->private;
+    }
+
+    /**
+     * @param boolean $private
+     * @return $this
+     */
+    public function setPrivate($private)
+    {
+        $this->private = $private === true;
+        return $this;
     }
 
     /**

@@ -41,7 +41,8 @@ class BaseSchema extends AbstractMigration
             ->addColumn('name', 'string', ['limit' => 100])
             ->addColumn('description', 'text', ['null' => true])
             ->addColumn('scm', 'string', ['limit' => 50])
-            ->addColumn('uri', 'string');
+            ->addColumn('uri', 'string')
+            ->addColumn('is_private', 'boolean', ['default' => false]);
         $projects->create();
 
         return $projects;

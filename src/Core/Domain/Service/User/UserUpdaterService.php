@@ -21,7 +21,7 @@ class UserUpdaterService
         foreach ($user->getTokens() as $token) {
             if ($token->getService() == $result->getService()) {
                 if ($token->getToken()->toArray() != $result->getCredentials()) {
-                    $user->getTokens()->remove($token);
+                    $user->getTokens()->removeElement($token);
                 } else {
                     return;
                 }

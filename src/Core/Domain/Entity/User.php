@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Martha\Core\Domain\Entity\User\Email;
 use Martha\Core\Domain\Entity\User\Token;
+use Martha\Core\Hash;
 
 /**
  * Class User
@@ -171,39 +172,16 @@ class User extends AbstractEntity
     }
 
     /**
-     * @param string $authService
-     * @return $this
+     * @param string $service
+     * @return Hash|false
      */
-    public function setAuthService($authService)
+    public function getTokenForService($service)
     {
-        $this->authService = $authService;
-        return $this;
-    }
+        $token = $this->tokens->filter(function (Token $token) use ($service) {
+            return $token->getService() == $service;
+        })->first();
 
-    /**
-     * @return string
-     */
-    public function getAuthService()
-    {
-        return $this->authService;
-    }
-
-    /**
-     * @param string $accessToken
-     * @return $this
-     */
-    public function setAccessToken($accessToken)
-    {
-        $this->accessToken = $accessToken;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAccessToken()
-    {
-        return $this->accessToken;
+        return $token ? $token->getToken() : false;
     }
 
     /**

@@ -15,6 +15,9 @@ Martha\Core\Domain\Entity\Project:
     scm:
       length: 50
     uri:
+    private:
+      column: is_private
+      type: boolean
   oneToMany:
     builds:
       targetEntity: Martha\Core\Domain\Entity\Build
