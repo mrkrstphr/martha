@@ -41,7 +41,7 @@ interface RepositoryInterface
      * @return AbstractEntity
      */
     public function merge(AbstractEntity $entity);
-    
+
     /**
      * @return RepositoryInterface
      */

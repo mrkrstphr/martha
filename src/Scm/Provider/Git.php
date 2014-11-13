@@ -2,9 +2,6 @@
 
 namespace Martha\Scm\Provider;
 
-use Martha\Command\ChainOfCommands;
-use Martha\Command\Command;
-
 /**
  * Class Git
  * @package Martha\Scm\Provider
@@ -12,40 +9,32 @@ use Martha\Command\Command;
 class Git extends AbstractProvider
 {
     /**
+     * @todo switch to symfony process
      * @param string $cloneToPath
      * @return boolean
      */
     public function cloneRepository($cloneToPath)
     {
-        $cdCommand = (new Command('cd'))
-            ->addArgument($cloneToPath);
+        $command = 'cd ' . $cloneToPath . ' && ' .
+            'git clone ' . $this->repository . ' .';
 
-        $cloneCommand = (new Command('git clone'))
-            ->addArgument($this->repository)
-            ->addArgument('.');
+        exec($command, $output, $returnValue);
 
-        $chain = (new ChainOfCommands())
-            ->addCommand($cdCommand)
-            ->addCommand($cloneCommand);
-
+        // kind of weird, yo
         $this->repository = $cloneToPath;
 
-        return Command::run($chain)->getReturnValue() == 0;
+        return $returnValue == 0;
     }
 
+    /**
+     * @todo switch to symfony process
+     */
     public function checkout($ref)
     {
-        $cdCommand = (new Command('cd'))
-            ->addArgument($this->repository);
+        $command = 'cd ' . $this->repository . ' && ' .
+            'git checkout ' . $ref;
 
-        $checkoutCommand = (new Command('git checkout'))
-            ->addArgument($ref);
-
-        $chain = (new ChainOfCommands())
-            ->addCommand($cdCommand)
-            ->addCommand($checkoutCommand);
-
-        Command::run($chain);
+        exec($command, $output, $returnValue);
     }
 
     /**
