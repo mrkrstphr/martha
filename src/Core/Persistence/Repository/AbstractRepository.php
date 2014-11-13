@@ -74,6 +74,14 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function merge(AbstractEntity $entity)
+    {
+        return $this->entityManager->merge($entity);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function flush(AbstractEntity $entity = null)
     {
         $this->entityManager->flush($entity);

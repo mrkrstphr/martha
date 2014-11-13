@@ -115,6 +115,10 @@ class Module
             $response->getHeaders()->addHeaderLine('Location', $router->assemble([], ['name' => 'login']));
 
             return $response;
+        } else if ($login->hasIdentity()) {
+            $repo = $e->getApplication()->getServiceManager()->get('UserRepository');
+            $repo->merge($login->getIdentity());
+            $login->getStorage()->write($repo->merge($login->getIdentity()));
         }
     }
 

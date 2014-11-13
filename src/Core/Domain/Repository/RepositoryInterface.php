@@ -11,11 +11,6 @@ use Martha\Core\Domain\Entity\AbstractEntity;
 interface RepositoryInterface
 {
     /**
-     * @return RepositoryInterface
-     */
-    public function flush();
-
-    /**
      * @param $id
      * @return \Martha\Core\Domain\Entity\AbstractEntity
      */
@@ -40,4 +35,15 @@ interface RepositoryInterface
      * @return RepositoryInterface
      */
     public function persist(AbstractEntity $entity);
+
+    /**
+     * @param \Martha\Core\Domain\Entity\AbstractEntity $entity
+     * @return AbstractEntity
+     */
+    public function merge(AbstractEntity $entity);
+    
+    /**
+     * @return RepositoryInterface
+     */
+    public function flush();
 }

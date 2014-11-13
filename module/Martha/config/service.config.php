@@ -32,8 +32,21 @@ return [
                 $sm->get('UserRepository')
             );
         },
-        'RepositoryFactory' => function (Zend\ServiceManager\ServiceManager $sm) {
+        'Martha\Service\AuthenticationStorage' => function ($sm) {
+            return (new \Zend\Authentication\AuthenticationService());
+        },
+        'Martha\Persistence\EntityManager' => function ($sm) {
             $entityManager = $sm->get('Doctrine\ORM\EntityManager');
+            $entityManager->getEventManager()->addEventSubscriber(
+                new \Martha\Core\Persistence\Event\Subscriber\CreatableSubscriber(
+                    $sm->get('Martha\Service\AuthenticationStorage')
+                )
+            );
+
+            return $entityManager;
+        },
+        'RepositoryFactory' => function (Zend\ServiceManager\ServiceManager $sm) {
+            $entityManager = $sm->get('Martha\Persistence\EntityManager');
             return new Martha\Core\Persistence\Repository\Factory($entityManager);
         },
         'BuildRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
@@ -45,7 +58,7 @@ return [
             return $factory->createLogRepository();
         },
         'ProjectForm' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $entityManager = $sm->get('Doctrine\ORM\EntityManager');
+            $entityManager = $sm->get('Martha\Persistence\EntityManager');
             $form = (new Martha\Form\Project\Create())
                 ->setHydrator(new DoctrineModule\Stdlib\Hydrator\DoctrineObject($entityManager));
             return $form;
@@ -55,16 +68,6 @@ return [
             return $factory->createProjectRepository();
         },
         'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-        'Serializer' => function (Zend\ServiceManager\ServiceManager $sm) {
-            $config = $sm->get('Config');
-            $hateoas = \Hateoas\HateoasBuilder::create();
-
-            foreach ($config['hateos']['metadata'] as $prefix => $path) {
-                $hateoas->addMetadataDir($path, $prefix);
-            }
-
-            return new \Martha\Core\Domain\Serializer\HateoasSerializerAdapter($hateoas->build());
-        },
         'System' => function (Zend\ServiceManager\ServiceManager $sm) {
             return Martha\Core\System::getInstance();
         },
