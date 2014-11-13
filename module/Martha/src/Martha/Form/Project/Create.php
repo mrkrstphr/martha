@@ -121,6 +121,9 @@ class Create extends Form implements InputFilterProviderInterface
             'project_id' => [
                 'required' => false,
                 'disable_inarray_validator' => true
+            ],
+            'private' => [
+                'required' => false
             ]
         ];
     }
