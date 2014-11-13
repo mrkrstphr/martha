@@ -8,8 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Class Project
  * @package Martha\Core\Domain\Entity
  */
-class Project extends AbstractEntity
+class Project extends AbstractEntity implements CreatableInterface
 {
+    use CreatableTrait;
+
     /**
      * @var string
      */
