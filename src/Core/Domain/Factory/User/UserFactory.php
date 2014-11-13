@@ -4,6 +4,8 @@ namespace Martha\Core\Domain\Factory\User;
 
 use Martha\Core\Authentication\AuthenticationResult;
 use Martha\Core\Domain\Entity\User;
+use Martha\Core\Hash;
+use Martha\Core\Service\Ssh\KeyGenerator;
 
 /**
  * Class UserFactory
@@ -30,8 +32,14 @@ class UserFactory
         $user->addToken(
             (new User\Token())
                 ->setService($authResult->getService())
-                ->setToken($authResult->getCredentials())
+                ->setToken(new Hash($authResult->getCredentials()))
         );
+
+        $generator = new KeyGenerator();
+        $key = $generator->generateKey();
+
+        $user->setPublicKey($key->getPublic());
+        $user->setPrivateKey($key->getPrivate());
 
         return $user;
     }

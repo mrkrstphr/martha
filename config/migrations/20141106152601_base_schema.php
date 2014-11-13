@@ -198,8 +198,8 @@ class BaseSchema extends AbstractMigration
             ->addColumn('alias', 'string', ['limit' => 100, 'null' => true])
             ->addColumn('email', 'string')
             ->addColumn('password', 'text', ['null' => true])
-            ->addColumn('auth_service', 'string', ['limit' => 100])
-            ->addColumn('access_token', 'string', ['null' => true])
+            ->addColumn('public_key', 'text')
+            ->addCOlumn('private_key', 'text')
             ->addColumn('created', 'timestamp');
         $users->create();
 

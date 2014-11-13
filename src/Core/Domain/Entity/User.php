@@ -39,6 +39,16 @@ class User extends AbstractEntity
     protected $password;
 
     /**
+     * @var string
+     */
+    protected $publicKey;
+
+    /**
+     * @var string
+     */
+    protected $privateKey;
+
+    /**
      * @var \DateTime
      */
     protected $created;
@@ -230,5 +240,41 @@ class User extends AbstractEntity
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicKey()
+    {
+        return $this->publicKey;
+    }
+
+    /**
+     * @param string $publicKey
+     * @return $this
+     */
+    public function setPublicKey($publicKey)
+    {
+        $this->publicKey = $publicKey;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrivateKey()
+    {
+        return $this->privateKey;
+    }
+
+    /**
+     * @param string $privateKey
+     * @return $this
+     */
+    public function setPrivateKey($privateKey)
+    {
+        $this->privateKey = $privateKey;
+        return $this;
     }
 }
