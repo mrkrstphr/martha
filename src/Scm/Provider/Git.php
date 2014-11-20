@@ -2,6 +2,8 @@
 
 namespace Martha\Scm\Provider;
 
+use Martha\Core\Domain\Entity\User;
+
 /**
  * Class Git
  * @package Martha\Scm\Provider
@@ -10,13 +12,20 @@ class Git extends AbstractProvider
 {
     /**
      * @todo switch to symfony process
+     * @param User $user
      * @param string $cloneToPath
      * @return boolean
      */
-    public function cloneRepository($cloneToPath)
+    public function cloneRepository(User $user, $cloneToPath)
     {
-        $command = 'cd ' . $cloneToPath . ' && ' .
-            'git clone ' . $this->repository . ' .';
+        $key = $user->getPrivateKey();
+
+        // todo fix me no no no
+        file_put_contents('tmp/' . $user->getAlias() . '.priv', $key);
+
+        $command = 'ssh-agent ' . $_SERVER['SHELL'] . ' -c \'ssh-add tmp/' . $user->getAlias() . '.priv; git clone ' . $this->repository . ' ' . $cloneToPath . '\'';
+
+        echo $command . "\n\n";
 
         exec($command, $output, $returnValue);
 

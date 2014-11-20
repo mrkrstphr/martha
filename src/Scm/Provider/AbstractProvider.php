@@ -2,6 +2,8 @@
 
 namespace Martha\Scm\Provider;
 
+use Martha\Core\Domain\Entity\User;
+
 /**
  * Class AbstractProvider
  * @package Martha\Scm\Provider
@@ -42,9 +44,10 @@ abstract class AbstractProvider
     /**
      * Makes a local copy of a repository.
      *
+     * @param User $user
      * @param $cloneToPath string
      */
-    abstract public function cloneRepository($cloneToPath);
+    abstract public function cloneRepository(User $user, $cloneToPath);
 
     /**
      * @param string $ref

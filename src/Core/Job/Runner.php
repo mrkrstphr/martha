@@ -286,7 +286,9 @@ class Runner
 
         $this->log('-- Repository: ' . $scm->getRepository());
 
-        if (!$scm->cloneRepository($this->workingDir)) {
+
+
+        if (!$scm->cloneRepository($build->getProject()->getCreatedBy(), $this->workingDir)) {
             $this->log('-- Failed to checkout source code');
             return false;
         }
