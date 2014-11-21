@@ -28,6 +28,7 @@ return [
         },
         'Martha\Service\AuthenticationService' => function ($sm) {
             return new \Martha\Core\Authentication\AuthenticationService(
+                $sm->get('System'), // omg so dumb
                 $sm->get('System')->getPluginManager(),
                 $sm->get('UserRepository')
             );

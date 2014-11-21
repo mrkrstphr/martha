@@ -106,8 +106,9 @@ class ProjectsController extends AbstractMarthaController
                 $project = $form->getData();
 
                 if ($projectType != 'generic') {
-                    // todo: make this a real event
-                    $provider->onProjectCreated($this->identity(), $projectId);
+                    $this->system->getEventManager()->trigger('project.created', $project, $projectType);
+//                    // todo: make this a real event
+//                    $provider->onProjectCreated($this->identity(), $projectId);
                 }
 
                 $this->projectRepository->persist($project)->flush();

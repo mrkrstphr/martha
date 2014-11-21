@@ -7,6 +7,7 @@ use Martha\Core\Domain\Factory\User\UserFactory;
 use Martha\Core\Domain\Repository\UserRepositoryInterface;
 use Martha\Core\Domain\Service\User\UserUpdaterService;
 use Martha\Core\Plugin\PluginManager;
+use Martha\Core\System;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -21,16 +22,18 @@ class AuthenticationService
     protected $pluginManager;
 
     /**
-     * @var
+     * @var UserRepositoryInterface
      */
-    protected $userRepostiory;
+    protected $userRepository;
 
     /**
+     * @param System $system
      * @param PluginManager $pluginManager
      * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(PluginManager $pluginManager, UserRepositoryInterface $userRepository)
+    public function __construct(System $system, PluginManager $pluginManager, UserRepositoryInterface $userRepository)
     {
+        $this->system = $system;
         $this->pluginManager = $pluginManager;
         $this->userRepository = $userRepository;
     }
@@ -79,6 +82,7 @@ class AuthenticationService
 
                 if (!$user) {
                     $user = (new UserFactory())->createFromAuthenticationResult($authResult);
+                    $this->system->getEventManager()->trigger('user.created', $user, $provider);
                     $this->userRepository->persist($user)->flush();
                 } else {
                     $updater = new UserUpdaterService();

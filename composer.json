@@ -18,6 +18,12 @@
             "Martha\\": ["src/", "tests/"]
         }
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://plugins.martha-ci.org"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
@@ -35,6 +41,8 @@
         "chrisboulton/php-resque": "~1.2",
         "robmorgan/phinx": "~0.3",
         "symfony/http-foundation": "~2.5",
-        "phpseclib/phpseclib": "~0.3@dev"
+        "phpseclib/phpseclib": "~0.3@dev",
+        "martha-ci/plugin-github": "dev-master",
+        "martha-ci/plugin-bitbucket": "dev-master"
     }
 }

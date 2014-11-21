@@ -10,6 +10,8 @@ use Martha\Core\Service\Logger\DatabaseLogger;
 /**
  * Class System
  * @package Martha\Core
+ * @todo this class is stupid; learn how to program
+ * @deprecated
  */
 class System
 {
