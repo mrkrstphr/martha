@@ -21,3 +21,4 @@ Martha\Core\Domain\Entity\User\Token:
         name: user_id
         referencedColumnName: id
         nullable: false
+        onDelete: CASCADE
