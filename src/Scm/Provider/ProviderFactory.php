@@ -2,7 +2,7 @@
 
 namespace Martha\Scm\Provider;
 
-use Martha\Core\Domain\Entity\Project;
+use Martha\Core\Domain\Entity\Build;
 
 /**
  * Class ProviderFactory
@@ -11,15 +11,21 @@ use Martha\Core\Domain\Entity\Project;
 class ProviderFactory
 {
     /**
-     * @param Project $project
+     * @param Build $build
      * @return bool|AbstractProvider
      */
-    public static function createForProject(Project $project)
+    public static function createForBuild(Build $build)
     {
-        switch (strtolower($project->getScm())) {
+        switch (strtolower($build->getProject()->getScm())) {
             case 'git':
-                return new Git($project->getUri());
-                break;
+                $git = new Git();
+
+                if ($build->getForkUri()) {
+                    $git->setRepository($build->getForkUri());
+                } else {
+                    $git->setRepository($build->getProject()->getUri());
+                }
+                return $git;
         }
 
         return false;

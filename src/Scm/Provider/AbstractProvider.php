@@ -2,7 +2,7 @@
 
 namespace Martha\Scm\Provider;
 
-use Martha\Core\Domain\Entity\User;
+use Martha\Core\Service\Build\Environment;
 
 /**
  * Class AbstractProvider
@@ -16,12 +16,9 @@ abstract class AbstractProvider
     protected $repository;
 
     /**
-     * @param $repository
+     * @var Environment
      */
-    public function __construct($repository)
-    {
-        $this->repository = $repository;
-    }
+    protected $environment;
 
     /**
      * @param string $repository
@@ -42,12 +39,29 @@ abstract class AbstractProvider
     }
 
     /**
+     * @return Environment
+     */
+    public function getEnvironment()
+    {
+        return $this->environment;
+    }
+
+    /**
+     * @param Environment $environment
+     * @return $this
+     */
+    public function setEnvironment($environment)
+    {
+        $this->environment = $environment;
+        return $this;
+    }
+
+    /**
      * Makes a local copy of a repository.
      *
-     * @param User $user
      * @param $cloneToPath string
      */
-    abstract public function cloneRepository(User $user, $cloneToPath);
+    abstract public function cloneRepository($cloneToPath);
 
     /**
      * @param string $ref
