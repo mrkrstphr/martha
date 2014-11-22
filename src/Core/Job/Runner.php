@@ -6,6 +6,7 @@ use Martha\Core\Domain\Entity\Artifact;
 use Martha\Core\Domain\Entity\Step;
 use Martha\Core\Domain\Repository\BuildRepositoryInterface;
 use Martha\Core\Plugin\ArtifactHandlers\BuildStatisticInterface;
+use Martha\Core\Service\Build\Environment;
 use Martha\Core\System;
 use Martha\Scm\Provider\AbstractProvider;
 use Martha\StdLib\Date\Comparison;
@@ -60,6 +61,11 @@ class Runner
     protected $buildRepository;
 
     /**
+     * @var AbstractProvider
+     */
+    protected $scm;
+
+    /**
      * Set us up the class! Take the Build and configuration to build the commit.
      *
      * @param System $system
@@ -102,10 +108,7 @@ class Runner
         $this->setupEnvironment($build);
         $this->checkoutSourceCode($build);
 
-        $scm = ProviderFactory::createForProject($build->getProject());
-        $scm->setRepository($this->workingDir);
-
-        $this->setParentBuild($build, $scm);
+        $this->setParentBuild($build, $this->scm);
 
         $script = $this->parseBuildScript();
 
@@ -241,6 +244,12 @@ class Runner
      */
     protected function setupEnvironment(Build $build)
     {
+        $environment = new Environment();
+        $environment->setPrivateKey($build->getProject()->getCreatedBy()->getPrivateKey());
+
+        $this->scm = ProviderFactory::createForBuild($build);
+        $this->scm->setEnvironment($environment);
+
         $this->system->getEventManager()->trigger('build.pre.environment', $build);
 
         $this->workingDir = $this->buildDirectory . '/' .
@@ -275,27 +284,19 @@ class Runner
         $this->system->getEventManager()->trigger('build.pre.source', $build);
 
         $this->log('Checking out project source code...');
-
-        $scm = ProviderFactory::createForProject($build->getProject());
-
         $this->log('-- SCM: ' . $build->getProject()->getScm());
+        $this->log('-- Repository: ' . $this->scm->getRepository());
 
-        if ($build->getForkUri()) {
-            $scm->setRepository($build->getForkUri());
-        }
-
-        $this->log('-- Repository: ' . $scm->getRepository());
-
-
-
-        if (!$scm->cloneRepository($build->getProject()->getCreatedBy(), $this->workingDir)) {
+        if (!$this->scm->cloneRepository($this->workingDir)) {
             $this->log('-- Failed to checkout source code');
             return false;
         }
 
+        $this->scm->setRepository($this->workingDir);
+
         if ($build->getRevisionNumber()) {
             $this->log('-- Revno: ' . $build->getRevisionNumber());
-            $scm->checkout($build->getRevisionNumber());
+            $this->scm->checkout($build->getRevisionNumber());
         }
 
         $this->log(''); // force a newline
