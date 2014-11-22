@@ -43,6 +43,6 @@
         "symfony/http-foundation": "~2.5",
         "phpseclib/phpseclib": "~0.3@dev",
         "martha-ci/plugin-github": "dev-master",
-        "martha-ci/plugin-bitbucket": "dev-master"
+        "symfony/process": "~2.5"
     }
 }
