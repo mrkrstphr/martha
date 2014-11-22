@@ -22,6 +22,7 @@ class Git extends AbstractProvider
 
         // todo fix me no no no
         file_put_contents('tmp/' . $user->getAlias() . '.priv', $key);
+        chmod('tmp/' . $user->getAlias() . '.priv', 0600);
 
         $command = 'ssh-agent ' . $_SERVER['SHELL'] . ' -c \'ssh-add tmp/' . $user->getAlias() . '.priv; git clone ' . $this->repository . ' ' . $cloneToPath . '\'';
 
