@@ -135,6 +135,8 @@ class Build extends AbstractEntity
         $this->statistics = new ArrayCollection();
         $this->alerts = new ArrayCollection();
         $this->exceptions = new ArrayCollection();
+
+        $this->metadata = new Hash();
     }
 
     /**
