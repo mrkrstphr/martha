@@ -15,9 +15,7 @@ class Git extends AbstractProvider
     public function cloneRepository($cloneToPath)
     {
         $command = 'git clone ' . $this->repository . ' ' . $cloneToPath;
-        return $this->environment->runCommand($command, function ($type, $buffer) {
-            file_put_contents($this->logFile, $buffer, FILE_APPEND);
-        });
+        return $this->environment->runCommand($command);
     }
 
     /**
