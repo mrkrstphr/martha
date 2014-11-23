@@ -13,7 +13,7 @@ class Environment
     /**
      * @var string
      */
-    protected $tempDirectory = 'tmp/';
+    protected $tempDirectory;
 
     /**
      * @var string
@@ -24,6 +24,14 @@ class Environment
      * @var string
      */
     protected $privateKeyFile;
+
+    /**
+     * Set us up the class!
+     */
+    public function __construct()
+    {
+        $this->tempDirectory = getcwd() . '/tmp';
+    }
 
     /**
      * @return string
@@ -66,10 +74,12 @@ class Environment
      */
     public function setUp()
     {
-        if (!is_dir($this->tempDirectory) && is_writable($this->tempDirectory)) {
+        if (!is_dir($this->tempDirectory)) {
+            if (!is_writable($this->tempDirectory)) {
+                throw new \Exception('Unable to create missing temp directory: ' . $this->tempDirectory);
+            }
+
             mkdir($this->tempDirectory);
-        } else {
-            throw new \Exception('Unable to create missing temp directory: ' . $this->tempDirectory);
         }
 
         if ($this->privateKey) {
@@ -89,7 +99,6 @@ class Environment
         $command = $this->wrapCommandInSshAgent($command);
 
         $process = new Process($command);
-        $process->setPty(true);
         $process->run($callback);
 
         return $process->isSuccessful();
@@ -102,7 +111,7 @@ class Environment
     protected function wrapCommandInSshAgent($command)
     {
         if ($this->privateKeyFile) {
-            $sshAdd = 'ssh-add tmp/' . $this->privateKeyFile;
+            $sshAdd = 'ssh-add ' . $this->privateKeyFile;
             $command = 'ssh-agent ' . $_SERVER['SHELL'] . ' -c \'' . $sshAdd . '; ' . addslashes($command) . '\'';
         }
 
