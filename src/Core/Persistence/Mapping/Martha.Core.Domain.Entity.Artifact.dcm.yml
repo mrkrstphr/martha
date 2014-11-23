@@ -17,3 +17,4 @@ Martha\Core\Domain\Entity\Artifact:
           name: build_id
           referencedColumnName: id
           nullable: false
+          onDelete: CASCADE

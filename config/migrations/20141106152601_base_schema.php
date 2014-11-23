@@ -93,8 +93,8 @@ class BaseSchema extends AbstractMigration
             ->addColumn('metadata', 'text', ['null' => true])
             ->addColumn('status', 'string', ['limit' => 40])
             ->addColumn('created', 'timestamp')
-            ->addForeignKey(['project_id'], $projects, ['id'])
-            ->addForeignKey(['parent_id'], $builds, ['id']);
+            ->addForeignKey('project_id', $projects, 'id', ['delete' => 'CASCADE'])
+            ->addForeignKey('parent_id', $builds, 'id');
         $builds->create();
 
         return $builds;
@@ -110,7 +110,7 @@ class BaseSchema extends AbstractMigration
             ->addColumn('build_id', 'integer')
             ->addColumn('helper', 'string')
             ->addColumn('file', 'string')
-            ->addForeignKey(['build_id'], $builds, ['id']);
+            ->addForeignKey('build_id', $builds, 'id', ['delete' => 'CASCADE']);
         $artifacts->create();
 
         return $artifacts;
@@ -128,7 +128,7 @@ class BaseSchema extends AbstractMigration
             ->addColumn('return_status', 'integer', ['null' => true])
             ->addColumn('stop_on_failure', 'boolean')
             ->addColumn('mark_build_failed', 'boolean')
-            ->addForeignKey(['build_id'], $builds, ['id']);
+            ->addForeignKey('build_id', $builds, 'id', ['delete' => 'CASCADE']);
         $steps->create();
 
         return $steps;
@@ -146,8 +146,8 @@ class BaseSchema extends AbstractMigration
             ->addColumn('plugin_id', 'integer', ['null' => true])
             ->addColumn('type', 'string', ['limit' => 20])
             ->addColumn('description', 'string')
-            ->addForeignKey(['build_id'], $builds, ['id'])
-            ->addForeignKey(['plugin_id'], $plugins, ['id']);
+            ->addForeignKey('build_id', $builds, 'id', ['delete' => 'CASCADE'])
+            ->addForeignKey('plugin_id', $plugins, 'id', ['delete' => 'CASCADE']);
         $alerts->create();
 
         return $alerts;
@@ -168,8 +168,8 @@ class BaseSchema extends AbstractMigration
             ->addColumn('asset', 'string', ['null' => true])
             ->addColumn('reference', 'string', ['null' => true])
             ->addColumn('url', 'string', ['null' => true])
-            ->addForeignKey(['build_id'], $builds, ['id'])
-            ->addForeignKey(['plugin_id'], $plugins, ['id']);
+            ->addForeignKey('build_id', $builds, 'id', ['delete' => 'CASCADE'])
+            ->addForeignKey('plugin_id', $plugins, 'id', ['delete' => 'CASCADE']);
         $exceptions->create();
 
         return $exceptions;
@@ -187,8 +187,8 @@ class BaseSchema extends AbstractMigration
             ->addColumn('plugin_id', 'integer', ['null' => true])
             ->addColumn('name', 'string')
             ->addColumn('value', 'text')
-            ->addForeignKey(['build_id'], $builds, ['id'])
-            ->addForeignKey(['plugin_id'], $plugins, ['id']);
+            ->addForeignKey('build_id', $builds, 'id', ['delete' => 'CASCADE'])
+            ->addForeignKey('plugin_id', $plugins, 'id', ['delete' => 'CASCADE']);
         $stats->create();
 
         return $stats;
@@ -211,14 +211,14 @@ class BaseSchema extends AbstractMigration
         $emails = $this->table('user_emails')
             ->addColumn('email', 'string')
             ->addColumn('user_id', 'integer')
-            ->addForeignKey('user_id', $users, 'id');
+            ->addForeignKey('user_id', $users, 'id', ['delete' => 'CASCADE']);
         $emails->create();
 
         $tokens = $this->table('user_tokens')
             ->addColumn('user_id', 'integer')
             ->addColumn('auth_service', 'string', ['limit' => 100])
             ->addColumn('access_token', 'string')
-            ->addForeignKey('user_id', $users, 'id');
+            ->addForeignKey('user_id', $users, 'id', ['delete' => 'CASCADE']);
         $tokens->create();
 
         return $users;
