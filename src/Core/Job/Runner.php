@@ -246,6 +246,7 @@ class Runner
     {
         $environment = new Environment();
         $environment->setPrivateKey($build->getProject()->getCreatedBy()->getPrivateKey());
+        $environment->setUp();
 
         $this->system->getEventManager()->trigger('build.pre.environment', $build);
 
