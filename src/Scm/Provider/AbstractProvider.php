@@ -21,6 +21,11 @@ abstract class AbstractProvider
     protected $environment;
 
     /**
+     * @var string
+     */
+    protected $logFile;
+
+    /**
      * @param string $repository
      * @return $this
      */
@@ -53,6 +58,24 @@ abstract class AbstractProvider
     public function setEnvironment($environment)
     {
         $this->environment = $environment;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogFile()
+    {
+        return $this->logFile;
+    }
+
+    /**
+     * @param string $logFile
+     * @return $this
+     */
+    public function setLogFile($logFile)
+    {
+        $this->logFile = $logFile;
         return $this;
     }
 

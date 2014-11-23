@@ -247,9 +247,6 @@ class Runner
         $environment = new Environment();
         $environment->setPrivateKey($build->getProject()->getCreatedBy()->getPrivateKey());
 
-        $this->scm = ProviderFactory::createForBuild($build);
-        $this->scm->setEnvironment($environment);
-
         $this->system->getEventManager()->trigger('build.pre.environment', $build);
 
         $this->workingDir = $this->buildDirectory . '/' .
@@ -266,8 +263,11 @@ class Runner
         }
 
         $this->outputFile = $this->outputDir . '/console.html';
-
         touch($this->outputFile);
+
+        $this->scm = ProviderFactory::createForBuild($build);
+        $this->scm->setEnvironment($environment);
+        $this->scm->setLogFile($this->outputFile);
 
         $this->system->getEventManager()->trigger('build.post.environment', $build);
 
